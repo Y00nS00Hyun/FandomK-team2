@@ -4,7 +4,7 @@ import useMediaQuery from '../hooks/useMediaQuery';
 import DesktopLogoImage from '../assets/images/logo/logo.svg';
 import MobileLogoImage from '../assets/images/logo/logo-text.png';
 
-// TODO: update LOGO
+// TODO: update LOGO 레츠고
 function Logo() {
 	const mediaQuery = useMediaQuery();
 	const logoImage = useMemo(() => {
