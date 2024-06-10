@@ -37,10 +37,10 @@ function DonationList({ mode }) {
 			<section>
 				{isLoading && <LodingImage />}
 
-				{!isEmpty(items) &&
+				{/* {!isEmpty(items) &&
 					items?.map((item) => {
 						<Card key={`donation-list-${item}`} />;
-					})}
+					})} */}
 
 				{errorMessage && <p>에러발생!</p>}
 			</section>
