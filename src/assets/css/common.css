@@ -1,0 +1,65 @@
+/* pretendard web font cdn */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+/* css values */
+:root {
+	--color-black-900: #02000e;
+	--color-black-800: #181d26;
+
+	--color-gray-400: #67666e;
+	--color-gray-300: #828282;
+	--color-gray-200: #8c92ab;
+	--color-gray-100: #a3a5a8;
+
+	--color-white-100: #f7f7f8;
+	--color-white-50: #ffffff;
+
+	--color-yellow: #d2c030;
+
+	--color-brand-orange: #f96d69;
+	--color-brand-pink: #fe5493;
+
+	--gradient-style-01: linear-gradient(90deg, var(--color-brand-orange), var(--color-brand-pink));
+
+	--background-color-basic: var(--color-dark-900);
+	--text-color-basic: var(--color-white-50);
+
+	--modal-cover: rgba(0, 0, 0, 0.8);
+	--modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+	--modal-background: var(--color-dark-800);
+	--modal-radius: 8px;
+
+	--font-family: 'Pretendard', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	min-width: var(--width-minimum);
+	min-height: 100vh;
+	font-size: 100%;
+}
+
+body {
+	background-color: var(--background-color-basic);
+	/* TODO: 좌상단 고정 이미지 추가하기 */
+	background-image: url();
+	color: var(--text-color-basic);
+	font-family: var(--font-family);
+}
+
+.inner {
+	margin: 0 auto;
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+}
