@@ -1,11 +1,12 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import RootHeader from './layout/RootHeader';
 
 function App() {
+	const { pathname } = useLocation();
 	return (
 		<>
-			<RootHeader />
-			<main>
+			{pathname !== '/' && <RootHeader />}
+			<main id='rootContainer'>
 				<Outlet />
 			</main>
 		</>
