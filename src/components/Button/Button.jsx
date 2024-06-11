@@ -36,7 +36,6 @@ const Icon = styled.img``;
 
 const StyledButton = styled.button`
 	position: relative;
-
 	display: inline-flex;
 	flex-flow: row wrap;
 	justify-content: center;
@@ -80,12 +79,13 @@ const StyledButton = styled.button`
 		opacity: 0.32;
 	}
 
-	&:active {
+	&:not([disabled]):active {
 		top: 1px;
 	}
 
 	&[disabled] {
 		background: var(--color-gray-300);
+		cursor: default;
 
 		&:before {
 			content: none;
