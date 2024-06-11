@@ -20,9 +20,8 @@ function useAsync(asyncFunction) {
 		try {
 			setPending(true);
 			setError(null);
-			const response = await asyncFunction(...args);
-			if (!response.ok) throw new Error(response.status);
-			return await response.json();
+			const result = await asyncFunction(...args);
+			return result;
 		} catch (error) {
 			setError(error);
 			return;
