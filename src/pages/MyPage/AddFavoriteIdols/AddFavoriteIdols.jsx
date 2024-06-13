@@ -34,25 +34,16 @@ function AddFavoriteIdols() {
     else return PROFILE_SIZES["others"];
   }, [mode]);
 
-  // list items
-  const [items, setItems] = useState(null);
-
   // async controller
   const [runFunction, responseData, isLoading, errorMessage] =
     useAsync(getIdolList);
 
-  // API 호출 함수
-  const getIdolDataList = async (pageSize) => {
-    const list = runFunction({ pageSize });
-    setItems(list);
-  };
   useEffect(() => {
-    getIdolDataList(pageSize);
+    runFunction({ pageSize });
   }, [pageSize]);
 
-  /*
-  
-  */
+  const items = responseData?.list || [];
+
   return (
     <article>
       <section>
