@@ -4,8 +4,8 @@ import RootHeader from './layout/RootHeader';
 function App() {
 	const { pathname } = useLocation();
 	return (
-		<>
-			{pathname !== '/' && <RootHeader />}
+    <>
+    {pathname !== '/' && <RootHeader />}
 			<main id='rootContainer'>
 				<Outlet />
 			</main>
