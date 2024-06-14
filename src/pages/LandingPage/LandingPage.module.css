@@ -1,0 +1,214 @@
+.temp-menu {
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	right: 0;
+}
+
+.landing-page {
+	position: relative;
+}
+
+.background {
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+}
+
+.background img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-height: 100%;
+}
+
+.main-article,
+.landing-article {
+	position: relative;
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.main-article {
+	justify-content: space-between;
+	padding: 12vh 16px;
+}
+
+.main-article__head {
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 32px;
+	max-width: 100%;
+}
+
+.main-article__summary {
+	font-size: 26px;
+	font-weight: 400;
+	line-height: 1.2;
+	text-align: center;
+}
+
+.main-article__summary b {
+	font-weight: inherit;
+	color: var(--color-brand-orange);
+}
+
+.main-article__logo img {
+	max-width: 100%;
+}
+
+.main-article__button {
+	display: block;
+	width: 100%;
+	max-width: 477px;
+}
+
+.main-article__cover {
+	position: relative;
+}
+
+.landing-article {
+	gap: 60px;
+}
+
+.landing-article__head {
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	text-align: center;
+}
+
+.landing-article__body {
+	position: relative;
+}
+
+.landing-article__cover {
+	position: relative;
+}
+
+.landing-article__title {
+	color: var(--color-yellow);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.2;
+}
+
+.landing-article__comment {
+	white-space: pre-wrap;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 1.2;
+}
+
+.landing-article__device-cover,
+.landing-article__device-image {
+	width: 320px;
+}
+
+.landing-article__device-cover {
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.landing-article__device-image {
+	position: relative;
+	z-index: 2;
+	display: block;
+	transform: scale(0.88);
+	border-radius: 40px;
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+	.main-article__summary {
+		font-size: 20px;
+	}
+
+	.main-article__logo img {
+		height: 62px;
+	}
+
+	.landing-article {
+		min-height: 720px;
+		gap: 48px;
+	}
+
+	.landing-article__comment {
+		font-size: 20px;
+	}
+
+	.landing-article__device-cover,
+	.landing-article__device-image {
+		width: 200px;
+	}
+
+	.landing-article__device-image {
+		border-radius: 24px;
+	}
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+	.main-article .background img {
+		max-width: 116vw;
+	}
+
+	.main-article__head {
+		gap: 20px;
+	}
+
+	.main-article__logo img {
+		height: 48px;
+	}
+
+	.main-article__button {
+		max-width: 230px;
+	}
+
+	.landing-article {
+		min-height: 800px;
+		gap: 64px;
+	}
+
+	.landing-article__head {
+		align-items: start;
+		padding: 0 32px;
+		width: 100%;
+	}
+
+	.landing-article__comment {
+		text-align: left;
+	}
+
+	.landing-article:nth-last-child(2n) .landing-article__head {
+		align-items: end;
+		padding: 0 32px;
+		width: 100%;
+	}
+
+	.landing-article:nth-last-child(2n) .landing-article__comment {
+		text-align: right;
+	}
+
+	.landing-article__device-cover,
+	.landing-article__device-image {
+		width: 240px;
+	}
+
+	.landing-article__device-image {
+		border-radius: 32px;
+	}
+}
