@@ -9,7 +9,7 @@ const LOGO_HEIGHTS = {
 };
 
 function Logo({ size = 'md' }) {
-	return <img src={logoImage} alt='FANDOM-K Logo' height={LOGO_HEIGHTS[size]} />;
+	return <img src={logoImage} alt='FANDOM-K Logo' height={LOGO_HEIGHTS[size]} draggable='false' />;
 }
 
 export default Logo;
