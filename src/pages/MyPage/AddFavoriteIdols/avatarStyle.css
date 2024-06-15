@@ -1,0 +1,83 @@
+.mypage {
+	width: 1260px;
+	margin: 0 auto;
+}
+
+.addidol {
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mypage__title {
+	margin-top: 40px;
+	font-weight: 700;
+	line-height: 26px;
+	text-align: left;
+}
+
+.mypage-addidol__container-inner {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	gap: 24px;
+	/*위치 확인용 색상
+	background-color: aqua;*/
+}
+
+.mypage-addidol__items {
+	grid-column: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 128px;
+	height: 183px;
+	/*위치 확인용 색상background-color: coral;
+	border: 2px solid #000000;
+	*/
+}
+
+.mypage__items-name {
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.mypage__items-group {
+	font-size: 14px;
+	font-weight: 400;
+	opacity: 0.6;
+}
+
+.mypage-addidol_add {
+	width: 100%;
+	height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 48px auto;
+}
+
+.mypage-addidol_add-button {
+	margin: 0 auto;
+}
+
+.myidol {
+	margin-bottom: 42px;
+}
+
+.mypage-myidol__container {
+	margin-top: 32px;
+	display: flex;
+	gap: 24px;
+	z-index: 1;
+}
+
+.mypage-myidol__items {
+	grid-column: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 98;
+	height: 150;
+}
