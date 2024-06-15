@@ -89,7 +89,7 @@ const Photo = styled.div`
  *
  *
  * @example
- * <Avatar src={profilePicture} size={"basic"} alt={${아이돌 이름} 프로필 이미지} checked/>
+ * <Avatar src={profilePicture} size={"basic"} alt={${아이돌 이름} 프로필 이미지} onClick={() => 아이돌 선택 함수} checked/>
  */
 
 function Avatar({ children, onClick, src, size, alt, checked, ...args }) {
