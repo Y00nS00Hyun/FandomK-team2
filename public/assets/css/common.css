@@ -13,7 +13,7 @@
 
 	--color-white-100: #f7f7f8;
 	--color-white-50: #ffffff;
-
+  --color-white-10: #FFFFFF1A; /*이달의 차트 순위별 border 선 색깔 지정 (수정자:이대진) 24-06-13 */
 	--color-yellow: #d2c030;
 
 	--color-brand-orange: #f96d69;
