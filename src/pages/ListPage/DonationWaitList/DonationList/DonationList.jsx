@@ -43,16 +43,17 @@ function DonationList({ mode }) {
 			{
 				id: 342,
 				title: "예지 짱",
-				subtitle: "강남구 광고",
+				subtitle: "우장산역 광고",
 				idolId: 720,
 				targetDonation: 1000000,
-				receivedDonations: 0,
+				receivedDonations: 200000,
 				createdAt: "2024-06-15T05:37:49.436Z",
 				deadline: "2024-06-20T23:59:59.000Z",
 				status: true,
 				teamId: 19,
 			},
 		]);
+		// errorMessage = false;
 	};
 
 	useEffect(() => {
@@ -80,10 +81,10 @@ function DonationList({ mode }) {
 				))}
 				{errorMessage && <p>에러발생!!!!!!</p>}
 			</div>
-			<div>
+			{/* <div>
 				<CaretButton direction="LEFT" size="normal" />
 				<CaretButton direction="RIGHT" size="normal" />
-			</div>
+			</div> */}
 		</div>
 	);
 }
