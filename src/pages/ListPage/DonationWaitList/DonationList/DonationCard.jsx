@@ -34,7 +34,7 @@ function Card({ item }) {
     return (
         <style.Card>
             <style.ImgButton>
-                <style.Img src={"https://1.bp.blogspot.com/-OUviYTEdkJE/XevU5RKDDQI/AAAAAAAAPSo/hPvyo_X3ryYoA-YtHQ4Ij2Es0l94tsBKQCLcBGAsYHQ/s1600/KakaoTalk_20191208_013458562.jpg"} alt={item.title} />
+                <style.Img src={item.idol.profilePicture} alt={item.title} />
                 <style.SubmitButton>후원하기</style.SubmitButton>
             </style.ImgButton>
             <style.InfoWrapper>
