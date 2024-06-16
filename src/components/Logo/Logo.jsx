@@ -1,5 +1,5 @@
-import React from 'react';
-import logoImage from '../../assets/images/logo/logo.svg';
+import React from "react";
+import logoImage from "../../assets/images/logo/logo.svg";
 
 const LOGO_HEIGHTS = {
 	sm: 20,
@@ -8,8 +8,8 @@ const LOGO_HEIGHTS = {
 	xl: 100,
 };
 
-function Logo({ size = 'md' }) {
-	return <img src={logoImage} alt='FANDOM-K Logo' height={LOGO_HEIGHTS[size]} draggable='false' />;
+function Logo({ size = "md" }) {
+	return <img src={logoImage} alt="FANDOM-K Logo" height={LOGO_HEIGHTS[size]} draggable="false" />;
 }
 
 export default Logo;
