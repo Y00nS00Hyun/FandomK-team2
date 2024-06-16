@@ -10,7 +10,7 @@ function DonationList({ mode }) {
 	// list items
 	const [items, setItems] = useState([]);
 
-	// async controller
+	// runFunction 삭제 가능?
 	const [isLoading, errorMessage, runFunction] = useAsync(getDonationList);
 
 	useEffect(() => {
