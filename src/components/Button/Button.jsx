@@ -107,6 +107,7 @@ const StyledButton = styled.button`
  * <Button icon={'chart'} size={'small'} onClick={() => 투표하기함수}>차트 투표하기</Button>
  * <Button icon={'plus'} size={'large'} round onClick={() => 추가하기함수}>추가하기</Button>
  */
+
 function Button({ children, onClick, disabled, round, size, icon, ...args }) {
 	return (
 		<StyledButton $icon={icon} $round={round} $size={size} onClick={onClick} disabled={disabled} {...args}>

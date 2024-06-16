@@ -3,7 +3,6 @@
  * 240614
  * App.jsx 에서 가져오기
  */
-
 import React from "react";
 import styled from "styled-components";
 import DecotationImage from "../../assets/images/decoration/decoration-background-top-design.svg";
