@@ -1,4 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+
+/**
+ * 미디어쿼리 상수 (단위: pixel)
+ *
+ * @constant {Object} BREAK_POINTS
+ * @property {number} mobile - 너비 768px 미만
+ * @property {number} tablet - 너비 1200px 미만
+ * @property {number} desktop - 그 이상
+ */
+const BREAK_POINTS = {
+	mobile: 768,
+	tablet: 1200,
+	desktop: Infinity,
+};
 
 /**
  * 커스텀 훅: useMediaQuery
@@ -21,23 +35,23 @@ import { useState, useEffect } from 'react';
  * };
  */
 function useMediaQuery() {
-	const [mode, setMode] = useState(undefined);
+	const [mode, setMode] = useState("desktop");
 
 	useEffect(() => {
 		const handleResize = () => {
 			const width = window.innerWidth;
-			if (width < 768) {
-				return setMode('mobile');
-			} else if (width < 1200) {
-				return setMode('tablet');
+			if (width < BREAK_POINTS.mobile) {
+				return setMode("mobile");
+			} else if (width < BREAK_POINTS.tablet) {
+				return setMode("tablet");
 			} else {
-				return setMode('desktop');
+				return setMode("desktop");
 			}
 		};
 
 		handleResize();
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
 	}, [mode]);
 
 	return mode;

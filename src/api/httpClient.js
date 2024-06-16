@@ -6,8 +6,8 @@
  * @throws Will throw an error with the URL is empty.
  */
 const convertURL = (url, params) => {
-	if (!url) throw new Error('URL is Empty');
-	const query = params ? '?' + new URLSearchParams(params).toString() : '';
+	if (!url) throw new Error("URL is Empty");
+	const query = params ? "?" + new URLSearchParams(params).toString() : "";
 	return url + query;
 };
 
@@ -32,7 +32,7 @@ const httpClient = {
 		try {
 			const convertedURL = convertURL(url, params);
 			const response = await fetch(convertedURL, {
-				method: 'GET',
+				method: "GET",
 			});
 			if (!response.ok) throw new Error(response.status);
 			const data = await response.json();
@@ -56,9 +56,9 @@ const httpClient = {
 	post: async function (url, body) {
 		try {
 			const isFormData = body instanceof FormData;
-			const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
+			const headers = isFormData ? {} : { "Content-Type": "application/json" };
 			const response = await fetch(url, {
-				method: 'POST',
+				method: "POST",
 				headers: headers,
 				body: isFormData ? body : JSON.stringify(body),
 			});
@@ -84,9 +84,9 @@ const httpClient = {
 	put: async function (url, body) {
 		try {
 			const response = await fetch(url, {
-				method: 'PUT',
+				method: "PUT",
 				headers: {
-					'Content-Type': 'application/json',
+					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(body),
 			});
@@ -112,9 +112,9 @@ const httpClient = {
 	patch: async function (url, body) {
 		try {
 			const response = await fetch(url, {
-				method: 'PATCH',
+				method: "PATCH",
 				headers: {
-					'Content-Type': 'application/json',
+					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(body),
 			});
@@ -139,7 +139,7 @@ const httpClient = {
 	delete: async function (url) {
 		try {
 			const response = await fetch(url, {
-				method: 'DELETE',
+				method: "DELETE",
 			});
 			if (!response.ok) throw new Error(response.status);
 			const data = await response.json();
