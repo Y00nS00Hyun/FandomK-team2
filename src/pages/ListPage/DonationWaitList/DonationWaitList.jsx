@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import useMediaQuery from '../../../hooks/useMediaQuery';
-import BlockTitle from '../../../components/BlockTitle/BlockTitle';
-import DonationList from './DonationList/DonationList';
+import React, { useEffect } from "react";
+import useMediaQuery from "../../../hooks/useMediaQuery";
+import BlockTitle from "../../../components/BlockTitle/BlockTitle";
+import DonationList from "./DonationList/DonationList";
 
 function DonationWaitList() {
 	const mode = useMediaQuery();
 
-	useEffect(() => {}, [mode]);
+	//useEffect(() => {}, [mode]);
 
 	return (
 		<article>
