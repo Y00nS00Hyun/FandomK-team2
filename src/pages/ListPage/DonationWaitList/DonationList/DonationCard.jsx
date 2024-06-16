@@ -35,24 +35,25 @@ function Card({ item }) {
         <style.Card>
             <style.ImgButton>
                 <style.Img src={item.idol.profilePicture} alt={item.title} />
-                <style.SubmitButton>후원하기</style.SubmitButton>
+                <style.Block>
+                    <style.SubmitButton>후원하기</style.SubmitButton>
+                </style.Block>
             </style.ImgButton>
             <style.InfoWrapper>
                 <style.Detail>
                     <style.Subtitle>{item.subtitle}</style.Subtitle>
                     <style.Title>{item.title}</style.Title>
                 </style.Detail>
-                <style.a>
+                <style.StatusInfo>
                     <style.Status>
                         <style.Credit>
-                            {/* <CreditIcon /> */}
                             <img src="/CreditImg.png" alt="크레딧 이미지" />
                             {item.targetDonation.toLocaleString()}
                         </style.Credit>
                         <style.Countdown>{displaysDay}일 남음</style.Countdown>
                     </style.Status>
                     <div ref={progressRef} style={{ width: '100%', height: '1px' }} />
-                </style.a>
+                </style.StatusInfo>
             </style.InfoWrapper>
         </style.Card >
     );

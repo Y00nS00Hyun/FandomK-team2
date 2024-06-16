@@ -74,26 +74,36 @@ const Img = styled.img`
 	object-position: center;
 ;`
 
-const SubmitButton = styled(Button)`
-  	font-size: 13px;
-	width: ${({ size }) => BUTTON_WIDTHS[size] ?? BUTTON_WIDTHS['small']};
-  	height: ${({ size }) => BUTTON_HEIGHTS[size] ?? BUTTON_HEIGHTS['small']};
-	position: absolute;
+const Block = styled.div`
+    display: block;
 	bottom: 8px;
+	position: absolute;
 	left: 50%;
     transform: translateX(-50%);
+`;
+
+const SubmitButton = styled(Button)`
+	font-size: 13px;
+	width: ${({ size }) => BUTTON_WIDTHS[size] ?? BUTTON_WIDTHS['small']};
+  	height: ${({ size }) => BUTTON_HEIGHTS[size] ?? BUTTON_HEIGHTS['small']};
 `;
 
 
 // 🍋 여기서부터는 글자 🍋
 const InfoWrapper = styled.div`
+	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS['small']};
 	height: ${({ size }) => INFOWRAPPER_HEIGHT[size] ?? INFOWRAPPER_HEIGHT['small']};
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	padding-top: 10px;
 	margin-top: 10px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 ;`
+// ellipsis 왜 안될까 -> 애니메이션이나 적용해볼까??
+
 
 const Detail = styled.div`
 	height: ${({ size }) => DETAIL_HEIGHT[size] ?? DETAIL_HEIGHT['small']};
@@ -107,6 +117,7 @@ const Status = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	gap: 10px;
 ;`
 
 const Subtitle = styled.div`
@@ -132,13 +143,13 @@ const Countdown = styled.div`
 ;`
 
 
-const a = styled.div`
+const StatusInfo = styled.div`
 	height: 26px;
 ;`
 
 // 😸 export 해보자 😸
 
 
-const style = { Card, Img, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, a };
+const style = { Card, Img, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block };
 
 export default style;
