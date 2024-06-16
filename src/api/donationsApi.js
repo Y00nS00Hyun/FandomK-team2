@@ -1,6 +1,6 @@
 import httpClient from './httpClient';
 
-const API_URL = 'https://fandom-k-api.vercel.app/7-2';
+const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
 	response: '후원 데이터를 가져오는데 실패했습니다.',
 	id: '후원 id를 입력해주세요.',
