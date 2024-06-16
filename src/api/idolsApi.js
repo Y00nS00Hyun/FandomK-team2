@@ -1,10 +1,10 @@
 import httpClient from "./httpClient";
 
-const API_URL = "https://fandom-k-api.vercel.app/2-2";
+const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
-  response: "아이돌 데이터를 가져오는데 실패했습니다.",
-  id: "아이돌 id를 입력해주세요.",
-  profile: "프로필이미지는 필수값입니다.",
+	response: "아이돌 데이터를 가져오는데 실패했습니다.",
+	id: "아이돌 id를 입력해주세요.",
+	profile: "프로필이미지는 필수값입니다.",
 };
 
 /**
@@ -28,12 +28,13 @@ const ERROR_MESSAGES = {
  * // 아이돌 이름이나 그룹으로 검색할 때
  * const result = await getIdolList({ pageSize, keyword: '검색어 state' });
  */
-export const getIdolList = async ({ pageSize = 10, ...args }) => {
-  return await httpClient
-    .get(`${API_URL}/idols`, { pageSize, ...args })
-    .catch((e) => {
-      throw new Error(ERROR_MESSAGES.response, e);
-    });
+export const getIdolList = async ({ pageSize = 10, cursor, keyword }) => {
+	const params = { pageSize };
+	if (cursor) params.cursor = cursor;
+	if (keyword) params.keyword = keyword;
+	return await httpClient.get(`${API_URL}/idols`, params).catch((e) => {
+		throw new Error(ERROR_MESSAGES.response, e);
+	});
 };
 
 /**
@@ -58,11 +59,11 @@ export const getIdolList = async ({ pageSize = 10, ...args }) => {
  * const result = await updateIdolData(id, { profilePicture, gender: '성별' });
  */
 const updateIdolData = async (id, body) => {
-  if (!id) throw new Error(ERROR_MESSAGES.id);
-  if (body.profilePicture) throw new Error(ERROR_MESSAGES.profile);
-  return await httpClient.put(`${API_URL}/idols/${id}`, body).catch((e) => {
-    throw new Error(ERROR_MESSAGES, e);
-  });
+	if (!id) throw new Error(ERROR_MESSAGES.id);
+	if (!body.profilePicture) throw new Error(ERROR_MESSAGES.profile);
+	return await httpClient.put(`${API_URL}/idols/${id}`, body).catch((e) => {
+		throw new Error(ERROR_MESSAGES, e);
+	});
 };
 
 /**
@@ -76,8 +77,8 @@ const updateIdolData = async (id, body) => {
  * const result = await updateIdolData(id);
  */
 const deleteIdolData = async (id) => {
-  if (!id) throw new Error(ERROR_MESSAGES.id);
-  return await httpClient.delete(`${API_URL}/idols/${id}`).catch((e) => {
-    throw new Error(ERROR_MESSAGES, e);
-  });
+	if (!id) throw new Error(ERROR_MESSAGES.id);
+	return await httpClient.delete(`${API_URL}/idols/${id}`).catch((e) => {
+		throw new Error(ERROR_MESSAGES, e);
+	});
 };

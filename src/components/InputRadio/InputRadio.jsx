@@ -28,12 +28,12 @@ const Input = styled.input`
 `;
 
 function InputRadio({ id, name, onChange }) {
-  return (
-    <Label htmlFor={id}>
-      <Input type="radio" name={name} id={id} onChange={onChange} hidden />
-      <Icon />
-    </Label>
-  );
+	return (
+		<Label htmlFor={id}>
+			<Input type="radio" name={name} id={id} onChange={onChange} hidden />
+			<Icon />
+		</Label>
+	);
 }
 
 export default InputRadio;
