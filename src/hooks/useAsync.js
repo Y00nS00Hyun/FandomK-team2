@@ -1,27 +1,32 @@
-import { useState } from 'react';
+import { useState, useCallback } from "react";
 
 /**
  * @function useAsync
  *
  * @param {Function} fetchFunction - fetch 함수
- * @returns {Array} - [ 실행함수, 응답데이터, 응답대기, 에러메세지 ]
+ * @returns {Object} { refetchFunction, data, pending, error }
+ *
+ * @description API fetchFunction 을 파라미터로 보내고 리턴받은 객체로 { 실행함수, 응답대기, 응답데이터, 에러메세지 } 다룬다.
  *
  * @example
  * import useAsync from '파일경로/useAsync';
- * const [ refetchFunction, responseData, isLoading, errorMessage ] = useAsync(fetchFunction);
- * 선언해놓은 fetchFunction 을 파라미터로 보내고 리턴받은 [ 실행함수, 응답데이터, 응답대기, 에러메세지 ] 배열로 다룬다.
+ * import fetchFunction from 'api/필요한API';
+ * const { refetchFunction, data, pending, error } = useAsync(fetchFunction);
  */
 export default function useAsync(fetchFunction) {
-	const [response, setResponse] = useState(null);
 	const [pending, setPending] = useState(false);
 	const [error, setError] = useState(null);
+	const [data, setData] = useState(null);
 
-	const refetchFunction = async function (...args) {
+	/**
+	 * @todo 전일주 멘토님에게 해결방법 문의하기
+	 */
+	const refetchFunction = useCallback(async function (...args) {
 		try {
 			setPending(true);
 			setError(null);
-			const data = await fetchFunction(...args);
-			setResponse(data);
+			const response = await fetchFunction(...args);
+			setData(response);
 			return;
 		} catch (error) {
 			setError(error);
@@ -30,7 +35,7 @@ export default function useAsync(fetchFunction) {
 			setPending(false);
 			return;
 		}
-	};
+	}, []);
 
-	return [refetchFunction, response, pending, error];
+	return { refetchFunction, pending, data, error };
 }
