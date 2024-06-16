@@ -28,8 +28,11 @@ const ERROR_MESSAGES = {
  * // 아이돌 이름이나 그룹으로 검색할 때
  * const result = await getIdolList({ pageSize, keyword: '검색어 state' });
  */
-export const getIdolList = async ({ pageSize = 10, ...args }) => {
-	return await httpClient.get(`${API_URL}/idols`, { pageSize, ...args }).catch((e) => {
+export const getIdolList = async ({ pageSize = 10, cursor, keyword }) => {
+	const params = { pageSize };
+	if (cursor) params.cursor = cursor;
+	if (keyword) params.keyword = keyword;
+	return await httpClient.get(`${API_URL}/idols`, params).catch((e) => {
 		throw new Error(ERROR_MESSAGES.response, e);
 	});
 };
@@ -57,7 +60,7 @@ export const getIdolList = async ({ pageSize = 10, ...args }) => {
  */
 const updateIdolData = async (id, body) => {
 	if (!id) throw new Error(ERROR_MESSAGES.id);
-	if (body.profilePicture) throw new Error(ERROR_MESSAGES.profile);
+	if (!body.profilePicture) throw new Error(ERROR_MESSAGES.profile);
 	return await httpClient.put(`${API_URL}/idols/${id}`, body).catch((e) => {
 		throw new Error(ERROR_MESSAGES, e);
 	});

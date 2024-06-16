@@ -28,8 +28,11 @@ const ERROR_MESSAGES = {
  * // 우선순위 아이돌 설정 (4명)
  * const result = await getDonationList({ pageSize, priorityIdolIds: [ 200, 202, 404, 500 ] });
  */
-export const getDonationList = async ({ pageSize = 10, ...args }) => {
-	return await httpClient.get(`${API_URL}/donations`, { pageSize, ...args }).catch((e) => {
+export const getDonationList = async ({ pageSize = 10, cursor, priorityIdolIds }) => {
+	const params = { pageSize };
+	if (cursor) params.cursor = cursor;
+	if (priorityIdolIds) params.priorityIdolIds = priorityIdolIds;
+	return await httpClient.get(`${API_URL}/donations`, params).catch((e) => {
 		throw new Error(ERROR_MESSAGES.response, e);
 	});
 };
@@ -82,7 +85,7 @@ const deleteDonationData = async (id) => {
  */
 const donateCredit = async (id, { amount }) => {
 	if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
-	return await httpClient.put(`${API_URL}/donations/${id}/contribute`, { amount }).catch((e) => {
+	return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {
 		throw new Error(ERROR_MESSAGES, e);
 	});
 };
