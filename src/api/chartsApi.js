@@ -1,6 +1,6 @@
 import httpClient from './httpClient';
 
-const API_URL = 'https://fandom-k-api.vercel.app/2-2';
+const API_URL = 'https://fandom-k-api.vercel.app/7-2';
 const ERROR_MESSAGES = {
 	response: '차트 데이터를 가져오는데 실패했습니다.',
 	gender: '성별을 선택해주세요.',
