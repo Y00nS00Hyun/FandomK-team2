@@ -1,10 +1,10 @@
-import httpClient from './httpClient';
+import httpClient from "./httpClient";
 
 const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
-	response: '후원 데이터를 가져오는데 실패했습니다.',
-	id: '후원 id를 입력해주세요.',
-	credit: '크레딧이 1000 보다 작습니다.',
+	response: "후원 데이터를 가져오는데 실패했습니다.",
+	id: "후원 id를 입력해주세요.",
+	credit: "크레딧이 1000 보다 작습니다.",
 };
 
 /**
@@ -84,6 +84,7 @@ const deleteDonationData = async (id) => {
  * const result = await updateDonationData(id, { amount });
  */
 const donateCredit = async (id, { amount }) => {
+	const body = { amount };
 	if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
 	return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {
 		throw new Error(ERROR_MESSAGES, e);
