@@ -1,32 +1,61 @@
-// import React from "react";
-// import Button from "../../../../components/Button/Button";
-// import "./CardDecoration.jsx";
+import React, { useEffect, useRef } from "react";
+import style from "./CardDecoration.js";
+import ProgressBar from 'progressbar.js';
 
-// function Card({ item }) {
-// 	const today = new Date();
-// 	const deadline = new Date(item.deadline);
-// 	const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
-// 	const displaysDay = dDay >= 0 ? dDay : 0; //dDay가 음수일 때 제외
 
-// 	return (
-// 		<div>
-// 			<img className="donationIdolImage" src={"https://images.unsplash.com/photo-1717738118267-99f7c371127c?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHx8"} alt={item.title} />
-// 			<Button>후원하기</Button>
-// 			<div>
-// 				<h2>{item.subtitle}</h2>
-// 				<h1>{item.title}</h1>
-// 				<div>
-// 					<p>
-// 						{/* <CreditIcon /> */}
-// 						<img src="/CreditImg.png" alt="크레딧 이미지" />
-// 						{item.targetDonation.toLocaleString()}
-// 					</p>
-// 					<p>{displaysDay}일 남음</p>
-// 				</div>
-// 				<div>바</div>
-// 			</div>
-// 		</div>
-// 	);
-// }
+function Card({ item }) {
+    const today = new Date();
+    const deadline = new Date(item.deadline);
+    const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+    const displaysDay = dDay >= 0 ? dDay : 0; //dDay가 음수일 때 제외
+    const progressRef = useRef(null);
 
-// export default Card;
+    useEffect(() => {
+        if (progressRef.current) {
+            const progressBar = new ProgressBar.Line(progressRef.current, {
+                strokeWidth: 1,
+                easing: 'easeInOut',
+                duration: 1400,
+                color: '#F96D69',
+                trailColor: '#FFFFFF',
+                trailWidth: 1,
+                svgStyle: { width: '100%', height: '100%' },
+                from: { color: '#F96D69' },
+                to: { color: '#F96D69' },
+                step: (state, bar) => {
+                    bar.path.setAttribute('stroke', state.color);
+                }
+            });
+            const progress = (item.receivedDonations / item.targetDonation);
+            progressBar.animate(progress); // Number from 0.0 to 1.0
+        }
+    }, [item.receivedDonations, item.targetDonation]);
+
+    return (
+        <style.Card>
+            <style.ImgButton>
+                <style.Img src={"https://1.bp.blogspot.com/-OUviYTEdkJE/XevU5RKDDQI/AAAAAAAAPSo/hPvyo_X3ryYoA-YtHQ4Ij2Es0l94tsBKQCLcBGAsYHQ/s1600/KakaoTalk_20191208_013458562.jpg"} alt={item.title} />
+                <style.SubmitButton>후원하기</style.SubmitButton>
+            </style.ImgButton>
+            <style.InfoWrapper>
+                <style.Detail>
+                    <style.Subtitle>{item.subtitle}</style.Subtitle>
+                    <style.Title>{item.title}</style.Title>
+                </style.Detail>
+                <style.a>
+                    <style.Status>
+                        <style.Credit>
+                            {/* <CreditIcon /> */}
+                            <img src="/CreditImg.png" alt="크레딧 이미지" />
+                            {item.targetDonation.toLocaleString()}
+                        </style.Credit>
+                        <style.Countdown>{displaysDay}일 남음</style.Countdown>
+                    </style.Status>
+                    <div ref={progressRef} style={{ width: '100%', height: '1px' }} />
+                </style.a>
+            </style.InfoWrapper>
+        </style.Card >
+    );
+}
+
+export default Card;
