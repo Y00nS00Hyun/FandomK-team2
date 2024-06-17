@@ -75,6 +75,13 @@ const Img = styled.img`
 	object-position: center;
 `;
 
+const BlackGradation = styled.img`
+	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
+	border-radius: 8px;
+	position: absolute;
+	bottom: 0;
+`;
+
 const Block = styled.div`
 	display: block;
 	bottom: 8px;
@@ -87,6 +94,7 @@ const SubmitButton = styled(Button)`
 	font-size: 13px;
 	width: ${({ size }) => BUTTON_WIDTHS[size] ?? BUTTON_WIDTHS["small"]};
 	height: ${({ size }) => BUTTON_HEIGHTS[size] ?? BUTTON_HEIGHTS["small"]};
+	z-index: 1;
 `;
 
 const SubmitButton = styled(Button)`
@@ -154,6 +162,6 @@ const StatusInfo = styled.div`
 
 // 😸 export 해보자 😸
 
-const style = { Card, Img, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block };
+const style = { Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block };
 
 export default style;
