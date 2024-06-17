@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
-import Avatar from "../../components/Avatar/Avatar";
 import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
 
 const Header = styled.header`
@@ -50,7 +49,7 @@ function RootHeader({ headerHeight }) {
 				</LogoSection>
 
 				<UserSection>
-					<Avatar src={SkeletonAvater} alt={"기본 아바타 이미지"} onClick={() => navigate("/mypage")} style={{ cursor: "pointer" }} />
+					<img src={SkeletonAvater} alt={"기본 아바타 이미지"} onClick={() => navigate("/mypage")} style={{ cursor: "pointer" }} height={32} />
 				</UserSection>
 			</Inner>
 		</Header>

@@ -17,6 +17,7 @@ const X_BUTTON_HEIGHTS = {
 const IMG = styled.img`
 	width: ${({ size }) => X_BUTTON_WIDTHS[size] ?? X_BUTTON_WIDTHS["small"]};
 	height: ${({ size }) => X_BUTTON_HEIGHTS[size] ?? X_BUTTON_HEIGHTS["small"]};
+	cursor: pointer;
 `;
 
 function Xbutton({ size, onClick }) {
