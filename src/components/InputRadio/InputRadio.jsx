@@ -4,10 +4,15 @@ import CheckedIcon from "../../assets/images/icon/icon-radio-checked.svg";
 import UncheckedIcon from "../../assets/images/icon/icon-radio-unchecked.svg";
 
 const Label = styled.label`
+	cursor: pointer;
+`;
+
+const Section = styled.article`
 	display: inline-flex;
 	flex-flow: row wrap;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
+	padding: 1px;
 	cursor: pointer;
 `;
 
@@ -26,11 +31,14 @@ const Input = styled.input`
 	}
 `;
 
-function InputRadio({ id, name, onChange }) {
+function InputRadio({ className, id, name, value, onChange, children }) {
 	return (
-		<Label htmlFor={id}>
-			<Input type="radio" name={name} id={id} onChange={onChange} hidden />
-			<Icon />
+		<Label htmlFor={id} className={className}>
+			{children}
+			<Section>
+				<Input type="radio" id={id} name={name} value={value} onChange={onChange} hidden />
+				<Icon />
+			</Section>
 		</Label>
 	);
 }

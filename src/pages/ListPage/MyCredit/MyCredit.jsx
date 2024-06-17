@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import Modal from "../../../components/Modal/Modal";
+import Button from "../../../components/Button/Button";
+import TopupModal from "../../../components/TestModals.js/TopupModal";
+import _ from "lodash";
 
 /**
  * @todo
@@ -8,10 +12,15 @@ import React, { useEffect, useState } from "react";
 const CREDIT_NAME = "myCredit";
 
 function MyCredit() {
+	const [visibleModal, setVisibelModal] = useState(false);
 	const [myCredit, setMyCredit] = useState(0);
+	const [creditValue, setcreditValue] = useState(0);
+
+	const handleChange = (e) => setcreditValue(Number(e.target.value));
 
 	const handleClick = () => {
-		setMyCredit((prev) => prev + 1000);
+		setMyCredit((prev) => _.add(prev, creditValue));
+		setVisibelModal(false);
 	};
 
 	useEffect(() => {
@@ -31,10 +40,12 @@ function MyCredit() {
 				<p>내 크레딧: {myCredit}</p>
 			</section>
 			<section>
-				<button type={"button"} onClick={handleClick}>
-					충전하기
-				</button>
+				<Button onClick={() => setVisibelModal(true)}>충전 모달</Button>
 			</section>
+
+			<Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"}>
+				<TopupModal handleChange={handleChange} />
+			</Modal>
 		</article>
 	);
 }
