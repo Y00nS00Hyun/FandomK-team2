@@ -34,6 +34,7 @@ function Card({ item }) {
 		<style.Card>
 			<style.ImgButton>
 				<style.Img src={item.idol.profilePicture} alt={item.title} />
+				<style.BlackGradation src="/blackgradation.png" />
 				<style.Block>
 					<style.SubmitButton>후원하기</style.SubmitButton>
 				</style.Block>
