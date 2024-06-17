@@ -25,6 +25,12 @@ const PROFILE_SIZES = {
 };
 
 function AddFavoriteIdols() {
+	/**
+	 * @JuhyeokC
+	 * AddFavoriteIdols 컴포넌트랑 MyFavoriteIdols 컴포넌트 둘 다 useMediaQuery 를 사용하니
+	 * 부모 컴포넌트에서 mode 생성해서 prop으로 내려주셔도 될 것 같아요!
+	 * 선택사항이니 무시하셔도 좋습니다!
+	 */
 	const mode = useMediaQuery();
 
 	const pageSize = useMemo(() => {
@@ -38,14 +44,25 @@ function AddFavoriteIdols() {
 		else return PROFILE_SIZES["others"];
 	}, [mode]);
 
-	// async controller
-	const [runFunction, responseData, isLoading, errorMessage] = useAsync(getIdolList);
+	/**
+	 * @JuhyeokC
+	 * useAsync 커스텀훅 사용
+	 */
+	const { refetchFunction, data, pending, error } = useAsync(getIdolList);
 
+	/**
+	 * @JuhyeokC
+	 * 렌더링 된 후 fetch 함수 실행
+	 */
 	useEffect(() => {
-		runFunction({ pageSize });
-	}, [pageSize]);
+		refetchFunction({ pageSize });
+	}, [refetchFunction, pageSize]);
 
-	const items = responseData?.list || [];
+	/**
+	 * @JuhyeokC
+	 * data 가 업데이트될 때 list가 담길 items
+	 */
+	const items = data?.list || [];
 
 	return (
 		<article className="mypage addidol">
@@ -54,9 +71,21 @@ function AddFavoriteIdols() {
 			</section>
 			<section className="mypage-addidol__container">
 				<div className="mypage-addidol__container-inner">
+					{/**
+					 * @JuhyeokC
+					 * 로딩 출력
+					 */}
+					{pending && <LodingImage />}
+
+					{/**
+					 * @JuhyeokC
+					 * 에러 출력
+					 */}
+					{error && <p>ERROR! {error.message}</p>}
+
 					{!isEmpty(items) &&
 						items.map(({ id, profilePicture, group, name }) => (
-							<div className="mypage-addidol__items" key={`idol-id-$(id)`}>
+							<div className="mypage-addidol__items" key={`idol-id-${id}`}>
 								<Avatar src={profilePicture} size={"otherAddIdol"} alt={`${name} 프로필 이미지`} />
 								<p className="mypage__items-name">{name}</p>
 								<p className="mypage__items-group">{group}</p>
@@ -74,3 +103,11 @@ function AddFavoriteIdols() {
 }
 
 export default AddFavoriteIdols;
+
+/**
+ * @JuhyeokC
+ * 확인 후 제 이름이 달린 주석은 삭제해주세요!
+ * 이해가 어려운 부분은 질문해주세요!
+ * map 의 key 잘넣어주셧는데요!
+ * 백틱으로 템플릿리터럴 사용하실 때 변수는 ${} 중괄호 사용해주셔야해요!
+ */

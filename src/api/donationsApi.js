@@ -1,10 +1,10 @@
-import httpClient from './httpClient';
+import httpClient from "./httpClient";
 
-const API_URL = 'https://fandom-k-api.vercel.app/7-2';
+const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
-	response: '후원 데이터를 가져오는데 실패했습니다.',
-	id: '후원 id를 입력해주세요.',
-	credit: '크레딧이 1000 보다 작습니다.',
+	response: "후원 데이터를 가져오는데 실패했습니다.",
+	id: "후원 id를 입력해주세요.",
+	credit: "크레딧이 1000 보다 작습니다.",
 };
 
 /**
@@ -28,8 +28,11 @@ const ERROR_MESSAGES = {
  * // 우선순위 아이돌 설정 (4명)
  * const result = await getDonationList({ pageSize, priorityIdolIds: [ 200, 202, 404, 500 ] });
  */
-export const getDonationList = async ({ pageSize = 10, ...args }) => {
-	return await httpClient.get(`${API_URL}/donations`, { pageSize, ...args }).catch((e) => {
+export const getDonationList = async ({ pageSize = 10, cursor, priorityIdolIds }) => {
+	const params = { pageSize };
+	if (cursor) params.cursor = cursor;
+	if (priorityIdolIds) params.priorityIdolIds = priorityIdolIds;
+	return await httpClient.get(`${API_URL}/donations`, params).catch((e) => {
 		throw new Error(ERROR_MESSAGES.response, e);
 	});
 };
@@ -81,8 +84,9 @@ const deleteDonationData = async (id) => {
  * const result = await updateDonationData(id, { amount });
  */
 const donateCredit = async (id, { amount }) => {
+	const body = { amount };
 	if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
-	return await httpClient.put(`${API_URL}/donations/${id}/contribute`, { amount }).catch((e) => {
+	return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {
 		throw new Error(ERROR_MESSAGES, e);
 	});
 };
