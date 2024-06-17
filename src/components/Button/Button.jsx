@@ -86,7 +86,8 @@ const StyledButton = styled.button`
 	&[disabled] {
 		background: var(--color-gray-300);
 		cursor: default;
-		>>>>>>>7bd6a27c3b97df6fe940a400d6693d1f37e29db5 &:before {
+
+		&:before {
 			content: none;
 		}
 	}
