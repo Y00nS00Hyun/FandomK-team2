@@ -26,7 +26,7 @@ const ERROR_MESSAGES = {
  * const result = await getIdolList({ pageSize, cursor: '이전에 호출한 데이터의 nextCursor' });
  *
  * // 아이돌 이름이나 그룹으로 검색할 때
- * const result = await getIdolList({ pageSize, keyword: '검색어 state' });`
+ * const result = await getIdolList({ pageSize, keyword: '검색어 state' });
  */
 export const getIdolList = async ({ pageSize = 10, cursor, keyword }) => {
 	const params = { pageSize };
