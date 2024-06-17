@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from "react";
 import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
 
-function Card({ item }) {
+function Card({ item, size }) {
 	const today = new Date();
 	const deadline = new Date(item.deadline);
 	const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
-	const displaysDay = dDay >= 0 ? dDay : 0; //dDay가 음수일 때 제외
+	const displaysDay = dDay >= 0 ? dDay : 0;
 	const progressRef = useRef(null);
 
 	useEffect(() => {
@@ -26,23 +26,23 @@ function Card({ item }) {
 				},
 			});
 			const progress = item.receivedDonations / item.targetDonation;
-			progressBar.animate(progress); // Number from 0.0 to 1.0
+			progressBar.animate(progress);
 		}
 	}, [item.receivedDonations, item.targetDonation]);
 
 	return (
-		<style.Card>
+		<style.Card size={size}>
 			<style.ImgButton>
-				<style.Img src={item.idol.profilePicture} alt={item.title} />
-				<style.BlackGradation src="/blackgradation.png" />
+				<style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
+				<style.BlackGradation src="/blackgradation.png" size={size} />
 				<style.Block>
-					<style.SubmitButton>후원하기</style.SubmitButton>
+					<style.SubmitButton size={size}>후원하기</style.SubmitButton>
 				</style.Block>
 			</style.ImgButton>
-			<style.InfoWrapper>
-				<style.Detail>
-					<style.Subtitle>{item.subtitle}</style.Subtitle>
-					<style.Title>{item.title}</style.Title>
+			<style.InfoWrapper size={size}>
+				<style.Detail size={size}>
+					<style.Subtitle size={size}>{item.subtitle}</style.Subtitle>
+					<style.Title size={size}>{item.title}</style.Title>
 				</style.Detail>
 				<style.StatusInfo>
 					<style.Status>

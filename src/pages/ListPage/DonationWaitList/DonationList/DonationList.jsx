@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import useAsync from "../../../../hooks/useAsync";
 import { getDonationList } from "../../../../api/donationsApi";
 import LodingImage from "../../../../components/LodingImage/LodingImage";
@@ -7,46 +7,39 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import style from "./CardLocation.js";
-import settings from "./a.js";
+import settings from "./settings"; // 올바른 경로로 설정 파일을 가져옵니다.
+import useMediaQuery from "../../../../hooks/useMediaQuery.js";
 
 const PAGE_SIZES = {
 	desktop: 4,
 	others: 3,
 };
 
-function DonationList({ mode }) {
-	const pageSize = PAGE_SIZES[mode];
+function DonationList() {
+	const mode = useMediaQuery();
+	const pageSize = PAGE_SIZES[mode === "desktop" ? "desktop" : "others"];
 	const { refetchFunction, data, pending, error } = useAsync(getDonationList);
 	useEffect(() => {
 		refetchFunction({ pageSize });
 	}, [refetchFunction, pageSize]);
 
-	/**
-	 * @JuhyeokC
-	 * data 가 업데이트될 때 list가 담길 items
-	 */
 	const items = data?.list || [];
 
 	return (
 		<div>
 			{pending && <LodingImage />}
-
 			{error && <p>{error.message}에러발생🦄</p>}
-
-			<style.SliderStyle>
-				<Slider {...settings}>
-					{items.map((item) => (
-						<div key={item.id}>
-							<Card item={item} />
-						</div>
-					))}
-				</Slider>
-			</style.SliderStyle>
-
-			{/* <div>
-				<CaretButton direction="LEFT" size="normal" />
-				<CaretButton direction="RIGHT" size="normal" />
-			</div> */}
+			<div>
+				<style.SliderStyle>
+					<Slider {...settings}>
+						{items.map((item) => (
+							<div key={item.id}>
+								<Card item={item} size={mode === "mobile" ? "small" : "medium"} />
+							</div>
+						))}
+					</Slider>
+				</style.SliderStyle>
+			</div>
 		</div>
 	);
 }
