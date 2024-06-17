@@ -1,7 +1,7 @@
 // Modal.js
 import React from "react";
 import Button from "../Button/Button";
-import CloseIcon from "../../assets/images/icon/icon-X.svg";
+import Xbutton from "../Button/Xbutton";
 import "./Modal.css";
 
 function Modal({ show, icon, buttonAction, buttonName, onClose, children, title }) {
@@ -17,9 +17,8 @@ function Modal({ show, icon, buttonAction, buttonName, onClose, children, title 
 			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
 				<div className="modal-head">
 					<p className="modal-title">{title}</p>
-					<button className="modal-close" onClick={onClose}>
-						<img src={CloseIcon} alt="닫기" />
-					</button>
+
+					<Xbutton className="modal-close" onClick={onClose}></Xbutton>
 				</div>
 				<div className="modal-body">{children}</div>
 				<div className="modal-foot">
