@@ -2,9 +2,7 @@ import styled from "styled-components";
 
 // 😸 적용해보자 😸
 
-const SliderStyle = styled.div`
-	width: 500px;
-`;
+const SliderStyle = styled.div``;
 
 // 😸 export 해보자 😸
 
