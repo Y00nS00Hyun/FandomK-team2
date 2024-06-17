@@ -6,7 +6,6 @@ import CaretButton from "../../../../components/CaretButton/CaretButton";
 import Card from "./DonationCard";
 
 function DonationList({ mode }) {
-
 	// list items
 	const [items, setItems] = useState([]);
 
