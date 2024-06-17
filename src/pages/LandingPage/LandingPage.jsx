@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Button from "../../components/Button/Button";
 
@@ -38,6 +38,25 @@ const SECTION_LIST = [
 ];
 
 function LandingPage() {
+	const navigate = useNavigate();
+
+	const clearLocalStorage = () => {
+		Object.keys(localStorage).forEach((key) => localStorage.removeItem(key)); // localStorage 비우기
+		navigate("/list"); // list 페이지로 이동
+	};
+
+	/**
+	 * @todo 스크롤 인터렉션 개발하기
+	 */
+	useEffect(() => {
+		const handleScroll = (e) => {
+			// console.log(e.srcElement.scrollingElement.scrollTop);
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
+
 	return (
 		<article className={`${style["landing-page"]} inner`}>
 			<ul className={style["temp-menu"]}>
@@ -65,9 +84,11 @@ function LandingPage() {
 						<Logo size="xl" />
 					</p>
 				</section>
-				<Link to={"/list"} className={style["main-article__button"]}>
-					<Button size={"wide"}>지금 시작하기</Button>
-				</Link>
+				<section className={style["main-article__button"]}>
+					<Button size={"wide"} onClick={clearLocalStorage}>
+						지금 시작하기
+					</Button>
+				</section>
 				<article className={style["background"]}>
 					<img src={BackgroundImage00} alt="레드벨벳 앨범 이미지" draggable="false" />
 				</article>
