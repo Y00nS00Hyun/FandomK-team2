@@ -2,16 +2,11 @@ import httpClient from "./httpClient";
 
 const API_URL = "https://fandom-k-api.vercel.app/2-2";
 const ERROR_MESSAGES = {
-<<<<<<< HEAD
+
   response: "아이돌 데이터를 가져오는데 실패했습니다.",
   id: "아이돌 id를 입력해주세요.",
   profile: "프로필이미지는 필수값입니다.",
-=======
-	response: "아이돌 데이터를 가져오는데 실패했습니다.",
-	id: "아이돌 id를 입력해주세요.",
-	profile: "프로필이미지는 필수값입니다.",
->>>>>>> 7bd6a27c3b97df6fe940a400d6693d1f37e29db5
-};
+
 
 /**
  * 아이돌 목록을 가져옵니다.
