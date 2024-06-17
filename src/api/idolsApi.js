@@ -2,19 +2,10 @@ import httpClient from "./httpClient";
 
 const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
-<<<<<<< HEAD
-
-  response: "아이돌 데이터를 가져오는데 실패했습니다.",
-  id: "아이돌 id를 입력해주세요.",
-  profile: "프로필이미지는 필수값입니다.",
-
-=======
 	response: "아이돌 데이터를 가져오는데 실패했습니다.",
 	id: "아이돌 id를 입력해주세요.",
 	profile: "프로필이미지는 필수값입니다.",
 };
->>>>>>> d9dd6476e9b3f235476ac50f71b4c06c74864de5
-
 /**
  * 아이돌 목록을 가져옵니다.
  *
@@ -34,7 +25,7 @@ const ERROR_MESSAGES = {
  * const result = await getIdolList({ pageSize, cursor: '이전에 호출한 데이터의 nextCursor' });
  *
  * // 아이돌 이름이나 그룹으로 검색할 때
- * const result = await getIdolList({ pageSize, keyword: '검색어 state' });
+ * const result = await getIdolList({ pageSize, keyword: '검색어 state' });`
  */
 export const getIdolList = async ({ pageSize = 10, cursor, keyword }) => {
 	const params = { pageSize };
