@@ -80,13 +80,7 @@ function ChartOfMonth({ mode }) {
 								랭크: <span>{item.rank}</span>
 							</p>
 							<p>
-								프로필:{" "}
-								<img
-									src={item.profilePicture}
-									alt={`${item.name} 프로필 이미지`}
-									height={80}
-									draggable="false"
-								/>
+								프로필: <img src={item.profilePicture} alt={`${item.name} 프로필 이미지`} height={80} draggable="false" />
 							</p>
 							<p>
 								그룹: <span>{item.group}</span>
@@ -103,64 +97,34 @@ function ChartOfMonth({ mode }) {
 						</article>
 					))}
 
-				<div
-					id="rank1"
-					className={style["item"]}
-				>
+				<div id="rank1" className={style["item"]}>
 					Item1
 				</div>
-				<div
-					id="rank2"
-					className={style["item"]}
-				>
+				<div id="rank2" className={style["item"]}>
 					Item2
 				</div>
-				<div
-					id="rank3"
-					className={style["item"]}
-				>
+				<div id="rank3" className={style["item"]}>
 					Item3
 				</div>
-				<div
-					id="rank4"
-					className={style["item"]}
-				>
+				<div id="rank4" className={style["item"]}>
 					Item4
 				</div>
-				<div
-					id="rank5"
-					className={style["item"]}
-				>
+				<div id="rank5" className={style["item"]}>
 					Item5
 				</div>
-				<div
-					id="rank6"
-					className={style["item"]}
-				>
+				<div id="rank6" className={style["item"]}>
 					Item6
 				</div>
-				<div
-					id="rank7"
-					className={style["item"]}
-				>
+				<div id="rank7" className={style["item"]}>
 					Item7
 				</div>
-				<div
-					id="rank8"
-					className={style["item"]}
-				>
+				<div id="rank8" className={style["item"]}>
 					Item8
 				</div>
-				<div
-					id="rank9"
-					className={style["item"]}
-				>
+				<div id="rank9" className={style["item"]}>
 					Item9
 				</div>
-				<div
-					id="rank10"
-					className={style["item"]}
-				>
+				<div id="rank10" className={style["item"]}>
 					Item10
 				</div>
 			</section>
