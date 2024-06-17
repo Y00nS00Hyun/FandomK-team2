@@ -100,7 +100,6 @@ const StyledButton = styled.button`
  * @param {string} icon - 아이콘 = [ 'credit', 'chart', 'plus' ]
  *
  * @example
- *
  * <Button size={'wide'}>지금 시작하기</Button>
  * <Button size={'large'} onClick={() => 후원하기함수}>후원하기</Button>
  * <Button icon={'credit'} size={'medium'} onClick={() => 충전하기함수}>충전하기</Button>
