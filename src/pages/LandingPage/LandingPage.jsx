@@ -49,12 +49,12 @@ function LandingPage() {
 	 * @todo 스크롤 인터렉션 개발하기
 	 */
 	useEffect(() => {
-		const handleScroll = () => {
-			console.log("asdf");
+		const handleScroll = (e) => {
+			console.log(e.srcElement.scrollingElement.scrollTop);
 		};
 
 		window.addEventListener("scroll", handleScroll);
-		return window.removeEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
 	return (

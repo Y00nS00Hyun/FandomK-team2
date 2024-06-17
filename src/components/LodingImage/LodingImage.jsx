@@ -10,7 +10,7 @@ const COLORS = {
 };
 
 const Container = styled.section`
-	position: fixed;
+	position: relative;
 	z-index: 10;
 	inset: 0;
 	display: flex;
