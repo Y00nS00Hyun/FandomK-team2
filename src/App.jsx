@@ -13,6 +13,7 @@ const Main = styled.main`
 	background-repeat: no-repeat;
 	background-position: left top;
 	background-size: auto 480px;
+	background-attachment: fixed;
 `;
 
 function App() {
