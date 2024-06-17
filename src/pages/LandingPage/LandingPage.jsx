@@ -50,7 +50,7 @@ function LandingPage() {
 	 */
 	useEffect(() => {
 		const handleScroll = (e) => {
-			console.log(e.srcElement.scrollingElement.scrollTop);
+			// console.log(e.srcElement.scrollingElement.scrollTop);
 		};
 
 		window.addEventListener("scroll", handleScroll);
