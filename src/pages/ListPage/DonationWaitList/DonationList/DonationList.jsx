@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import useAsync from "../../../../hooks/useAsync";
 import { getDonationList } from "../../../../api/donationsApi";
 import LodingImage from "../../../../components/LodingImage/LodingImage";
-import CaretButton from "../../../../components/CaretButton/CaretButton";
 import Card from "./DonationCard";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import style from "./CardLocation.js";
+import settings from "./a.js";
 
-/**
- * @JuhyeokC
- * mode 별 페이지사이즈 매직넘버
- */
 const PAGE_SIZES = {
 	desktop: 4,
 	others: 3,
@@ -55,13 +55,23 @@ function DonationList({ mode }) {
 			 * @JuhyeokC
 			 * 에러 출력
 			 */}
-			{error && <p>{error.message}에러발생!!!!!!</p>}
+			{/* {error && <p>{error.message}에러발생!!!!!!</p>} */}
+			{error && <p> </p>}
 
 			{/**
 			 * @JuhyeokC
 			 * 데이터 출력
 			 */}
-			{items && items.map((item) => <Card item={item} key={item.id} />)}
+
+			<style.SliderStyle>
+				<Slider {...settings}>
+					{items.map((item) => (
+						<div key={item.id}>
+							<Card item={item} />
+						</div>
+					))}
+				</Slider>
+			</style.SliderStyle>
 
 			{/* <div>
 				<CaretButton direction="LEFT" size="normal" />
@@ -77,4 +87,6 @@ export default DonationList;
  * @JuhyeokC
  * 확인 후 제 이름이 달린 주석은 삭제해주세요!
  * 이해가 어려운 부분은 질문해주세요!
+ *
+ * -> 이해하는 중입니닷
  */
