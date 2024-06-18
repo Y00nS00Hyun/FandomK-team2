@@ -117,6 +117,9 @@ const Detail = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Status = styled.div`

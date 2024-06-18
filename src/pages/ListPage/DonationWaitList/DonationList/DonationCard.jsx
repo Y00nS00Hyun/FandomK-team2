@@ -46,7 +46,7 @@ function Card({ item, size }) {
 		<style.Card size={size}>
 			<style.ImgButton>
 				<style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
-				<style.BlackGradation src="/blackgradation.png" size={size} />
+				<style.BlackGradation src="donationImg/blackgradation.png" size={size} />
 				<style.Block>
 					<style.SubmitButton size={size}>후원하기</style.SubmitButton>
 				</style.Block>
@@ -59,7 +59,7 @@ function Card({ item, size }) {
 				<style.StatusInfo>
 					<style.Status>
 						<style.Credit>
-							<img src="/CreditImg.png" alt="크레딧 이미지" />
+							<img src="donationImg/CreditImg.png" alt="크레딧 이미지" />
 							{item.targetDonation.toLocaleString()}
 						</style.Credit>
 						<style.Countdown>{displaysDay}일 남음</style.Countdown>

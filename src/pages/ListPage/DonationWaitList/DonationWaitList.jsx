@@ -4,7 +4,7 @@ import DonationList from "./DonationList/DonationList";
 
 function DonationWaitList({ mode, myCredit }) {
 	return (
-		<article>
+		<article style={{ width: "1200px", margin: "0 auto" }}>
 			<BlockTitle>후원을 기다리는 조공</BlockTitle>
 			<DonationList mode={mode} />
 		</article>
@@ -12,3 +12,5 @@ function DonationWaitList({ mode, myCredit }) {
 }
 
 export default DonationWaitList;
+
+//<article style={{ width: "1200px", margin: "0 auto" }}>
