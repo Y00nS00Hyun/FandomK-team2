@@ -1,13 +1,11 @@
 /* 연예인 투표 모달 */
 .Container {
-.Container {
 	width: 525px;
 	background-color: #181026;
 	padding: 24px 24px 12px;
 	border-radius: 12px;
 }
 
-.Top {
 .Top {
 	display: flex;
 	justify-content: space-between;
@@ -20,11 +18,9 @@
 }
 
 .Top > p {
-.Top > p {
 	display: block;
 }
 
-.Contents {
 .Contents {
 	display: flex;
 	justify-content: space-between;
@@ -92,7 +88,6 @@
 	height: 16px;
 }
 
-.button {
 .button {
 	color: white;
 	background: linear-gradient(90deg, #f86f65 0%, #fe5493 100%);
