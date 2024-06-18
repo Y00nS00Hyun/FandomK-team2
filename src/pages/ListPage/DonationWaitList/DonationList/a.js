@@ -3,13 +3,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function SampleNextArrow(props) {
-	const { className, style, onClick } = props;
+function SampleNextArrow({ className, style, onClick }) {
 	return <div className={className} style={{ ...style, display: "block", background: "red" }} onClick={onClick} />;
 }
 
-function SamplePrevArrow(props) {
-	const { className, style, onClick } = props;
+function SamplePrevArrow({ className, style, onClick }) {
 	return <div className={className} style={{ ...style, display: "block", background: "green" }} onClick={onClick} />;
 }
 
@@ -22,8 +20,8 @@ const settings = {
 	arrows: true, //이전 다음 버튼 표시 여부
 	speed: 500,
 	slidesToShow: 4,
-	centerMode: true, //중앙에 슬라이드가 보여지는 모드 -> 왜 중앙으로 안가?????
-	centerPadding: "70px", //중앙에 슬라이드가 보여지는 모드에서 패딩 값
+	//centerMode: true, //중앙에 슬라이드가 보여지는 모드 -> 왜 중앙으로 안가?????
+	centerPadding: "0px", //중앙에 슬라이드가 보여지는 모드에서 패딩 값
 	infinite: false,
 	responsive: [
 		{
