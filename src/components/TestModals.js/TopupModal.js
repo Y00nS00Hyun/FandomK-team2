@@ -8,7 +8,6 @@ import Button from "../Button/Button";
 const CREDIT_UNITS = [{ unit: 100 }, { unit: 500 }, { unit: 1000 }];
 
 function TopupModal({ handleChange }) {
-function TopupModal({ handleChange }) {
 	return (
 		<div className={topup.container}>
 			<Xbutton size={"small"} className={topup.top}>
