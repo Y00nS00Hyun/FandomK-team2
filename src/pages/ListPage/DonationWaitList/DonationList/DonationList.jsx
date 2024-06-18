@@ -4,9 +4,9 @@ import { getDonationList } from "../../../../api/donationsApi";
 import LodingImage from "../../../../components/LodingImage/LodingImage";
 import Card from "./DonationCard";
 import Slider from "react-slick";
-import style from "./CardLocation.js";
 import settings from "./a.js";
 import useMediaQuery from "../../../../hooks/useMediaQuery.js";
+import "./CardLocation.css";
 
 const PAGE_SIZES = {
 	desktop: 100,
@@ -32,15 +32,13 @@ function DonationList() {
 			{pending && <LodingImage />}
 			{error && <p>{error.message}에러발생🦄</p>}
 			<div>
-				<style.SliderStyle>
-					<Slider {...settings}>
-						{sortedItems.map((item) => (
-							<div key={item.id} style={{ padding: "0 10px" }}>
-								<Card item={item} size={mode === "mobile" ? "small" : "medium"} />
-							</div>
-						))}
-					</Slider>
-				</style.SliderStyle>
+				<Slider {...settings}>
+					{sortedItems.map((item) => (
+						<div key={item.id} style={{ padding: "0 10px" }}>
+							<Card item={item} size={mode === "mobile" ? "small" : "medium"} />
+						</div>
+					))}
+				</Slider>
 			</div>
 		</div>
 	);
