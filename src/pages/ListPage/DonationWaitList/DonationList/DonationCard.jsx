@@ -8,10 +8,11 @@ function Card({ item, size }) {
 	const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
 	const displaysDay = dDay >= 0 ? dDay : 0;
 	const progressRef = useRef(null);
+	const progressBarRef = useRef(null);
 
 	useEffect(() => {
-		if (progressRef.current) {
-			const progressBar = new ProgressBar.Line(progressRef.current, {
+		if (progressRef.current && !progressBarRef.current) {
+			progressBarRef.current = new ProgressBar.Line(progressRef.current, {
 				strokeWidth: 1,
 				easing: "easeInOut",
 				duration: 1400,
@@ -25,9 +26,20 @@ function Card({ item, size }) {
 					bar.path.setAttribute("stroke", state.color);
 				},
 			});
-			const progress = item.receivedDonations / item.targetDonation;
-			progressBar.animate(progress);
 		}
+
+		if (progressBarRef.current) {
+			const progress = item.receivedDonations / item.targetDonation;
+			progressBarRef.current.animate(progress);
+		}
+
+		// Clean up the progress bar instance on unmount
+		return () => {
+			if (progressBarRef.current) {
+				progressBarRef.current.destroy();
+				progressBarRef.current = null;
+			}
+		};
 	}, [item.receivedDonations, item.targetDonation]);
 
 	return (

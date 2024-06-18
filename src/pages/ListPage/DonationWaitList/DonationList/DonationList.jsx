@@ -28,7 +28,7 @@ function DonationList() {
 	const sortedItems = items.sort((a, b) => b.receivedDonations - a.receivedDonations);
 
 	return (
-		<div>
+		<>
 			{pending && <LodingImage />}
 			{error && <p>{error.message}에러발생🦄</p>}
 			<div>
@@ -40,7 +40,7 @@ function DonationList() {
 					))}
 				</Slider>
 			</div>
-		</div>
+		</>
 	);
 }
 
