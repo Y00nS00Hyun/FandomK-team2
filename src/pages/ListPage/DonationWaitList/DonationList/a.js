@@ -47,7 +47,7 @@ const settings = {
 				arrows: false, //이전 다음 버튼 표시 여부
 				draggable: true, //슬라이드 드래그 가능여부
 				//slidesToShow: 3,
-				slidesToScroll: 3,
+				slidesToScroll: "auto",
 				dots: true,
 				centerMode: true,
 			},

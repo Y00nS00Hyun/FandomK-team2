@@ -64,9 +64,9 @@ function Card({ item, size }) {
 						</style.Credit>
 						<style.Countdown>{displaysDay}일 남음</style.Countdown>
 					</style.Status>
+					<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
 				</style.StatusInfo>
 			</style.InfoWrapper>
-			<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
 		</style.Card>
 	);
 }
