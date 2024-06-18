@@ -1,0 +1,4 @@
+.slider-item {
+	width: 250px; /* 슬라이더 아이템의 너비를 250px로 설정 */
+	margin: 0 10px; /* 좌우 간격을 10px로 설정 */
+}
