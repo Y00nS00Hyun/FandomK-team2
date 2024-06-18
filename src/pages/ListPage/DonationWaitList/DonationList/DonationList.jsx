@@ -11,9 +11,9 @@ import settings from "./a.js";
 import useMediaQuery from "../../../../hooks/useMediaQuery.js";
 
 const PAGE_SIZES = {
-	desktop: 8,
-	tablet: 8,
-	mobile: 8,
+	desktop: 100,
+	tablet: 100,
+	mobile: 100,
 };
 
 function DonationList() {
