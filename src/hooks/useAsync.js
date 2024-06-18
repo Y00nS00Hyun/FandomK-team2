@@ -1,37 +1,59 @@
-/**
- * TODO: 만들어놓은 httpClient 와 api 함수들과 어떻게 버무릴지 고민해보기
- */
-import { useState } from 'react';
+import { useState, useCallback } from "react";
 
 /**
- * 코드잇 강의에서 소개한 API 커스텀 훅 사용 예재
+ * @function useAsync
  *
- * @param asyncFunction - fetch 실행 함수
- * @returns {Array} - [ 로딩상태 관리, 에러 메세지 관리, 실행용 함수 ]
+ * @param {Function} fetchFunction - fetch 함수
+ * @returns {Object} { refetchFunction, data, pending, error }
+ *
+ * @description API fetchFunction 을 파라미터로 보내고 리턴받은 객체로 { 실행함수, 응답대기, 응답데이터, 에러메세지 } 다룬다.
+ *
  * @example
- * const [ isLoading, errorMessage, runFunction ] = useAsync(fetchFunction);
- * 선언해놓은 fetchFunction 을 파라미터로 보내고 리턴받은 [ 로딩, 에러, 실행함수 ] 배열로 다룬다.
+ * import React, { useEffect } from 'react';
+ * import useAsync from './path/to/useAsync';
+ * import fetchFunction from './api/fetchFunction';
+ *
+ * const MyComponent = () => {
+ *   const { refetchFunction, data, pending, error } = useAsync(fetchFunction);
+ *
+ *   useEffect(() => {
+ *     refetchFunction();
+ *   }, [refetchFunction]);
+ *
+ *   return (
+ *     <>
+ *       {pending ?? <p>Loading...</p>}
+ *       {error ?? <p>Error: {error.message}</p>}
+ *       {data ?? <p>Data: {JSON.stringify(data)}</p>}
+ *     </>
+ *   );
+ * };
+ *
+ * export default MyComponent;
  */
-function useAsync(asyncFunction) {
+export default function useAsync(fetchFunction) {
 	const [pending, setPending] = useState(false);
 	const [error, setError] = useState(null);
+	const [data, setData] = useState(null);
 
-	const wrappedFunction = async function (...args) {
-		try {
-			setPending(true);
-			setError(null);
-			const response = await asyncFunction(...args);
-			if (!response.ok) throw new Error(response.status);
-			return await response.json();
-		} catch (error) {
-			setError(error);
-			return;
-		} finally {
-			setPending(false);
-		}
-	};
+	/**
+	 * @todo 전일주 멘토님에게 해결방법 문의하기
+	 */
+	const refetchFunction = useCallback(
+		async function (...args) {
+			try {
+				setPending(true);
+				setError(null);
+				const response = await fetchFunction(...args);
+				return setData(response);
+			} catch (error) {
+				return setError(error);
+			} finally {
+				return setPending(false);
+			}
+		},
+		[fetchFunction],
+	);
 
-	return [pending, error, wrappedFunction];
+	return { refetchFunction, pending, data, error };
 }
-
-export default useAsync;

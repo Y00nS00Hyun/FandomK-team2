@@ -1,0 +1,52 @@
+/*크레딧 부족 팝업 모달*/
+.popupContainer {
+	width: 339px;
+	border-radius: 12px;
+	background-color: #181026;
+	color: white;
+	padding: 24px 24px 32px;
+}
+
+.popupTop {
+	display: flex;
+	justify-content: flex-end;
+	height: 24px;
+}
+
+.popupBody {
+	display: flex;
+	flex-direction: column;
+	align-content: space-between;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.popupImg {
+	display: block;
+	margin: 0 auto;
+	height: 100%;
+	width: 113px;
+}
+
+.popupXbutton {
+	width: 15.5px;
+	height: 15.5px;
+}
+
+.popupNotification {
+	font-size: 16px;
+	color: white;
+	margin: 31px 0;
+}
+
+.popupButton {
+	background: linear-gradient(90deg, #f86f65 0%, #fe5493 100%);
+	width: 100%;
+	height: 42px;
+	border-radius: 3px;
+	color: white;
+}
+
+.popupCredit {
+	color: #f96d69;
+}
