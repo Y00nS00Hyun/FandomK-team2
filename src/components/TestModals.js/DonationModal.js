@@ -1,5 +1,4 @@
 import done from "../TestModalModule.css/Donation.module.css";
-//import xButton from "../../assets/images/icon/icon-X.svg";
 import avatar from "../../assets/images/avatar/avater-skeleton.svg";
 import credit from "../../assets/images/icon/icon-credit.svg";
 import Button from "../Button/Button";

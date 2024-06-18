@@ -17,11 +17,11 @@ function TestModal() {
 
 	return (
 		<>
+			<PopupModal />
 			<div>
 				<button onClick={openModal}>Open Popup Modal</button>
-				{isModalOpen && <PopupModal onClose={closeModal} />}
+				{isModalOpen && <VotesModal onClose={closeModal} />}
 			</div>
-			<VotesModal />
 			<TopupModal />
 			<DonationModal />
 		</>
