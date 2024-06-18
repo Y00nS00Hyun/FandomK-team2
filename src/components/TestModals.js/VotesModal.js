@@ -14,21 +14,23 @@ function ProfileListItem({ onClose, item }) {
 
 	return (
 		<>
-			<InputRadio className={votes.votesProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id}>
-				<Avatar src={item.profilePicture} className={votes.profileImg} alt="프로필 사진" />
-				<div className={votes.lanking}>1</div>
-				<div className={votes.profileInfo}>
-					<span>
-						{item.group} {item.name}
-					</span>
-					<span className={votes.profileVotes}>{Number(item.totalVotes).toLocaleString()}표</span>
+			<InputRadio className={votes.ProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id}>
+				<div className={votes.profileBox}>
+					<Avatar src={item.profilePicture} className={votes.profileImg} alt="프로필 사진" />
+					<div className={votes.lanking}>1</div>
+					<div className={votes.profileInfo}>
+						<span>
+							{item.group} {item.name}
+						</span>
+						<span className={votes.profileVotes}>{Number(item.totalVotes).toLocaleString()}표</span>
+					</div>
 				</div>
 			</InputRadio>
 		</>
 	);
 }
 
-function VotesModal({ onDelete }) {
+function VotesModal({ onClose }) {
 	const { refetchFunction, data, pending, error } = useAsync(getIdolList);
 
 	const items = data?.list || [];
@@ -43,12 +45,12 @@ function VotesModal({ onDelete }) {
 
 	return (
 		/*투표 모달*/
-		<div className={votes.votesContainer}>
-			<div className={votes.votesTop}>
+		<div className={votes.Container}>
+			<div className={votes.Top}>
 				<div>이달의 여자 아이돌</div>
-				<Xbutton $size={"small"} />
+				<Xbutton $size={"small"} onClick={onClose} />
 			</div>
-			<div className={votes.votesContents}>
+			<div className={votes.Contents}>
 				<ul className={votes.content}>
 					{pending && <LodingImage />}
 
@@ -65,7 +67,7 @@ function VotesModal({ onDelete }) {
 						})}
 				</ul>
 			</div>
-			<Button className={votes.voteButton}>투표하기</Button>
+			<Button className={votes.button}>투표하기</Button>
 			<div className={votes.notification}>
 				<span>
 					투표하는 데<span className={votes.credit}>1000 크레딧</span>이 소모됩니다.
