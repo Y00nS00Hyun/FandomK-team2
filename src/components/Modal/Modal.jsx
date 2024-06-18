@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import Xbutton from "../Button/Xbutton";
 import "./Modal.css";
 
-function Modal({ show, icon, buttonAction, buttonName, onClose, children, title }) {
+function Modal({ children, show, title, onClose, icon, buttonAction, buttonName, buttonDisabled }) {
 	if (!show) {
 		document.body.style.removeProperty("overflow");
 		return null;
@@ -17,12 +17,11 @@ function Modal({ show, icon, buttonAction, buttonName, onClose, children, title 
 			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
 				<div className="modal-head">
 					<p className="modal-title">{title}</p>
-
 					<Xbutton className="modal-close" onClick={onClose}></Xbutton>
 				</div>
 				<div className="modal-body">{children}</div>
 				<div className="modal-foot">
-					<Button onClick={buttonAction} icon={icon} size={"wide"}>
+					<Button icon={icon} size={"wide"} onClick={buttonAction} disabled={buttonDisabled}>
 						{buttonName}
 					</Button>
 				</div>

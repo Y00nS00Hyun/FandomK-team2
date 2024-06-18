@@ -81,7 +81,9 @@ function LandingPage() {
 						가장 <b>쉽게 덕질</b> 하는 방법
 					</p>
 					<p className={style["main-article__logo"]}>
-						<Logo size="xl" />
+						<Link to={"/list"}>
+							<Logo size="xl" />
+						</Link>
 					</p>
 				</section>
 				<section className={style["main-article__button"]}>

@@ -1,13 +1,12 @@
 import React from "react";
-import BlockTitle from "../../../components/BlockTitle/BlockTitle";
 import DonationList from "./DonationList/DonationList";
+import TitleSection from "../../../components/TitleSection/TitleSection";
 
 function DonationWaitList({ mode, myCredit }) {
 	return (
-		<article>
-			<BlockTitle>후원을 기다리는 조공</BlockTitle>
+		<TitleSection title={"후원을 기다리는 조공"} carousel={true} size={"normal"}>
 			<DonationList mode={mode} />
-		</article>
+		</TitleSection>
 	);
 }
 
