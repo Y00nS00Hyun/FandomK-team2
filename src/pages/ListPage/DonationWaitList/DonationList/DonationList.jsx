@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import style from "./CardLocation.js";
-import settings from "./settings"; // 올바른 경로로 설정 파일을 가져옵니다.
+import settings from "./a.js";
 import useMediaQuery from "../../../../hooks/useMediaQuery.js";
 
 const PAGE_SIZES = {
