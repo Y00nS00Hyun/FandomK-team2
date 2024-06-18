@@ -4,8 +4,6 @@ import { getDonationList } from "../../../../api/donationsApi";
 import LodingImage from "../../../../components/LodingImage/LodingImage";
 import Card from "./DonationCard";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import style from "./CardLocation.js";
 import settings from "./a.js";
 import useMediaQuery from "../../../../hooks/useMediaQuery.js";
@@ -26,6 +24,9 @@ function DonationList() {
 
 	const items = data?.list || [];
 
+	// 아이템 인기순으로 정렬하기 👽
+	const sortedItems = items.sort((a, b) => b.receivedDonations - a.receivedDonations);
+
 	return (
 		<div>
 			{pending && <LodingImage />}
@@ -33,8 +34,8 @@ function DonationList() {
 			<div>
 				<style.SliderStyle>
 					<Slider {...settings}>
-						{items.map((item) => (
-							<div key={item.id}>
+						{sortedItems.map((item) => (
+							<div key={item.id} style={{ padding: "0 10px" }}>
 								<Card item={item} size={mode === "mobile" ? "small" : "medium"} />
 							</div>
 						))}

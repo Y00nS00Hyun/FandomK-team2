@@ -54,9 +54,7 @@ function Card({ item, size }) {
 					</style.Status>
 				</style.StatusInfo>
 			</style.InfoWrapper>
-			<div>
-				<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
-			</div>
+			<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
 		</style.Card>
 	);
 }
