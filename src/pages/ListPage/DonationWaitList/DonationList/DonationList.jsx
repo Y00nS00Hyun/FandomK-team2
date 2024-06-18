@@ -11,13 +11,14 @@ import settings from "./a.js";
 import useMediaQuery from "../../../../hooks/useMediaQuery.js";
 
 const PAGE_SIZES = {
-	desktop: 4,
-	others: 3,
+	desktop: 8,
+	tablet: 8,
+	mobile: 8,
 };
 
 function DonationList() {
 	const mode = useMediaQuery();
-	const pageSize = PAGE_SIZES[mode === "desktop" ? "desktop" : "others"];
+	const pageSize = PAGE_SIZES[mode];
 	const { refetchFunction, data, pending, error } = useAsync(getDonationList);
 	useEffect(() => {
 		refetchFunction({ pageSize });
