@@ -77,6 +77,7 @@ function DonationWaitList({ mode, myCreditState }) {
 		dots: false,
 		arrows: false,
 		speed: 500,
+		slidesToScroll: 2,
 		centerPadding: "0px",
 		infinite: false,
 		variableWidth: true,
