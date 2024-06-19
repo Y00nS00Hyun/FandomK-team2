@@ -37,7 +37,7 @@ function DonationWaitList({ mode, myCreditState }) {
 
 				const data = await refetchFunction(params);
 				if (data) {
-					// 데이터 중복 방지 로직 추가
+					// 👽 데이터 중복 방지 로직 추가
 					setIdols((prev) => {
 						const newData = data.list.filter((item) => !prev.some((prevItem) => prevItem.id === item.id));
 						return [...prev, ...newData];
@@ -69,7 +69,7 @@ function DonationWaitList({ mode, myCreditState }) {
 		getDataList();
 	}, [getDataList, load]);
 
-	// Sort idols by receivedDonations in descending order
+	// 👽 receivedDonations 많은 순으로 정렬
 	const sortedIdols = idols.sort((a, b) => b.receivedDonations - a.receivedDonations);
 
 	const settings = {
