@@ -86,8 +86,8 @@ const TextButton = styled.button`
 	}
 `;
 
-function MyCredit({ mode, creditState }) {
-	const [myCredit, setMyCredit] = creditState;
+function MyCredit({ mode, myCreditState }) {
+	const [myCredit, setMyCredit] = myCreditState;
 	const [creditValue, setcreditValue] = useState(0);
 	const [visibleModal, setVisibelModal] = useState(false);
 
