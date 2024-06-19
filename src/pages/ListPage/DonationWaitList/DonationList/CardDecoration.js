@@ -55,6 +55,8 @@ const INFOWRAPPER_HEIGHT = {
 
 // 😸 적용해보자 😸
 
+const SliderStyle = styled.div``;
+
 const Card = styled.div`
 	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
 	height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
@@ -88,13 +90,6 @@ const Block = styled.div`
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
-`;
-
-const SubmitButton = styled(Button)`
-	font-size: 13px;
-	width: ${({ size }) => BUTTON_WIDTHS[size] ?? BUTTON_WIDTHS["small"]};
-	height: ${({ size }) => BUTTON_HEIGHTS[size] ?? BUTTON_HEIGHTS["small"]};
-	z-index: 1;
 `;
 
 const SubmitButton = styled(Button)`
@@ -162,6 +157,6 @@ const StatusInfo = styled.div`
 
 // 😸 export 해보자 😸
 
-const style = { Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block };
+const style = { SliderStyle, Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block };
 
 export default style;

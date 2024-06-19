@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import Slider from "react-slick";
+import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -20,6 +19,7 @@ const settings = {
 	arrows: true, //이전 다음 버튼 표시 여부
 	speed: 500,
 	slidesToShow: 4,
+	slidesToScroll: 4,
 	//centerMode: true, //중앙에 슬라이드가 보여지는 모드 -> 왜 중앙으로 안가?????
 	centerPadding: "0px", //중앙에 슬라이드가 보여지는 모드에서 패딩 값
 	infinite: false,
@@ -33,7 +33,7 @@ const settings = {
 				slidesToShow: 3,
 				slidesToScroll: 1,
 				dots: true,
-				centerMode: true,
+				// centerMode: true,
 			},
 		},
 	],
