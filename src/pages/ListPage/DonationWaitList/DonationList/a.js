@@ -35,7 +35,7 @@ const settings = {
 	//draggable: false, //슬라이드 드래그 가능여부
 	arrows: false, //이전 다음 버튼 표시 여부
 	speed: 500,
-	//slidesToShow: 4, //centerMode: true, //중앙에 슬라이드가 보여지는 모드 -> 왜 중앙으로 안가?????
+	//slidesToShow: 4, //centerMode: true,
 	centerPadding: "0px", //중앙에 슬라이드가 보여지는 모드에서 패딩 값
 	infinite: false,
 	variableWidth: true, // 👽 12시간만에 찾아낸 width 조정 해결책 ㅠㅠㅠㅠㅠ
@@ -59,5 +59,5 @@ const settings = {
 export default settings;
 
 // 중요
-// 모바일&탭 사이즈일 때 왜 한 번 스크롤 해야 생기는걸까?
-// 저장할 때 마다 바가 하나씩 생기는 이유
+// 모바일&탭 사이즈일 때 왜 한 번 스크롤 해야 생기는걸까? (해결)
+// 저장할 때 마다 바가 하나씩 생기는 이유 (해결)
