@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CountUp } from "countup.js";
 import _ from "lodash";
 import Modal from "../../../components/Modal/Modal";
-import TopupModal from "../../../components/TestModals.js/TopupModal";
+import TopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/TopupModal";
 import CreditIcon from "../../../assets/images/symbol/symbol-credit.svg";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import Button from "../../../components/Button/Button";
@@ -127,7 +127,7 @@ function MyCredit({ mode, myCreditState }) {
 					</TextButton>
 				</RightSection>
 
-				<Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} buttonDisabled={creditValue === 0}>
+				<Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} disabled={creditValue === 0}>
 					<TopupModal handleChange={handleChange} />
 				</Modal>
 			</Article>
