@@ -26,9 +26,9 @@ const App = () => {
 	);
   };
   
-  export default App;*/
+export default App;*/
 
-function Modal({ show, icon, buttonAction, buttonName, onClose, children, title }) {
+function Modal({ show, icon, buttonAction, buttonDisabled, buttonName, onClose, children, title }) {
 	if (!show) {
 		document.body.style.removeProperty("overflow");
 		return null;
