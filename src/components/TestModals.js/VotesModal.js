@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import React, { useEffect, useState } from "react";
 import votes from "../TestModalModule.css/Votes.module.css";
 import InputRadio from "../../components/InputRadio/InputRadio";
 import Button from "../Button/Button";

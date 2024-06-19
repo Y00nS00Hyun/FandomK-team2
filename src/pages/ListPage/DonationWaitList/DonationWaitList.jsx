@@ -109,3 +109,5 @@ function DonationWaitList({ mode, myCreditState }) {
 }
 
 export default DonationWaitList;
+
+//<article style={{ width: "1200px", margin: "0 auto" }}>

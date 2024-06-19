@@ -9,10 +9,11 @@ function Card({ item, size, myCreditState }) {
 	const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
 	const displaysDay = dDay >= 0 ? dDay : 0;
 	const progressRef = useRef(null);
+	const progressBarRef = useRef(null);
 
 	useEffect(() => {
-		if (progressRef.current) {
-			const progressBar = new ProgressBar.Line(progressRef.current, {
+		if (progressRef.current && !progressBarRef.current) {
+			progressBarRef.current = new ProgressBar.Line(progressRef.current, {
 				strokeWidth: 1,
 				easing: "easeInOut",
 				duration: 1400,
@@ -26,20 +27,29 @@ function Card({ item, size, myCreditState }) {
 					bar.path.setAttribute("stroke", state.color);
 				},
 			});
-			const progress = item.receivedDonations / item.targetDonation;
-			progressBar.animate(progress);
 		}
+
+		if (progressBarRef.current) {
+			const progress = item.receivedDonations / item.targetDonation;
+			progressBarRef.current.animate(progress);
+		}
+
+		// Clean up the progress bar instance on unmount
+		return () => {
+			if (progressBarRef.current) {
+				progressBarRef.current.destroy();
+				progressBarRef.current = null;
+			}
+		};
 	}, [item.receivedDonations, item.targetDonation]);
 
 	return (
 		<style.Card size={size}>
 			<style.ImgButton>
 				<style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
-				<style.BlackGradation src="/blackgradation.png" size={size} />
+				<style.BlackGradation src="donationImg/blackgradation.png" size={size} />
 				<style.Block>
-					<style.SubmitButton size={size} disabled={credit < 1000}>
-						후원하기
-					</style.SubmitButton>
+					<style.SubmitButton size={size}>후원하기</style.SubmitButton>
 				</style.Block>
 			</style.ImgButton>
 			<style.InfoWrapper size={size}>
@@ -50,14 +60,14 @@ function Card({ item, size, myCreditState }) {
 				<style.StatusInfo>
 					<style.Status>
 						<style.Credit>
-							<img src="/CreditImg.png" alt="크레딧 이미지" />
+							<img src="donationImg/CreditImg.png" alt="크레딧 이미지" />
 							{item.targetDonation.toLocaleString()}
 						</style.Credit>
 						<style.Countdown>{displaysDay}일 남음</style.Countdown>
 					</style.Status>
-					<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
 				</style.StatusInfo>
 			</style.InfoWrapper>
+			<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
 		</style.Card>
 	);
 }

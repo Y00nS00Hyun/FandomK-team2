@@ -68,12 +68,6 @@
 	align-items: center;
 }
 
-.profileBox {
-	display: flex;
-	height: 70px;
-	align-items: center;
-}
-
 .profileInfo > span {
 	display: block;
 }

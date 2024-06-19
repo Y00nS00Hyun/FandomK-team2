@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Children } from "react";
 import InputRadio from "../InputRadio/InputRadio";
 import credit from "../../assets/images/icon/icon-credit.svg";
 import topup from "../TestModalModule.css/Topup.module.css";
+import Xbutton from "../Button/Xbutton";
+import Button from "../Button/Button";
 
 const CREDIT_UNITS = [{ unit: 100 }, { unit: 500 }, { unit: 1000 }];
 
@@ -18,6 +20,9 @@ function TopupModal({ handleChange }) {
 					</InputRadio>
 				))}
 			</div>
+			<Button icon={"credit"} size={"wide"} className={topup.button}>
+				충전하기
+			</Button>
 		</div>
 	);
 }

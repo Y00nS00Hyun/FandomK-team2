@@ -60,7 +60,8 @@ const SliderStyle = styled.div``;
 const Card = styled.div`
 	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
 	height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
-	margin: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
+	margin-left: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
+	margin-right: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
 `;
 
 const ImgButton = styled.div`
@@ -108,9 +109,8 @@ const InfoWrapper = styled.div`
 	justify-content: space-between;
 	padding-top: 10px;
 	margin-top: 10px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+
+	position: relative;
 `;
 // ellipsis 왜 안될까 -> 애니메이션이나 적용해볼까??
 
@@ -119,6 +119,9 @@ const Detail = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Status = styled.div`
@@ -127,6 +130,7 @@ const Status = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	gap: 10px;
+	position: relative;
 `;
 
 const Subtitle = styled.div`
