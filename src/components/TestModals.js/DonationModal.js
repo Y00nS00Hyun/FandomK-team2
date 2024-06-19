@@ -8,9 +8,10 @@ import Xbutton from "../Button/Xbutton";
 function DonationModal() {
 	return (
 		<div className={done.donationContainer}>
-			<Xbutton size="small" className={done.donationTop}>
+			<div className={done.donationTop}>
 				후원하기
-			</Xbutton>
+				<Xbutton $size={"small"} />
+			</div>
 			<div className={done.donationBody}>
 				<img src={avatar} className={done.donationImg} alt="연예인 프로필 사진" />
 				<div className={done.adTitle}>
@@ -18,13 +19,15 @@ function DonationModal() {
 					<span>민지 2023 첫 광고</span>
 				</div>
 				<div className={done.creditInputBox}>
-					<input type="number" name="chargeCredit" placeholder="크레딧 입력" className={done.creditInput} />
+					<input type="number" name="chargeCredit" className={done.creditInput} placeholder="크레딧 입력" />
 					<img src={credit} alt="크레딧 사진" />
 				</div>
-				<Button size={"wide"}>후원하기</Button>
+				<Button $size={"wide"}>후원하기</Button>
 			</div>
 		</div>
 	);
 }
 
 export default DonationModal;
+
+//className={done.donationButton} > 버튼 컴포넌트 css

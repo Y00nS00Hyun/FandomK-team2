@@ -12,5 +12,3 @@ function DonationWaitList({ mode, myCredit }) {
 }
 
 export default DonationWaitList;
-
-//<article style={{ width: "1200px", margin: "0 auto" }}>
