@@ -10,6 +10,7 @@ const CARET_ICONS = {
 	normal: {
 		left: LeftCaretButtonIcon,
 		right: RightCaretButtonIcon,
+		width: 40,
 	},
 	large: {
 		left: LeftCaretButtonLargeIcon,
@@ -18,14 +19,40 @@ const CARET_ICONS = {
 };
 
 const StyledButton = styled.button`
-	position: relative;
+	position: absolute;
+	${({ $direction }) => {
+		if ($direction === "left") {
+			return `
+        order: -1;
+        left: -80px;
+      `;
+		} else {
+			return `
+        order: 1;
+        right: -80px;
+      `;
+		}
+	}}
+	top: 50%;
+	transform: translateY(-50%);
 	border: none;
 	background: none;
+	width: auto;
+	height: auto;
+	opacity: 0.8;
 
-	order: ${({ $direction }) => ($direction === "left" ? -1 : 1)};
+	&:before {
+		content: none;
+	}
 
 	&:hover,
 	&:focus {
+		opacity: 1;
+	}
+
+	&[disabled] {
+		cursor: default;
+		opacity: 0.32;
 	}
 `;
 
