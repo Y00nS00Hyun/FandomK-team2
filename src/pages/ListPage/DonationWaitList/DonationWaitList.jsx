@@ -26,23 +26,30 @@ function DonationWaitList({ mode, myCreditState }) {
 
 	const { refetchFunction, pending, error } = useAsync(getDonationList);
 
-	const getDataList = useCallback(async (cursor) => {
-		try {
-			const params = { pageSize: pageSize * 2 };
-			if (cursor) {
-				params.pageSize = pageSize;
-				params.cursor = cursor;
-			}
+	const getDataList = useCallback(
+		async (cursor) => {
+			try {
+				const params = { pageSize: pageSize * 2 };
+				if (cursor) {
+					params.pageSize = pageSize;
+					params.cursor = cursor;
+				}
 
-			const data = await refetchFunction(params);
-			if (data) {
-				setIdols((prev) => [...prev, ...data?.list]);
-				setCursor(data.nextCursor);
+				const data = await refetchFunction(params);
+				if (data) {
+					// 👽 데이터 중복 방지 로직 추가
+					setIdols((prev) => {
+						const newData = data.list.filter((item) => !prev.some((prevItem) => prevItem.id === item.id));
+						return [...prev, ...newData];
+					});
+					setCursor(data.nextCursor);
+				}
+			} finally {
+				setDisableButton(false);
 			}
-		} finally {
-			setDisableButton(false);
-		}
-	}, []);
+		},
+		[refetchFunction, pageSize],
+	);
 
 	const slickNext = async () => {
 		try {
