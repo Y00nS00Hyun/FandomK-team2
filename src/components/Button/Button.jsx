@@ -110,7 +110,7 @@ const StyledButton = styled.button`
 function Button({ children, onClick, disabled, round, size, icon, ...args }) {
 	return (
 		<StyledButton $icon={icon} $round={round} $size={size} onClick={onClick} disabled={disabled} {...args}>
-			{icon && <Icon $icon={icon} src={ICON_IMAGES[icon].src} alt={`${icon} icon`} height={ICON_IMAGES[icon].size} />}
+			{icon && <Icon $icon={icon} src={ICON_IMAGES[icon].src} alt={`${icon} icon`} height={ICON_IMAGES[icon].size} draggable="false" />}
 			<span>{children}</span>
 		</StyledButton>
 	);

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { CountUp } from "countup.js";
 import _ from "lodash";
 import Modal from "../../../components/Modal/Modal";
 import TopupModal from "../../../components/TestModals.js/TopupModal";
 import CreditIcon from "../../../assets/images/symbol/symbol-credit.svg";
+import TitleSection from "../../../components/TitleSection/TitleSection";
+import Button from "../../../components/Button/Button";
 
 const PADDING_SIZES = {
 	desktop: "32px 80px",
@@ -68,7 +70,7 @@ const CreditText = styled.b`
 	line-height: 1;
 `;
 
-const Button = styled.button`
+const TextButton = styled.button`
 	display: block;
 	border: 1px solid transparent;
 	background: none;
@@ -84,8 +86,8 @@ const Button = styled.button`
 	}
 `;
 
-function MyCredit({ mode, creditState }) {
-	const [myCredit, setMyCredit] = creditState;
+function MyCredit({ mode, myCreditState }) {
+	const [myCredit, setMyCredit] = myCreditState;
 	const [creditValue, setcreditValue] = useState(0);
 	const [visibleModal, setVisibelModal] = useState(false);
 
@@ -105,25 +107,31 @@ function MyCredit({ mode, creditState }) {
 		setVisibelModal(false);
 	};
 
-	return (
-		<Article $mode={mode}>
-			<LeftSection>
-				<SummaryText>내 크레딧</SummaryText>
-				<CreditSection>
-					<Icon src={CreditIcon} alt={"크레딧 아이콘"} height={32} />
-					<CreditText id={"myCredit"}>{myCredit.toLocaleString()}</CreditText>
-				</CreditSection>
-			</LeftSection>
-			<RightSection>
-				<Button type={"button"} onClick={() => setVisibelModal(true)}>
-					충전하기
-				</Button>
-			</RightSection>
+	useEffect(() => {
+		if (!visibleModal) setcreditValue(0);
+	}, [visibleModal]);
 
-			<Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"}>
-				<TopupModal handleChange={handleChange} />
-			</Modal>
-		</Article>
+	return (
+		<>
+			<Article $mode={mode}>
+				<LeftSection>
+					<SummaryText>내 크레딧</SummaryText>
+					<CreditSection>
+						<Icon src={CreditIcon} alt={"크레딧 아이콘"} height={32} />
+						<CreditText id={"myCredit"}>{myCredit.toLocaleString()}</CreditText>
+					</CreditSection>
+				</LeftSection>
+				<RightSection>
+					<TextButton type={"button"} onClick={() => setVisibelModal(true)}>
+						충전하기
+					</TextButton>
+				</RightSection>
+
+				<Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} buttonDisabled={creditValue === 0}>
+					<TopupModal handleChange={handleChange} />
+				</Modal>
+			</Article>
+		</>
 	);
 }
 

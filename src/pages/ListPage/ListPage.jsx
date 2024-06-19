@@ -16,9 +16,9 @@ function ListPage() {
 
 	return (
 		<article>
-			<MyCredit mode={mode} creditState={[myCredit, setMyCredit]} />
-			<DonationWaitList mode={mode} myCredit={myCredit} />
-			<ChartOfMonth mode={mode} />
+			<MyCredit mode={mode} myCreditState={[myCredit, setMyCredit]} />
+			<DonationWaitList mode={mode} myCreditState={[myCredit, setMyCredit]} />
+			<ChartOfMonth mode={mode} myCreditState={[myCredit, setMyCredit]} />
 		</article>
 	);
 }
