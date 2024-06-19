@@ -23,6 +23,7 @@ function DonationWaitList({ mode, myCreditState }) {
 	const [idols, setIdols] = useState([]);
 	const [cursor, setCursor] = useState(null);
 	const [disableButton, setDisableButton] = useState(true);
+	const [currentSlide, setCurrentSlide] = useState(0); // 👽 (1) 슬라이드가 변경될 때 마다 현재 인덱스 업데이트
 
 	const { refetchFunction, pending, error } = useAsync(getDonationList);
 
@@ -81,6 +82,7 @@ function DonationWaitList({ mode, myCreditState }) {
 		centerPadding: "0px",
 		infinite: false,
 		variableWidth: true,
+		beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex), // 👽 (2) 슬라이드 변경 시 currentSlide 상태 업데이트
 		responsive: [
 			{
 				breakpoint: 1200,
@@ -114,8 +116,8 @@ function DonationWaitList({ mode, myCreditState }) {
 			</Slider>
 			{mode === "desktop" && (
 				<>
-					<CaretButton direction="right" onClick={slickNext} disabled={disableButton} />
-					<CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />
+					{currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}
+					{currentSlide !== sortedIdols.length - 4 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
 				</>
 			)}
 		</TitleSection>
