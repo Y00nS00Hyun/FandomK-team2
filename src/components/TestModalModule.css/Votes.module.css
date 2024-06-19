@@ -1,12 +1,12 @@
 /* 연예인 투표 모달 */
-.votesContainer {
+.Container {
 	width: 525px;
 	background-color: #181026;
 	padding: 24px 24px 12px;
 	border-radius: 12px;
 }
 
-.votesTop {
+.Top {
 	display: flex;
 	justify-content: space-between;
 	text-align: center;
@@ -17,19 +17,26 @@
 	margin-bottom: 19px;
 }
 
-.votesTop > p {
+.Top > p {
 	display: block;
 }
 
-.votesContents {
+.Contents {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 17px;
+	gap: 8px;
+	width: 100%;
 }
 
-.votesProfileContainer {
+.content {
+	width: 100%;
+}
+
+.ProfileContainer {
 	display: flex;
+	justify-content: space-between;
+	width: 100%;
 	height: 70px;
 	align-items: center;
 }
@@ -55,6 +62,12 @@
 	gap: 4px;
 }
 
+.profileBox {
+	display: flex;
+	height: 70px;
+	align-items: center;
+}
+
 .profileInfo > span {
 	display: block;
 }
@@ -69,7 +82,7 @@
 	height: 16px;
 }
 
-.voteButton {
+.button {
 	color: white;
 	background: linear-gradient(90deg, #f86f65 0%, #fe5493 100%);
 	width: 100%;
@@ -90,12 +103,7 @@
 	color: #f96d69;
 }
 
-/* vote-complite-button */
-.voteComplite-button {
-	background-color: #828282;
-}
-
-.closeButton {
-	width: 15.5px;
-	height: 15.5px;
+.areaLine {
+	border-bottom: 1px solid #ffffff1a;
+	margin: 8px 0;
 }

@@ -1,3 +1,10 @@
+/*인풋 number 타입 설정 시 발생하는 숫자 버튼 제거*/
+input::-webkit-inner-spin-button {
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+}
+
 /*연예인 후원하기 모달*/
 .donationContainer {
 	background-color: #181026;
