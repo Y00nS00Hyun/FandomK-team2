@@ -1,3 +1,6 @@
+*{
+  box-sizing: border-box;
+}
 
 h1{
   font-size: 24px;
@@ -5,22 +8,46 @@ h1{
 
 .vote{
   width:128px;
-  height:32px;
   font-size: 13px;
   padding:2px 16px 3px;
+  border-radius: 3px;
+  color:#FFFFFF;
+  background-image: linear-gradient(90deg,rgb(249,109,105),rgb(254,84,147));
 }
 
 .chartbar{
-  width:100%;
+  width:1200px;
   margin-top:80px;
-  padding:0 360px;
+  margin:0 360px;
 }
 
 .chartbar__header{
+  height:32px;
+  margin-bottom: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+
+.chart__ranking {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart__profile{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart__rank{
+  margin:0 12px;
+}
+
+
+
 
 .chartbar__gender{
   display:flex;
@@ -29,74 +56,83 @@ h1{
 }
 
 .chartbar__female{
+  background-color: #FFFFFF1A;
+  color:#FFFFFF;
+  font-size: 14px;
   width:50%;
 }
+
+.chart__vote{
+  display:flex;
+  justify-content: flex-end;
+}
+
 
 .chartbar__male{
+  background-color: #FFFFFF1A;
+  color:#FFFFFF;
   width:50%;
 }
 
-
-.item{
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid var(--color-white-10);
-  padding:8px 0px;
+.chartbar__male:visited{
+  background-color: #FFFFFF1A;
 }
 
-#rank9{
-  border-style:none;
+.chart__circle{
+  border-radius: 50%;
+  border: 1px solid #f96d69;
+  position:relative;
+  width:70px;
+  height:70px;
 }
 
-#rank10{
-  border-style:none;
+.chart__circle .chart__img{
+  border-radius: 50%;
+  height:60px;
+  width:60px;
+  position: absolute;
+  object-fit: cover;
+  margin:auto;
+  top:5px;
+  Left:5px;
 }
 
-/* #bottomRank{
-  border-style:none;
-  padding-bottom: 0px;
-} */
+.chart__rank{
+  color:#f96d69;
+}
 
 .container {
   margin-top: 24px;
   display: grid;
-  grid-template-columns: repeat(2,50%);
+  grid-template-columns: repeat(2,1fr);
   grid-template-rows: repeat(5,20%);
   grid-gap:0px 24px;
 }
 
-.viewMore{
-  display:flex;
-  margin:0 auto;
-  margin-top:51px;
-  border-radius: 3px;
-  color:var(--color-white-50);
-  background-color: var(--color-white-10);
-  font-size: 14px;
-  padding: 8px 143px;
-
+.viewMore {
+	display: flex;
+	margin: 0 auto;
+	margin-top: 51px;
+	border-radius: 3px;
+	color: var(--color-white-50);
+	background-color: var(--color-white-10);
+	font-size: 14px;
+	padding: 8px 143px;
 }
-
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
-  .chartbar{
-    width:100%;
-    padding:0px 24px 0px 20px;
-  }  
-
-
-}
-
-
-   
-/* Mobile */
-@media screen and (max-width: 767px) {
-  .charbar{
-    width:100%;
-    padding: 0px 24px;
+ 
+  .container {
+    display: flex;
+    flex-direction: column;
   }
 }
 
-
+/* Mobile */
+@media screen and (max-width: 767px) {
+	.charbar {
+		width: 100%;
+		padding: 0px 24px;
+	}
+}
