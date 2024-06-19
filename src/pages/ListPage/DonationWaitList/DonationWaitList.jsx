@@ -96,7 +96,12 @@ function DonationWaitList({ mode, myCreditState }) {
 				</>
 			)}
 			<Slider ref={sliderRef} {...settings}>
-				{idols && idols?.map((item) => <Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />)}
+				{idols &&
+					idols?.map((item) => (
+						<div key={item.id} style={{ padding: "0 10px" }}>
+							<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
+						</div>
+					))}
 			</Slider>
 			{mode === "desktop" && (
 				<>
