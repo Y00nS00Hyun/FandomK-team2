@@ -55,7 +55,6 @@ h1{
   align-items: center;
 }
 
-
 .chartbar__female{
   background-color: #FFFFFF1A;
   color:#FFFFFF;
@@ -110,16 +109,15 @@ h1{
   grid-gap:0px 24px;
 }
 
-.viewMore{
-  display:flex;
-  margin:0 auto;
-  margin-top:51px;
-  border-radius: 3px;
-  color:var(--color-white-50);
-  background-color: var(--color-white-10);
-  font-size: 14px;
-  padding: 8px 143px;
-
+.viewMore {
+	display: flex;
+	margin: 0 auto;
+	margin-top: 51px;
+	border-radius: 3px;
+	color: var(--color-white-50);
+	background-color: var(--color-white-10);
+	font-size: 14px;
+	padding: 8px 143px;
 }
 
 /* Tablet */
@@ -131,14 +129,10 @@ h1{
   }
 }
 
-
-   
 /* Mobile */
 @media screen and (max-width: 767px) {
-  .charbar{
-    width:100%;
-    padding: 0px 24px;
-  }
+	.charbar {
+		width: 100%;
+		padding: 0px 24px;
+	}
 }
-
-

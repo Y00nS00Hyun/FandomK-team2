@@ -4,6 +4,7 @@ import { getChartData } from "../../../api/chartsApi";
 import LodingImage from "../../../components/LodingImage/LodingImage";
 import BlockTitle from "../../../components/BlockTitle/BlockTitle";
 import style from "./ChartOfMonth.module.css";
+import TitleSection from "../../../components/TitleSection/TitleSection";
 import styled from "styled-components";
 
 /**
@@ -70,11 +71,11 @@ function ChartOfMonth({ mode }) {
 	const items = data?.idols || [];
 
 	return (
-		<section className={style["chartbar"]}>
-			<section className={style["chartbar__header"]}>
-				<BlockTitle>이달의 차트</BlockTitle>
-				<button className={style["vote"]}>차트 투표하기</button>
-			</section>
+		<TitleSection title={"이달의 차트"}>
+			<section className={style["chartbar"]}>
+				<section className={style["chartbar__header"]}>
+					<button className="vote">차트 투표하기</button>
+				</section>
 
 			<section className=""></section>
 			<section className={style["chartbar__gender"]}>
@@ -93,11 +94,11 @@ function ChartOfMonth({ mode }) {
 				 */}
 				{pending && <LodingImage />}
 
-				{/**
-				 * @JuhyeokC
-				 * 에러 출력
-				 */}
-				{error && <p>ERROR! {error.message}</p>}
+					{/**
+					 * @JuhyeokC
+					 * 에러 출력
+					 */}
+					{error && <p>ERROR! {error.message}</p>}
 
 				{/**
 				 * @JuhyeokC
@@ -120,10 +121,9 @@ function ChartOfMonth({ mode }) {
 					))}
 			</Container>
 
-			<button onClick={() => nextIdols(cursor)} className={style["viewMore"]}>
-				더보기
-			</button>
-		</section>
+				<button className={style["viewMore"]}> 더보기 </button>
+			</section>
+		</TitleSection>
 	);
 }
 
