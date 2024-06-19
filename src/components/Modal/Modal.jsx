@@ -28,7 +28,7 @@ const App = () => {
   
 export default App;*/
 
-function Modal({ show, icon, buttonAction, buttonDisabled, buttonName, onClose, children, title }) {
+function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, children, title }) {
 	if (!show) {
 		document.body.style.removeProperty("overflow");
 		return null;
@@ -45,7 +45,7 @@ function Modal({ show, icon, buttonAction, buttonDisabled, buttonName, onClose, 
 				</div>
 				<div className="modal-body">{children}</div>
 				<div className="modal-foot">
-					<Button icon={icon} size={"wide"} onClick={buttonAction} disabled={buttonDisabled}>
+					<Button icon={icon} size={"wide"} onClick={buttonAction} disabled={disabled}>
 						{buttonName}
 					</Button>
 				</div>

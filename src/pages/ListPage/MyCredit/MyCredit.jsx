@@ -127,7 +127,7 @@ function MyCredit({ mode, myCreditState }) {
 					</TextButton>
 				</RightSection>
 
-				<Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} buttonDisabled={creditValue === 0}>
+				<Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} disabled={creditValue === 0}>
 					<TopupModal handleChange={handleChange} />
 				</Modal>
 			</Article>
