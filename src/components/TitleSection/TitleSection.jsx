@@ -29,9 +29,6 @@ const Body = styled.section`
 
 const Content = styled.article`
 	position: relative;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 `;
 
 const Title = styled.p`
@@ -48,14 +45,14 @@ const Buttons = styled.section``;
  * @param {Object} action 영역 제목
  * @returns
  */
-function TitleSection({ children, title, action, bottomLine }) {
+function TitleSection({ children, title, action, carousel, bottomLine }) {
 	return (
-		<Article ㄴ={bottomLine}>
+		<Article $bottomLine={bottomLine}>
 			<Head $action={isEmpty(action)}>
 				<Title>{title}</Title>
 				{action && <Buttons>{action}</Buttons>}
 			</Head>
-			<Body $bottomLine={bottomLine}>
+			<Body $carousel={carousel}>
 				<Content>{children}</Content>
 			</Body>
 		</Article>
