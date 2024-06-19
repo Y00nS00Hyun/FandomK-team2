@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useAsync from "../../../hooks/useAsync";
 import { getChartData } from "../../../api/chartsApi";
 import LodingImage from "../../../components/LodingImage/LodingImage";
 import BlockTitle from "../../../components/BlockTitle/BlockTitle";
 import style from "./ChartOfMonth.module.css";
 import TitleSection from "../../../components/TitleSection/TitleSection";
+import styled from "styled-components";
 
 /**
  * @JuhyeokC
@@ -12,8 +13,25 @@ import TitleSection from "../../../components/TitleSection/TitleSection";
  */
 const PAGE_SIZES = {
 	desktop: 10,
-	others: 5,
+	tablet: 5,
+	mobile: 5,
 };
+
+const Container = styled.div`
+	${({ $mode }) => {
+		switch ($mode) {
+			case "desktop":
+				return `
+        border:1px solid red;
+        `;
+			default:
+				return `
+        border:1px solid blue;
+        display:flex;
+        `;
+		}
+	}}
+`;
 
 // TODO : 내가 개발할 곳 (이대진) 2024.06.10 13:20
 function ChartOfMonth({ mode }) {
@@ -23,6 +41,9 @@ function ChartOfMonth({ mode }) {
 	 */
 	const pageSize = PAGE_SIZES[mode];
 
+	const [gender, setGender] = useState("female");
+	const [cursor, setCursor] = useState(null);
+	// const [items,setItems] = useState([]);
 	/**
 	 * @JuhyeokC
 	 * useAsync 커스텀훅 사용
@@ -33,16 +54,21 @@ function ChartOfMonth({ mode }) {
 	 * @JuhyeokC
 	 * 렌더링 된 후 fetch 함수 실행
 	 */
-	useEffect(() => {
-		refetchFunction({ pageSize });
-	}, [refetchFunction, pageSize]);
 
+	useEffect(() => {
+		refetchFunction({ pageSize, gender }); // gender State  (set) => male/female
+		setCursor(data?.nextCursor);
+	}, [refetchFunction, pageSize, gender]); // 커서에 대한 함수 추가 (para => refetchFunction)
+
+	function nextIdols(cursor) {
+		refetchFunction({ pageSize, gender, cursor });
+		// setItems((prev)=>[...prev,data]);
+	}
 	/**
 	 * @JuhyeokC
 	 * data 가 업데이트될 때 idols 담길 items 와 더보기를 위한 cursor
 	 */
 	const items = data?.idols || [];
-	const cursor = data?.nextCursor;
 
 	return (
 		<TitleSection title={"이달의 차트"}>
@@ -51,18 +77,22 @@ function ChartOfMonth({ mode }) {
 					<button className="vote">차트 투표하기</button>
 				</section>
 
-				<section className=""></section>
-				<section className={style["chartbar__gender"]}>
-					<button className={style["chartbar__female"]}>이달의 여자 아이돌</button>
-					<button className={style["chartbar__male"]}>이달의 남자 아이돌</button>
-				</section>
+			<section className=""></section>
+			<section className={style["chartbar__gender"]}>
+				<button onClick={() => setGender("female")} className={style["chartbar__female"]}>
+					이달의 여자 아이돌
+				</button>
+				<button onClick={() => setGender("male")} className={style["chartbar__male"]}>
+					이달의 남자 아이돌
+				</button>
+			</section>
 
-				<section className={style["container"]}>
-					{/**
-					 * @JuhyeokC
-					 * 로딩 출력
-					 */}
-					{pending && <LodingImage />}
+			<Container className={style["container"]} $mode={mode}>
+				{/**
+				 * @JuhyeokC
+				 * 로딩 출력
+				 */}
+				{pending && <LodingImage />}
 
 					{/**
 					 * @JuhyeokC
@@ -70,65 +100,26 @@ function ChartOfMonth({ mode }) {
 					 */}
 					{error && <p>ERROR! {error.message}</p>}
 
-					{/**
-					 * @JuhyeokC
-					 * 데이터 출력
-					 */}
-					{items &&
-						items.map((item) => (
-							<article key={item.id}>
-								<p>
-									랭크: <span>{item.rank}</span>
-								</p>
-								<p>
-									프로필: <img src={item.profilePicture} alt={`${item.name} 프로필 이미지`} height={80} draggable="false" />
-								</p>
-								<p>
-									그룹: <span>{item.group}</span>
-								</p>
-								<p>
-									이름: <span>{item.name}</span>
-								</p>
-								<p>
-									성별: <span>{item.gender}</span>
-								</p>
-								<p>
-									투표수: <span>{item.totalVotes}</span>
-								</p>
-							</article>
-						))}
-
-					<div id="rank1" className={style["item"]}>
-						Item1
-					</div>
-					<div id="rank2" className={style["item"]}>
-						Item2
-					</div>
-					<div id="rank3" className={style["item"]}>
-						Item3
-					</div>
-					<div id="rank4" className={style["item"]}>
-						Item4
-					</div>
-					<div id="rank5" className={style["item"]}>
-						Item5
-					</div>
-					<div id="rank6" className={style["item"]}>
-						Item6
-					</div>
-					<div id="rank7" className={style["item"]}>
-						Item7
-					</div>
-					<div id="rank8" className={style["item"]}>
-						Item8
-					</div>
-					<div id="rank9" className={style["item"]}>
-						Item9
-					</div>
-					<div id="rank10" className={style["item"]}>
-						Item10
-					</div>
-				</section>
+				{/**
+				 * @JuhyeokC
+				 * 데이터 출력
+				 */}
+				{items &&
+					items.map((item) => (
+						<div key={item.id} className={style["chart__ranking"]}>
+							{/* <article key={item.id}> */}
+							<section className={style["chart__profile"]}>
+								<div className={style["chart__circle"]}>
+									<img className={style["chart__img"]} src={item.profilePicture} alt={`${item.name} 프로필 이미지`} height={80} draggable="false" />
+								</div>
+								<span className={style["chart__rank"]}>{item.rank}</span>
+								<div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
+							</section>
+							<div className={style["chart__vote"]}>{item.totalVotes}표</div>
+							{/* </article> */}
+						</div>
+					))}
+			</Container>
 
 				<button className={style["viewMore"]}> 더보기 </button>
 			</section>
@@ -137,18 +128,6 @@ function ChartOfMonth({ mode }) {
 }
 
 export default ChartOfMonth;
-
-{
-	/* <button // 모달창 띄우기
-      popovertarget = "mypopover"
-      popovertargetcation = "show">
-        Show popover</button>
-      <button popovertarget = "mypopover"
-      popovertargetcation = "hide">
-        Hide popover
-        </button>
-      <div id = "mypopover" popover> Popover content</div> */
-}
 
 /**
  * @JuhyeokC
