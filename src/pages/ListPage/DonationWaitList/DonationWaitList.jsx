@@ -5,15 +5,16 @@ import Slider from "react-slick";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import LodingImage from "../../../components/LodingImage/LodingImage";
 import Card from "./DonationList/DonationCard.jsx";
+import settings from "./DonationList/a.js";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 
 const PAGE_SIZES = {
-	desktop: 4,
-	tablet: 4,
-	mobile: 4,
+	desktop: 100,
+	tablet: 100,
+	mobile: 100,
 };
 
 function DonationWaitList({ mode, myCreditState }) {
@@ -62,30 +63,6 @@ function DonationWaitList({ mode, myCreditState }) {
 		getDataList();
 	}, [getDataList, load]);
 
-	const settings = {
-		rows: 1, //이미지를 몇 줄로 표시할지 개수
-		dots: false, //슬라이더 아래에 도트 네비게이션 버튼 표시 여부
-		draggable: false, //슬라이드 드래그 가능여부
-		arrows: false, //이전 다음 버튼 표시 여부
-		speed: 500,
-		slidesToShow: 4,
-		slidesToScroll: 4,
-		centerMode: false, //중앙에 슬라이드가 보여지는 모드 -> 왜 중앙으로 안가?????
-		infinite: false,
-		responsive: [
-			{
-				//작은 사이즈
-				breakpoint: 1200,
-				settings: {
-					draggable: true, //슬라이드 드래그 가능여부
-					slidesToShow: 3,
-					slidesToScroll: 1,
-					swipeToSlide: true,
-				},
-			},
-		],
-	};
-
 	return (
 		<TitleSection title={"후원을 기다리는 조공"} carousel={true} size={"normal"}>
 			{pending && idols.length === 0 && <LodingImage />}
@@ -105,6 +82,7 @@ function DonationWaitList({ mode, myCreditState }) {
 			</Slider>
 			{mode === "desktop" && (
 				<>
+					{/* 이전 다음 버튼 */}
 					<CaretButton direction="right" onClick={slickNext} disabled={disableButton} />
 					<CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />
 				</>
