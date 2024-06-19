@@ -18,9 +18,10 @@ const PAGE_SIZES = {
 
 function DonationWaitList({ mode, myCreditState }) {
 	const pageSize = PAGE_SIZES[mode];
+	const sliderRef = useRef(null);
+	const [load, setLoad] = useState(0);
 	const [idols, setIdols] = useState([]);
 	const [cursor, setCursor] = useState(null);
-	const sliderRef = useRef(null);
 	const [disableButton, setDisableButton] = useState(true);
 
 	const { refetchFunction, pending, error } = useAsync(getDonationList);
@@ -59,7 +60,7 @@ function DonationWaitList({ mode, myCreditState }) {
 
 	useEffect(() => {
 		getDataList();
-	}, [getDataList]);
+	}, [getDataList, load]);
 
 	const settings = {
 		rows: 1, //이미지를 몇 줄로 표시할지 개수
@@ -88,7 +89,12 @@ function DonationWaitList({ mode, myCreditState }) {
 	return (
 		<TitleSection title={"후원을 기다리는 조공"} carousel={true} size={"normal"}>
 			{pending && idols.length === 0 && <LodingImage />}
-			{error && <p>{error.message}에러발생🦄</p>}
+			{error && (
+				<>
+					<p>{error.message}에러발생🦄</p>
+					<button onClick={() => setLoad((prev) => ++prev)}>RELOAD</button>
+				</>
+			)}
 			<Slider ref={sliderRef} {...settings}>
 				{idols && idols?.map((item) => <Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />)}
 			</Slider>
