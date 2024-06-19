@@ -46,6 +46,7 @@ export default function useAsync(fetchFunction) {
 				setError(null);
 				const response = await fetchFunction(...args);
 				setData(response);
+				return response;
 			} catch (error) {
 				setError(error);
 			} finally {
