@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
 import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
+import Symbol from "../../assets/images/symbol/symbol-credit-white.svg";
 
 const Header = styled.header`
 	position: fixed;
@@ -15,42 +16,49 @@ const Header = styled.header`
 
 const Inner = styled.section`
 	position: relative;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	align-items: center;
 	height: ${({ $headerHeight }) => ($headerHeight ? $headerHeight : 80)}px;
 	filter: drop-shadow(0 0 2px var(--background-color-basic));
 `;
 
-const LogoSection = styled.section`
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	& a {
+const Section = styled.section`
+	& a,
+	& img {
 		display: block;
 	}
 `;
 
-const UserSection = styled.section`
-	position: absolute;
-	top: 50%;
-	right: 0;
-	transform: translateY(-50%);
+const LogoButton = styled.button`
+	border: none;
+	background: none;
 `;
 
 function RootHeader({ headerHeight }) {
-	const navigate = useNavigate();
+	const { pathname } = useLocation();
 
 	return (
 		<Header>
 			<Inner className="inner" $headerHeight={headerHeight}>
-				<LogoSection>
+				<Section>
 					<Link to={"/"}>
-						<Logo size={"lg"} />
+						<img src={Symbol} alt={"Credit symbol"} height={32} draggable="false" />
 					</Link>
-				</LogoSection>
+				</Section>
 
-				<UserSection>
-					<img src={SkeletonAvater} alt={"기본 아바타 이미지"} onClick={() => navigate("/mypage")} style={{ cursor: "pointer" }} height={32} />
-				</UserSection>
+				<Section>
+					<LogoButton onClick={() => window.location.replace(pathname)}>
+						<Logo size={"lg"} />
+					</LogoButton>
+				</Section>
+
+				<Section>
+					<Link to={"/mypage"}>
+						<img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={32} draggable="false" />
+					</Link>
+				</Section>
 			</Inner>
 		</Header>
 	);
