@@ -18,11 +18,15 @@ function DonationModal({ onClose }) {
 						<span className={done.adWhere}>강남역 광고</span>
 						<span>민지 2023 첫 광고</span>
 					</div>
-					<div className={done.creditInputBox}>
-						<input type="number" name="chargeCredit" placeholder="크레딧 입력" className={done.creditInput} />
-						<img src={credit} alt="크레딧 사진" />
-					</div>
-					<Button size={"wide"}>후원하기</Button>
+					<form>
+						<div className={done.creditInputBox}>
+							<input className={done.creditInput} type="number" name="chargeCredit" placeholder="크레딧 입력" min={1} max={9999} />
+							<img src={credit} alt="크레딧 사진" />
+						</div>
+						<Button type="submit" size={"wide"}>
+							후원하기
+						</Button>
+					</form>
 				</div>
 			</div>
 		</div>

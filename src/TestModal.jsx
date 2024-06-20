@@ -3,6 +3,7 @@ import PopupModal from "./components/Modal/Fandom-k_Modal/modal.js/PopupModal";
 import VotesModal from "./components/Modal/Fandom-k_Modal/modal.js/VotesModal";
 import TopupModal from "./components/Modal/Fandom-k_Modal/modal.js/TopupModal";
 import DonationModal from "./components/Modal/Fandom-k_Modal/modal.js/DonationModal";
+import Button from "./components/Button/Button";
 
 function TestModal() {
 	const [popup, setPopup] = useState(false);
@@ -25,19 +26,23 @@ function TestModal() {
 	return (
 		<>
 			<div>
-				<button onClick={popupOpen}>open popup modal</button>
+				<Button onClick={popupOpen}>credit notification</Button>
 				{popup && <PopupModal onClose={popupClose} />}
 			</div>
 			<div>
-				<button onClick={votesOpen}>Open votes Modal</button>
+				<Button onClick={votesOpen} size={"small"} icon={"chart"}>
+					차트 투표하기
+				</Button>
 				{votes && <VotesModal onClose={votesClose} />}
 			</div>
 			<div>
-				<button onClick={topupOpen}>Open topup Modal</button>
+				<Button onClick={topupOpen}>Open topup Modal</Button>
 				{topup && <TopupModal onClose={topupClose} />}
 			</div>
 			<div>
-				<button onClick={donationOpen}>Open donation Modal</button>
+				<Button onClick={donationOpen} size={"large"}>
+					후원하기
+				</Button>
 				{donation && <DonationModal onClose={donationClose} />}
 			</div>
 		</>
