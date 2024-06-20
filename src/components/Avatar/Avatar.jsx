@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ChekIcon from "../../assets/images/icon/icon-check.svg";
+import XIcon from "../../assets/images/icon/icon-X.svg";
 
 /*
 목록 페이지
@@ -46,7 +47,7 @@ const Article = styled.article`
 	border: 2px solid var(--color-brand-orange);
 `;
 
-const Photo = styled.div`
+const Cover = styled.div`
 	position: absolute;
 	width: 90%;
 	height: 90%;
@@ -54,8 +55,6 @@ const Photo = styled.div`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	border-radius: 9999px;
-	background-position: center;
-	background-size: cover;
 	z-index: 1;
 
 	${({ $checked }) =>
@@ -82,9 +81,18 @@ const Photo = styled.div`
   `}
 `;
 
+const Photo = styled.img`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 9999px;
+	object-fit: cover;
+	cursor: pointer;
+`;
+
 /**
  * @param {string} src - 아이돌 이미지 주소
- * @param {string} size - 아바타 크기 = [ 'basic', 'monileAddIdol', 'otherMyIdol', 'otherAddIdol']
+ * @param {string} size - 아바타 크기 = [ 'basic', 'mobileAddIdol', 'otherMyIdol', 'otherAddIdol']
  * @param {boolean} checked - 선택 = checked만 적기
  *
  *
@@ -92,11 +100,12 @@ const Photo = styled.div`
  * <Avatar src={profilePicture} size={"basic"} alt={${아이돌 이름} 프로필 이미지} onClick={() => 아이돌 선택 함수} checked/>
  */
 
-function Avatar({ children, onClick, src, size, alt, checked, ...args }) {
+function Avatar({ onClick, src, size, alt, checked, ...args }) {
 	return (
 		<Article $size={size} onClick={onClick} {...args}>
-			<Photo style={{ backgroundImage: "url(" + src + ")" }} alt={alt} $checked={checked}></Photo>
-			<span>{children}</span>
+			<Cover $checked={checked}>
+				<Photo src={src} alt={alt} />
+			</Cover>
 		</Article>
 	);
 }
