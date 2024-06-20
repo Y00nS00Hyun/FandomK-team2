@@ -22,11 +22,9 @@ const Container = styled.div`
 		switch ($mode) {
 			case "desktop":
 				return `
-        border:1px solid red;
         `;
 			default:
 				return `
-        border:1px solid blue;
         display:flex;
         `;
 		}
@@ -84,6 +82,14 @@ function ChartOfMonth({ mode }) {
 
 	/**
 	 * @JuhyeokC
+	 * 차트 투표하기 모달 출력
+	 */
+	function handleClick() {
+		console.log("차트 투표하기 모달 출력");
+	}
+
+	/**
+	 * @JuhyeokC
 	 * 렌더링 된 후 데이터호출 함수 실행 이후
 	 * pageSize, gender 스테이트가 변경될 때 마다 실행
 	 */
@@ -95,20 +101,11 @@ function ChartOfMonth({ mode }) {
 		<TitleSection
 			title={"이달의 차트"}
 			action={
-				<Button icon={"chart"} size={"small"} onClick={() => console.log("차트 투표하기 모달 출력")}>
+				<Button icon={"chart"} size={"small"} onClick={handleClick}>
 					차트 투표하기
 				</Button>
 			}
 		>
-			<section className={style["chartbar__gender"]}>
-				<button onClick={() => setGender("female")} className={style["chartbar__female"]}>
-					이달의 여자 아이돌
-				</button>
-				<button onClick={() => setGender("male")} className={style["chartbar__male"]}>
-					이달의 남자 아이돌
-				</button>
-			</section>
-
 			{/**
 			 * @JuhyeokC
 			 * 데이터호출 함수 실행 이후
@@ -126,21 +123,31 @@ function ChartOfMonth({ mode }) {
 					{pending ? (
 						<LodingImage />
 					) : (
-						<Container className={style["container"]} $mode={mode}>
-							{items &&
-								items.map((item) => (
-									<article key={item.id} className={style["chart__ranking"]}>
-										<section className={style["chart__profile"]}>
-											<div className={style["chart__circle"]}>
-												<img className={style["chart__img"]} src={item.profilePicture} alt={`${item.name} 프로필 이미지`} height={80} draggable="false" />
-											</div>
-											<span className={style["chart__rank"]}>{item.rank}</span>
-											<div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
-										</section>
-										<div className={style["chart__vote"]}>{item.totalVotes}표</div>
-									</article>
-								))}
-						</Container>
+						<>
+							<section className={style["chartbar__gender"]}>
+								<button onClick={() => setGender("female")} className={`${style["chartbar__female"]} ${gender === "female" ? style["selected"] : ""}`}>
+									이달의 여자 아이돌
+								</button>
+								<button onClick={() => setGender("male")} className={`${style["chartbar__male"]} ${gender === "male" ? style["selected"] : ""}`}>
+									이달의 남자 아이돌
+								</button>
+							</section>
+							<Container className={style["container"]} $mode={mode}>
+								{items &&
+									items.map((item) => (
+										<article key={item.id} className={style["chart__ranking"]}>
+											<section className={style["chart__profile"]}>
+												<div className={style["chart__circle"]}>
+													<img className={style["chart__img"]} src={item.profilePicture} alt={`${item.name} 프로필 이미지`} height={80} draggable="false" />
+												</div>
+												<span className={style["chart__rank"]}>{item.rank}</span>
+												<div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
+											</section>
+											<div className={style["chart__vote"]}>{item.totalVotes}표</div>
+										</article>
+									))}
+							</Container>
+						</>
 					)}
 				</>
 			)}

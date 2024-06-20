@@ -52,24 +52,35 @@ h1 {
 }
 
 .chartbar__female {
-	background-color: #ffffff1a;
-	color: #ffffff;
-	font-size: 14px;
+	background-color: #02000e;
+	border-style: none;
+	color: rgb(130, 130, 130);
 	width: 50%;
+	padding: 12px;
+	font-size: 14px;
 }
 
+/* transition */
+/* calc  */
 .chart__vote {
 	display: flex;
 	justify-content: flex-end;
 }
 
 .chartbar__male {
-	background-color: #ffffff1a;
-	color: #ffffff;
+	background-color: #02000e;
+	border-style: none;
+	color: rgb(130, 130, 130);
 	width: 50%;
+	padding: 12px;
+	font-size: 14px;
 }
 
-.chartbar__male:visited {
+.selected {
+	background-color: #ffffff1a;
+}
+
+.chartbar__male:hover {
 	background-color: #ffffff1a;
 }
 

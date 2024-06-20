@@ -54,7 +54,7 @@ import { useState } from "react";
 export default function useAsync(asyncFunction) {
 	const [pending, setPending] = useState(false);
 	const [error, setError] = useState(null);
-
+  
 	async function execute(...args) {
 		try {
 			setPending(true);
@@ -67,6 +67,6 @@ export default function useAsync(asyncFunction) {
 			setPending(false);
 		}
 	}
-
+  
 	return [pending, error, execute];
 }
