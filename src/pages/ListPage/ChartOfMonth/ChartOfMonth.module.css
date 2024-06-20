@@ -1,16 +1,14 @@
-*{
-  box-sizing: border-box;
+* {
+	box-sizing: border-box;
 }
 
-h1{
-  font-size: 24px;
+h1 {
+	font-size: 24px;
 }
 
 .chartbar{
   margin:0 auto;
 }
-
-
 
 .chartbar__header{
   height:32px;
@@ -19,7 +17,6 @@ h1{
   justify-content: space-between;
   align-items: center;
 }
-
 
 .chart__ranking {
   display: flex;
@@ -36,8 +33,8 @@ h1{
   
 }
 
-.chart__rank{
-  margin:0 12px;
+.chart__rank {
+	margin: 0 12px;
 }
 
 .chartbar__gender{
@@ -46,13 +43,13 @@ h1{
   align-items: center;
 }
 
-.chartbar__female{
-  background-color: #02000E;
-  border-style: none;
-  color:rgb(130,130,130);
-  width:50%;
-  padding:12px;
-  font-size: 14px;
+.chartbar__female {
+	background-color: #02000e;
+	border-style: none;
+	color: rgb(130, 130, 130);
+	width: 50%;
+	padding: 12px;
+	font-size: 14px;
 }
 
   /* transition */
@@ -65,14 +62,13 @@ h1{
   padding-right:30px;
 }
 
-
-.chartbar__male{
-  background-color: #02000E;
-  border-style: none;
-  color:rgb(130,130,130);
-  width:50%;
-  padding:12px;
-  font-size: 14px;
+.chartbar__male {
+	background-color: #02000e;
+	border-style: none;
+	color: rgb(130, 130, 130);
+	width: 50%;
+	padding: 12px;
+	font-size: 14px;
 }
 
 .selected{
@@ -81,33 +77,31 @@ h1{
   color:white;
 }
 
-
-.chartbar__male:hover{
-  background-color: #FFFFFF1A;
+.chartbar__male:hover {
+	background-color: #ffffff1a;
 }
 
-
-.chart__circle{
-  border-radius: 50%;
-  border: 1px solid #f96d69;
-  position:relative;
-  width:70px;
-  height:70px;
+.chart__circle {
+	border-radius: 50%;
+	border: 1px solid #f96d69;
+	position: relative;
+	width: 70px;
+	height: 70px;
 }
 
-.chart__circle .chart__img{
-  border-radius: 50%;
-  height:60px;
-  width:60px;
-  position: absolute;
-  object-fit: cover;
-  margin:auto;
-  top:5px;
-  Left:5px;
+.chart__circle .chart__img {
+	border-radius: 50%;
+	height: 60px;
+	width: 60px;
+	position: absolute;
+	object-fit: cover;
+	margin: auto;
+	top: 5px;
+	left: 5px;
 }
 
-.chart__rank{
-  color:#f96d69;
+.chart__rank {
+	color: #f96d69;
 }
 
 .container {
@@ -139,11 +133,10 @@ h1{
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
- 
-  .container {
-    display: flex;
-    flex-direction: column;
-  }
+	.container {
+		display: flex;
+		flex-direction: column;
+	}
 }
 
 /* Mobile */
