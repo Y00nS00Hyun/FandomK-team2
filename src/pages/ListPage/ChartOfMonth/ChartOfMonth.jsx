@@ -156,6 +156,7 @@ function ChartOfMonth({ mode }) {
 				더보기
 			</button>
 		</TitleSection>
+
 	);
 }
 

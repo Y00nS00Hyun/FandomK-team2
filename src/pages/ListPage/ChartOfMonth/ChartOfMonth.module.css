@@ -33,22 +33,25 @@ h1 {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	border-bottom: 1px solid #ffffff1a;
+	padding-bottom: 8px;
 }
 
-.chart__profile {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.chart__profile{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  
 }
 
 .chart__rank {
 	margin: 0 12px;
 }
 
-.chartbar__gender {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.chartbar__gender{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .chartbar__female {
@@ -60,11 +63,14 @@ h1 {
 	font-size: 14px;
 }
 
-/* transition */
-/* calc  */
-.chart__vote {
-	display: flex;
-	justify-content: flex-end;
+  /* transition */
+  /* calc  */
+.chart__vote{
+  display:flex;
+  justify-content: flex-end;
+  color:#FFFFFF99;
+  font-size:14px;
+  padding-right:30px;
 }
 
 .chartbar__male {
@@ -78,6 +84,8 @@ h1 {
 
 .selected {
 	background-color: #ffffff1a;
+	border-bottom: 1px solid #ffffff;
+	color: white;
 }
 
 .chartbar__male:hover {
@@ -113,17 +121,25 @@ h1 {
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(5, 20%);
 	grid-gap: 0px 24px;
+	grid-auto-rows: 79px;
+	column-gap: 24px;
+	row-gap: 8px;
 }
 
 .viewMore {
 	display: flex;
 	margin: 0 auto;
-	margin-top: 51px;
 	border-radius: 3px;
+	border: 1px solid #f1eef9cc;
 	color: var(--color-white-50);
-	background-color: var(--color-white-10);
+	background-color: #ffffff1a;
 	font-size: 14px;
 	padding: 8px 143px;
+	margin-top: 51px;
+}
+
+.viewMore:hover {
+	background-color: #f96d69;
 }
 
 /* Tablet */
