@@ -8,8 +8,9 @@ import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 
-//아니 DonationModal 파일 경로 맞는데 왜 잘못됐다고 뜨는거야!!!!!!!!!!
-import DonationModal from "../../../components/Modal/Fandom-K_Modal/modal.js/DonationModal";
+import Modal from "../../../components/Modal/Modal";
+import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
