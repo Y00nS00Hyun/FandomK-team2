@@ -7,9 +7,10 @@ h1{
 }
 
 .chartbar{
-  width:1200px;
   margin:0 auto;
 }
+
+
 
 .chartbar__header{
   height:32px;
@@ -24,12 +25,15 @@ h1{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #FFFFFF1A;
+  padding-bottom:8px;
 }
 
 .chart__profile{
   display:flex;
   justify-content: space-between;
   align-items: center;
+  
 }
 
 .chart__rank{
@@ -40,7 +44,6 @@ h1{
   display:flex;
   justify-content: space-between;
   align-items: center;
-
 }
 
 .chartbar__female{
@@ -57,6 +60,9 @@ h1{
 .chart__vote{
   display:flex;
   justify-content: flex-end;
+  color:#FFFFFF99;
+  font-size:14px;
+  padding-right:30px;
 }
 
 
@@ -71,6 +77,8 @@ h1{
 
 .selected{
   background-color: #FFFFFF1A;
+  border-bottom: 1px solid #FFFFFF;
+  color:white;
 }
 
 
@@ -108,17 +116,25 @@ h1{
   grid-template-columns: repeat(2,1fr);
   grid-template-rows: repeat(5,20%);
   grid-gap:0px 24px;
+  grid-auto-rows: 79px;
+  column-gap: 24px;
+  row-gap: 8px;
 }
 
 .viewMore {
 	display: flex;
 	margin: 0 auto;
-	margin-top: 51px;
 	border-radius: 3px;
+  border: 1px solid #F1EEF9CC;
 	color: var(--color-white-50);
-	background-color: var(--color-white-10);
+	background-color: #FFFFFF1A;
 	font-size: 14px;
 	padding: 8px 143px;
+  margin-top: 51px;
+}
+
+.viewMore:hover{
+  background-color: #f96d69;
 }
 
 /* Tablet */

@@ -77,9 +77,7 @@ function ChartOfMonth({ mode }) {
 			<section className={style["chartbar"]}>
 				{/* <section className={style["chartbar__header"]}>
 				</section> */}
-
-			<section className=""></section>
-			<section className={style["chartbar__gender"]}>
+			<sehction className={style["chartbar__gender"]}>
 				<button 
         onClick={() => setGender("female")}
          className={`${style["chartbar__female"]} ${gender === "female" ?style["selected"] : ""}`}>
@@ -88,10 +86,9 @@ function ChartOfMonth({ mode }) {
 				<button 
         onClick={() => setGender("male")}
          className={`${style["chartbar__male"]} ${gender === "male" ?style["selected"] : ""}`}>
-
 					이달의 남자 아이돌
 				</button>
-			</section>
+			</sehction>
 
 			<Container className={style["container"]} $mode={mode}>
 				{/**
@@ -127,9 +124,10 @@ function ChartOfMonth({ mode }) {
 					))}
 			</Container>
 
-				<button className={style["viewMore"]}> 더보기 </button>
 			</section>
+      <button className={style["viewMore"]}> 더보기 </button>
 		</TitleSection>
+
 	);
 }
 
