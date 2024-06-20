@@ -164,7 +164,6 @@ const Countdown = styled.div`
 `;
 
 const StatusInfo = styled.div`
-	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
 	height: 26px;
 `;
 

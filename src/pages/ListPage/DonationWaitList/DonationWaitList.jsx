@@ -24,10 +24,7 @@ function DonationWaitList({ mode, myCreditState }) {
 
 	const getData = async (cursor) => {
 		const params = { pageSize: PAGE_SIZES * 2 }; // 초기 로드 될 때 본래사이즈 보다 2배 사이즈로 호출
-		if (cursor) {
-			params.pageSize = PAGE_SIZES; // 커서가 있을 때 본래 사이즈 만큼 추가 로드
-			params.cursor = cursor; // 커서가 있을 때 커서 추가 (더보기)
-		}
+		if (cursor) params.cursor = cursor; // 커서가 있을 때 커서 추가 (더보기)
 
 		const result = await execute(params); // 데이터 호출
 		if (!result) return; // 호출 실패 시 함수 종료
@@ -50,6 +47,10 @@ function DonationWaitList({ mode, myCreditState }) {
 		setDisableButton(false); // prev, next 버튼 활성화
 	};
 
+	const moreIdols = async () => {
+		if (cursor) await getData({ cursor }); // 추가 데이터 요청
+	};
+
 	// 슬라이드 처음으로
 	const slickFirst = () => sliderRef.current.slickGoTo(0);
 
@@ -65,7 +66,7 @@ function DonationWaitList({ mode, myCreditState }) {
 	};
 
 	useEffect(() => {
-		getData({ PAGE_SIZES });
+		getData();
 	}, [reload]);
 
 	const settings = {
@@ -79,9 +80,9 @@ function DonationWaitList({ mode, myCreditState }) {
 		variableWidth: true,
 		beforeChange: (oldIndex, newIndex) => {
 			setDisableButton(true); // prev, next 버튼 비활성화
-			setDisableButton(true);
+			// setDisableButton(true);
 			//오류 떠서 일단 주석 해놓음
-			//if (newIndex > idols.length - 3) moreIdols();
+			if (newIndex > idols.length - 3) moreIdols();
 			setCurrentSlide(newIndex);
 		}, // 💀 (2) 슬라이드 변경 시 currentSlide 상태 업데이트
 		afterChange: (index) => {
