@@ -15,25 +15,21 @@ const CARET_ICONS = {
 	large: {
 		left: LeftCaretButtonLargeIcon,
 		right: RightCaretButtonLargeIcon,
+		width: 29,
 	},
 };
 
+/* eslint-disable-next-line */
 const StyledButton = styled.button`
 	position: absolute;
-	${({ $direction }) => {
+	top: 50%;
+	${({ $direction, $gap }) => {
 		if ($direction === "left") {
-			return `
-        order: -1;
-        left: -80px;
-      `;
+			return `left: -${$gap}px;`;
 		} else {
-			return `
-        order: 1;
-        right: -80px;
-      `;
+			return `right: -${$gap}px;`;
 		}
 	}}
-	top: 50%;
 	transform: translateY(-50%);
 	border: none;
 	background: none;
@@ -62,9 +58,10 @@ const CaretImage = styled.img`
 
 function CaretButton({ direction = "left", size = "normal", ...args }) {
 	const icon = CARET_ICONS[size][direction];
+	const gap = CARET_ICONS[size].width * 2;
 
 	return (
-		<StyledButton $direction={direction} {...args}>
+		<StyledButton $direction={direction} $gap={gap} {...args}>
 			<CaretImage src={icon} alt={`${direction} caret icon`} draggable="false" />
 		</StyledButton>
 	);

@@ -67,6 +67,7 @@ function LandingPage() {
 							display: "block",
 							padding: "16px",
 						}}
+						draggable="false"
 					>
 						마이페이지
 					</Link>
@@ -81,7 +82,7 @@ function LandingPage() {
 						가장 <b>쉽게 덕질</b> 하는 방법
 					</p>
 					<p className={style["main-article__logo"]}>
-						<Link to={"/list"}>
+						<Link to={"/list"} draggable="false">
 							<Logo size="xl" />
 						</Link>
 					</p>

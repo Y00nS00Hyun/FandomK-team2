@@ -1,88 +1,117 @@
-import React, { useEffect, useMemo, useState } from "react";
-import BlockTitle from "../../../components/BlockTitle/BlockTitle";
-import useMediaQuery from "../../../hooks/useMediaQuery";
-import useAsync from "../../../hooks/useAsync";
-import { getIdolList } from "../../../api/idolsApi";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import styled from "styled-components";
+import Slider from "react-slick";
 import { isEmpty } from "lodash";
-import LodingImage from "../../../components/LodingImage/LodingImage";
-import Button from "../../../components/Button/Button";
+import TitleSection from "../../../components/TitleSection/TitleSection";
 import Avatar from "../../../components/Avatar/Avatar";
-import style from "../AddFavoriteIdols/avatarStyle.css";
+import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-//기종별 불러올 아이돌 데이터 크기(갯수)
+const Container = styled.article`
+	position: relative;
+`;
+
+// 기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
-	test: 3,
-	mobile: 6,
-	tablet: 8,
 	desktop: 16,
+	tablet: 8,
+	mobile: 6,
 };
 
-function MyFavoriteIdols({ mode, setMyFavoriteIdolsState }) {
-	const [myFavoriteIdols, setMyFavoriteIdols] = setMyFavoriteIdolsState;
-	const pageSize = PAGE_SIZES["test"];
+function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
+	const pageSize = PAGE_SIZES[mode];
 	const profilSize = useMemo(() => {
 		if (mode === "mobile") return "basic";
 		else return "otherMyIdol";
 	}, [mode]);
+	let sliderRef = useRef(null);
+	const [myFavoriteIdols, setMyFavoriteIdols] = myFavoriteIdolsState;
+
+	// 슬라이드 처음으로
+	const slickFirst = () => sliderRef.slickGoTo(0);
+
+	// 슬라이드 이전으로
+	const slickPrev = () => sliderRef.slickPrev();
+
+	// 슬라이드 다음으로
+	const slickNext = async () => sliderRef.slickNext();
 
 	/**
 	 * @JuhyeokC
-	 * useAsync 커스텀훅 사용
+	 * 크아악!!!!
+	 * 적용하고 넘겨드리고 싶었는데 ㅜㅜ
+	 * 슬라이더 설정 정말 모르겠어요 ㅜㅜ
+	 * https://react-slick.neostack.com/docs/get-started
 	 */
-	const { refetchFunction, data, pending, error } = useAsync(getIdolList);
+	const checkSize = pageSize / 2 < myFavoriteIdols.length;
+	const rowSize = checkSize ? 2 : 1;
 
-	/**
-	 * @JuhyeokC
-	 * 렌더링 된 후 fetch 함수 실행
-	 */
-	useEffect(() => {
-		refetchFunction({ pageSize });
-	}, [refetchFunction, pageSize]);
-
-	/**
-	 * @JuhyeokC
-	 * data 가 업데이트될 때 list가 담길 items
-	 */
-	console.log({ myFavoriteIdols });
-	const items = myFavoriteIdols;
+	const settings = {
+		rows: rowSize,
+		slidesToShow: pageSize / 2,
+		swipeToSlide: true,
+		infinite: true,
+		speed: 500,
+		centerPadding: "0px",
+		arrows: false,
+		dots: false,
+		beforeChange: (oldIndex, newIndex) => {},
+		afterChange: (index) => {},
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					arrows: false,
+					draggable: true,
+					slidesToScroll: "auto",
+					dots: true,
+					centerMode: true,
+					infinite: false,
+				},
+			},
+		],
+	};
 
 	return (
-		<article className="mypage myidol">
-			<section className="mypage__title">
-				<BlockTitle>내가 관심있는 아이돌</BlockTitle>
-			</section>
-			<section className="mypage-myidol__container">
-				{/**
-				 * @JuhyeokC
-				 * 로딩 출력
-				 */}
-				{pending && <LodingImage />}
-
-				{/**
-				 * @JuhyeokC
-				 * 에러 출력
-				 */}
-				{error && <p>ERROR! {error.message}</p>}
-
-				{!isEmpty(items) &&
-					items.map(({ id, profilePicture, group, name }) => (
-						<div className="mypage-myidol__items" key={`idol-id-${id}`}>
-							<Avatar
-								src={profilePicture}
-								size={profilSize}
-								alt={`${name} 프로필 이미지`}
-								cancled
-								onClick={() => {
-									setMyFavoriteIdols((prev) => prev.filter((idol) => idol.id !== id));
-								}}
-							/>
-							<p className="mypage__items-name">{name}</p>
-							<p className="mypage__items-group">{group}</p>
-						</div>
-					))}
-				{isEmpty(items) && <p style={{ marginBottom: "20px" }}>좋아하는 아이돌을 추가해 주세요</p>}
-			</section>
-		</article>
+		<TitleSection title={"내가 관심있는 아이돌"} bottomLine>
+			{isEmpty(myFavoriteIdols) ? (
+				<p>좋아하는 아이돌을 추가해주세요</p>
+			) : (
+				<Container className="slider-container">
+					<Slider
+						ref={(slider) => {
+							sliderRef = slider;
+						}}
+						{...settings}
+					>
+						{myFavoriteIdols.map(({ id, profilePicture, group, name }) => (
+							<div key={`idol-id-${id}`}>
+								<article className="mypage-myidol__items">
+									<Avatar
+										src={profilePicture}
+										size={profilSize}
+										alt={`${name} 프로필 이미지`}
+										cancled
+										onClick={() => {
+											setMyFavoriteIdols((prev) => prev.filter((idol) => idol.id !== id));
+										}}
+									/>
+									<p className="mypage__items-name">{name}</p>
+									<p className="mypage__items-group">{group}</p>
+								</article>
+							</div>
+						))}
+					</Slider>
+					{mode === "desktop" && (
+						<>
+							<CaretButton direction="left" size="large" onClick={slickPrev} />
+							<CaretButton direction="right" size="large" onClick={slickNext} />
+						</>
+					)}
+				</Container>
+			)}
+		</TitleSection>
 	);
 }
 

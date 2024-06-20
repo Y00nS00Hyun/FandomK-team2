@@ -23,8 +23,8 @@ function MyPage() {
 
 	return (
 		<article>
-			<MyFavoriteIdols mode={mode} setMyFavoriteIdolsState={[myFavoriteIdols, setMyFavoriteIdols]} />
-			<AddFavoriteIdols mode={mode} myFavoriteIdols={myFavoriteIdols} setMyFavoriteIdols={setMyFavoriteIdols} />
+			<MyFavoriteIdols mode={mode} myFavoriteIdolsState={[myFavoriteIdols, setMyFavoriteIdols]} />
+			<AddFavoriteIdols mode={mode} myFavoriteIdolsState={[myFavoriteIdols, setMyFavoriteIdols]} />
 		</article>
 	);
 }
