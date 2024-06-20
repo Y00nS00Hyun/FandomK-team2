@@ -20,12 +20,11 @@ const Container = styled.section`
 	width: 100%;
 	height: 100%;
 	padding: 100px;
-	background-color: var(--background-color-basic);
 `;
 
-function LodingImage() {
+function LodingImage({ ...args }) {
 	return (
-		<Container>
+		<Container {...args}>
 			<HashLoader color={COLORS.orange} size={160} cssOverride={{ opacity: "0.8" }} />
 		</Container>
 	);
