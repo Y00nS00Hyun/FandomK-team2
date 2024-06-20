@@ -6,6 +6,7 @@ import BlockTitle from "../../../components/BlockTitle/BlockTitle";
 import style from "./ChartOfMonth.module.css";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import styled from "styled-components";
+import Button from '../../../components/Button/Button';
 
 /**
  * @JuhyeokC
@@ -22,11 +23,9 @@ const Container = styled.div`
 		switch ($mode) {
 			case "desktop":
 				return `
-        border:1px solid red;
         `;
 			default:
 				return `
-        border:1px solid blue;
         display:flex;
         `;
 		}
@@ -54,6 +53,9 @@ function ChartOfMonth({ mode }) {
 	 * @JuhyeokC
 	 * 렌더링 된 후 fetch 함수 실행
 	 */
+  function handleClick() {
+    console.log("차트모달열기");
+  }
 
 	useEffect(() => {
 		refetchFunction({ pageSize, gender }); // gender State  (set) => male/female
@@ -71,18 +73,22 @@ function ChartOfMonth({ mode }) {
 	const items = data?.idols || [];
 
 	return (
-		<TitleSection title={"이달의 차트"}>
+		<TitleSection title={"이달의 차트"} action={<Button size="small" icon="chart" onClick={handleClick}>차트투표하기</Button>}>
 			<section className={style["chartbar"]}>
-				<section className={style["chartbar__header"]}>
-					<button className="vote">차트 투표하기</button>
-				</section>
+				{/* <section className={style["chartbar__header"]}>
+				</section> */}
 
 			<section className=""></section>
 			<section className={style["chartbar__gender"]}>
-				<button onClick={() => setGender("female")} className={style["chartbar__female"]}>
+				<button 
+        onClick={() => setGender("female")}
+         className={`${style["chartbar__female"]} ${gender === "female" ?style["selected"] : ""}`}>
 					이달의 여자 아이돌
 				</button>
-				<button onClick={() => setGender("male")} className={style["chartbar__male"]}>
+				<button 
+        onClick={() => setGender("male")}
+         className={`${style["chartbar__male"]} ${gender === "male" ?style["selected"] : ""}`}>
+
 					이달의 남자 아이돌
 				</button>
 			</section>
@@ -115,7 +121,7 @@ function ChartOfMonth({ mode }) {
 								<span className={style["chart__rank"]}>{item.rank}</span>
 								<div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
 							</section>
-							<div className={style["chart__vote"]}>{item.totalVotes}표</div>
+							<div className={style["chart__vote"]}>{item.totalVotes.toLocaleString()}표</div>
 							{/* </article> */}
 						</div>
 					))}

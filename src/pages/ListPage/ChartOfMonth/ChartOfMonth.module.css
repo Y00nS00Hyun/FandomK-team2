@@ -6,19 +6,9 @@ h1{
   font-size: 24px;
 }
 
-.vote{
-  width:128px;
-  font-size: 13px;
-  padding:2px 16px 3px;
-  border-radius: 3px;
-  color:#FFFFFF;
-  background-image: linear-gradient(90deg,rgb(249,109,105),rgb(254,84,147));
-}
-
 .chartbar{
   width:1200px;
-  margin-top:80px;
-  margin:0 360px;
+  margin:0 auto;
 }
 
 .chartbar__header{
@@ -46,21 +36,22 @@ h1{
   margin:0 12px;
 }
 
-
-
-
 .chartbar__gender{
   display:flex;
   justify-content: space-between;
   align-items: center;
+
 }
 
 .chartbar__female{
-  background-color: #FFFFFF1A;
-  color:#FFFFFF;
-  font-size: 14px;
+  background-color: #02000E;
+  border-style: none;
+  color:rgb(130,130,130);
   width:50%;
+  padding:12px;
+  font-size: 14px;
 }
+
 
 .chart__vote{
   display:flex;
@@ -69,14 +60,23 @@ h1{
 
 
 .chartbar__male{
-  background-color: #FFFFFF1A;
-  color:#FFFFFF;
+  background-color: #02000E;
+  border-style: none;
+  color:rgb(130,130,130);
   width:50%;
+  padding:12px;
+  font-size: 14px;
 }
 
-.chartbar__male:visited{
+.selected{
   background-color: #FFFFFF1A;
 }
+
+
+.chartbar__male:hover{
+  background-color: #FFFFFF1A;
+}
+
 
 .chart__circle{
   border-radius: 50%;

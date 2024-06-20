@@ -37,7 +37,7 @@ export default function useAsync(fetchFunction) {
 	const [data, setData] = useState(null);
 
 	/**
-	 * @todo 전일주 멘토님에게 CORS 해결방법 문의하기
+	 * @todo 전일주 멘토님에게 해결방법 문의하기
 	 */
 	const refetchFunction = useCallback(
 		async function (...args) {
@@ -45,12 +45,11 @@ export default function useAsync(fetchFunction) {
 				setPending(true);
 				setError(null);
 				const response = await fetchFunction(...args);
-				setData(response);
-				return response;
+				return setData(response);
 			} catch (error) {
-				setError(error);
+				return setError(error);
 			} finally {
-				setPending(false);
+				return setPending(false);
 			}
 		},
 		[fetchFunction],
