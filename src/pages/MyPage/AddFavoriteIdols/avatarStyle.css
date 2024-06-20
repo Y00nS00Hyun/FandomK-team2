@@ -67,7 +67,6 @@
 }
 
 .mypage-myidol__container {
-	margin-top: 32px;
 	display: flex;
 	gap: 24px;
 	z-index: 1;
@@ -79,8 +78,6 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 98;
-	height: 150;
 }
 
 /* Tablet */

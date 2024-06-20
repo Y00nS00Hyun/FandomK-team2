@@ -1,17 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react";
-import BlockTitle from "../../../components/BlockTitle/BlockTitle";
-import useMediaQuery from "../../../hooks/useMediaQuery";
-import useAsync from "../../../hooks/useAsync";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import styled from "styled-components";
+import Slider from "react-slick";
 import { getIdolList } from "../../../api/idolsApi";
-import { isEmpty } from "lodash";
+import useAsync from "../../../hooks/useAsync";
+import TitleSection from "../../../components/TitleSection/TitleSection.jsx";
 import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button";
 import Avatar from "../../../components/Avatar/Avatar";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import style from "../AddFavoriteIdols/avatarStyle.css";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { isEmpty } from "lodash";
+
+const Container = styled.article`
+	position: relative;
+`;
 
 //기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
@@ -20,101 +24,176 @@ const PAGE_SIZES = {
 	desktop: 16,
 };
 
-function AddFavoriteIdols({ mode, setMyFavoriteIdols }) {
-	const [selectedIdolIds, setSelectedIdolIds] = useState([]);
+function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 	const pageSize = PAGE_SIZES[mode];
 	const profilSize = useMemo(() => {
 		if (mode === "mobile") return "mobileAddIdol";
 		else return "otherAddIdol";
 	}, [mode]);
+	const sliderRef = useRef(null);
+	const [myFavoriteIdols, setMyFavoriteIdols] = myFavoriteIdolsState;
+	const [reload, setReload] = useState(0);
+	const [idols, setIdols] = useState([]);
+	const [cursor, setCursor] = useState(null);
+	const [selectedIdolIds, setSelectedIdolIds] = useState([]);
+	const [currentSlide, setCurrentSlide] = useState(0); // 👽 (1) 슬라이드가 변경될 때 마다 현재 인덱스 업데이트
 
 	/**
 	 * @JuhyeokC
 	 * useAsync 커스텀훅 사용
 	 */
-	const { refetchFunction, data, pending, error } = useAsync(getIdolList);
+	const [pending, error, execute] = useAsync(getIdolList);
+
+	const getData = async ({ cursor }) => {
+		const params = { pageSize: 999 }; // 초기 로드 될 때 본래사이즈 보다 2배 사이즈로 호출
+		if (cursor) {
+			params.pageSize = pageSize; // 커서가 있을 때 본래 사이즈 만큼 추가 로드
+			params.cursor = cursor; // 커서가 있을 때 커서 추가 (더보기)
+		}
+
+		const result = await execute(params); // 데이터 호출
+		if (!result) return; // 호출 실패 시 함수 종료
+		const { list, nextCursor } = result; // 응답받은 API 데이터 구조분해 (팬덤케이 스웨거 API 참조)
+
+		setIdols((prev) => {
+			// 데이터 담기 위해 이전 값 참조
+			if (cursor) {
+				// 더보기 실행 시 커서가 있을 것이므로 커서가 참일 때
+				return [...prev, ...list]; // 이전 데이터에 새로운 데이터 추가
+			} else {
+				// 커서가 없을 때 (최초 실행 시 혹은 성별버튼 클릭 시)
+				return list; // 새로운 데이터만 추가
+			}
+		});
+		setCursor(nextCursor); // 서버요청에 사용될 커서 상태
+	};
+
+	// 추가 데이터 요청
+	const getMoreData = async () => {
+		if (cursor) await getData({ pageSize, cursor });
+	};
+
+	// 슬라이드 처음으로
+	const slickFirst = () => sliderRef.current.slickGoTo(0);
+
+	// 슬라이드 이전으로
+	const slickPrev = () => sliderRef.current.slickPrev();
+
+	// 슬라이드 다음으로
+	const slickNext = async () => sliderRef.current?.slickNext();
+
+	const settings = {
+		rows: 2,
+		slidesPerRow: 1,
+		slidesToShow: pageSize / 2,
+		swipeToSlide: true,
+		infinite: true,
+		speed: 500,
+		centerPadding: "0px",
+		arrows: false,
+		dots: false,
+		beforeChange: (oldIndex, newIndex) => {
+			setCurrentSlide(newIndex);
+			getMoreData();
+		},
+		afterChange: (index) => {},
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					arrows: false,
+					draggable: true,
+					slidesToScroll: "auto",
+					dots: true,
+					centerMode: true,
+					infinite: false,
+				},
+			},
+		],
+	};
 
 	/**
 	 * @JuhyeokC
 	 * 렌더링 된 후 fetch 함수 실행
 	 */
 	useEffect(() => {
-		refetchFunction({ pageSize });
-	}, [refetchFunction, pageSize]);
-
-	/**
-	 * @JuhyeokC
-	 * data 가 업데이트될 때 list가 담길 items
-	 */
-	const items = data?.list || [];
+		getData({ pageSize });
+	}, [reload]);
 
 	return (
-		<article className="mypage addidol">
-			<section className="mypage__title">
-				<BlockTitle>관심 있는 아이돌을 추가해보세요.</BlockTitle>
-			</section>
-			<section className="mypage-addidol__caretButton">
-				<CaretButton direction="left" size="large" />
-				<CaretButton direction="right" size="large" />
-			</section>
-			<section className="mypage-addidol__container">
-				<div className="mypage-addidol__container-inner">
-					{/**
-					 * @JuhyeokC
-					 * 로딩 출력
-					 */}
-					{pending && <LodingImage />}
+		<>
+			<TitleSection title={"관심 있는 아이돌을 추가해보세요."} carousel={true}>
+				{error ? (
+					<>
+						<p>{error.message} 에러발생🦄</p>
+						<Button size={"wide"} onClick={() => setReload((prev) => ++prev)}>
+							RELOAD
+						</Button>
+					</>
+				) : (
+					<>
+						<Container className="slider-container">
+							{pending && <LodingImage style={{ position: "absolute" }} />}
+							<Slider ref={sliderRef} {...settings}>
+								{isEmpty(idols) ? (
+									<p>등록된 아이돌이 없습니다...</p>
+								) : (
+									idols.map(({ id, profilePicture, group, name }) => {
+										if (myFavoriteIdols.some((idol) => idol.id === id)) return false;
+										return (
+											<div key={`idol-id-${id}`}>
+												<article className="mypage-addidol__items">
+													<Avatar
+														src={profilePicture}
+														size={profilSize}
+														alt={`${name} 프로필 이미지`}
+														checked={selectedIdolIds.includes(id)}
+														onClick={() => {
+															setSelectedIdolIds((prev) => {
+																const hasId = prev.includes(id);
+																if (hasId) {
+																	return prev.filter((item) => item !== id);
+																}
+																return [...new Set([...prev, id])];
+															});
+														}}
+													/>
+													<p className="mypage__items-name">{name}</p>
+													<p className="mypage__items-group">{group}</p>
+												</article>
+											</div>
+										);
+									})
+								)}
+							</Slider>
+							{mode === "desktop" && (
+								<>
+									<CaretButton direction="left" size="large" onClick={slickPrev} />
+									<CaretButton direction="right" size="large" onClick={slickNext} />
+								</>
+							)}
+						</Container>
 
-					{/**
-					 * @JuhyeokC
-					 * 에러 출력
-					 */}
-					{error && <p>ERROR! {error.message}</p>}
-
-					{!isEmpty(items) &&
-						items.map(({ id, profilePicture, group, name }) => {
-							const checked = selectedIdolIds.includes(id);
-							return (
-								<div className="mypage-addidol__items" key={`idol-id-${id}`}>
-									<Avatar
-										src={profilePicture}
-										size={profilSize}
-										alt={`${name} 프로필 이미지`}
-										checked={checked}
-										onClick={() => {
-											setSelectedIdolIds((prev) => {
-												const hasId = prev.includes(id);
-												if (hasId) {
-													return prev.filter((item) => item !== id);
-												}
-												return [...new Set([...prev, id])];
-											});
-										}}
-									/>
-									<p className="mypage__items-name">{name}</p>
-									<p className="mypage__items-group">{group}</p>
-								</div>
-							);
-						})}
-				</div>
-			</section>
-			<section className="mypage-addidol_add">
-				<Button
-					className="mypage-addidol_add-button"
-					icon={"plus"}
-					size={"large"}
-					round
-					onClick={() => {
-						setMyFavoriteIdols((prev) => {
-							const selected = items.filter((item) => selectedIdolIds.includes(item.id) && prev.every((p) => p.id !== item.id));
-							return [...prev, ...selected];
-						});
-					}}
-				>
-					추가하기
-				</Button>
-			</section>
-		</article>
+						<section className="mypage-addidol_add">
+							<Button
+								className="mypage-addidol_add-button"
+								icon={"plus"}
+								size={"large"}
+								round
+								onClick={() => {
+									setMyFavoriteIdols((prev) => {
+										const selected = idols.filter((item) => selectedIdolIds.includes(item.id) && prev.every((p) => p.id !== item.id));
+										return [...prev, ...selected];
+									});
+								}}
+							>
+								추가하기
+							</Button>
+						</section>
+					</>
+				)}
+			</TitleSection>
+		</>
 	);
 }
 
