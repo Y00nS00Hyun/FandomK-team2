@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { isEmpty } from "lodash";
-import CaretButton from "../CaretButton/CaretButton";
 
 const DEFAULT_MAX_WIDTH = 1200;
 
@@ -19,7 +17,7 @@ const Head = styled.section`
 	gap: 16px;
 	margin: 0 auto;
 	max-width: ${DEFAULT_MAX_WIDTH}px;
-	padding-bottom: ${({ $action }) => ($action ? 32 : 24)}px;
+	padding-bottom: 32px;
 `;
 
 const Body = styled.section`
@@ -48,7 +46,7 @@ const Buttons = styled.section``;
 function TitleSection({ children, title, action, carousel, bottomLine }) {
 	return (
 		<Article $bottomLine={bottomLine}>
-			<Head $action={isEmpty(action)}>
+			<Head>
 				<Title>{title}</Title>
 				{action && <Buttons>{action}</Buttons>}
 			</Head>
