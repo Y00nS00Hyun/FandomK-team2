@@ -39,7 +39,7 @@
 }
 
 html {
-	min-width: var(--width-minimum);
+	min-width: 100%;
 	min-height: 100vh;
 	font-size: 100%;
 }
@@ -48,7 +48,7 @@ body {
 	background-color: var(--background-color-basic);
 	color: var(--text-color-basic);
 	font-family: var(--font-family);
-	min-width: 100vw;
+	min-width: 100%;
 	min-height: 100vh;
 }
 

@@ -1,112 +1,158 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
 import Slider from "react-slick";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import LodingImage from "../../../components/LodingImage/LodingImage";
+import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
-
+import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 
-const PAGE_SIZES = {
-	desktop: 4,
-	tablet: 4,
-	mobile: 4,
-};
+/**
+ * @JuhyeokC
+ * 수현님! 이번에 useAsync 커스텀훅을 수정하면서 구조를 수정했어요!
+ * 근데.. receivedDonations 정렬을 위해 사이즈를 100으로 해두신 것 같아요!
+ * 그럼 페이지 사이즈를 mode 로 결정하지 않고 상수로 만들고
+ * 위의 객체를
+ * const PAGE_SIZES = 999; 로 수정하구
+ * const pageSize = PAGE_SIZES[mode]; 를 삭제하시구
+ * 서버 요청 받은 이후에 list를 정렬해서 idols에 세팅 해도 좋을 것 같습니다!
+ * 수현님 본래 의도를 무시한 것 같이 수정했지만 ㅜㅜ
+ * 한 번에 다 작업하다보니.. 다 신경 쓸 수 없었습니다 ㅜㅜ
+ * 주석은 읽어보시고 지워주세요!
+ */
+
+const PAGE_SIZES = 999;
 
 function DonationWaitList({ mode, myCreditState }) {
-	const pageSize = PAGE_SIZES[mode];
 	const sliderRef = useRef(null);
-	const [load, setLoad] = useState(0);
+	const [reload, setReload] = useState(0);
 	const [idols, setIdols] = useState([]);
 	const [cursor, setCursor] = useState(null);
 	const [disableButton, setDisableButton] = useState(true);
+	const [currentSlide, setCurrentSlide] = useState(0); // 👽 (1) 슬라이드가 변경될 때 마다 현재 인덱스 업데이트
 
-	const { refetchFunction, pending, error } = useAsync(getDonationList);
+	const [pending, error, execute] = useAsync(getDonationList);
 
-	const getDataList = useCallback(async (cursor) => {
-		try {
-			const params = { pageSize: pageSize * 2 };
+	const getData = async ({ cursor }) => {
+		const params = { pageSize: PAGE_SIZES * 2 }; // 초기 로드 될 때 본래사이즈 보다 2배 사이즈로 호출
+		if (cursor) {
+			params.pageSize = PAGE_SIZES; // 커서가 있을 때 본래 사이즈 만큼 추가 로드
+			params.cursor = cursor; // 커서가 있을 때 커서 추가 (더보기)
+		}
+
+		const result = await execute(params); // 데이터 호출
+		if (!result) return; // 호출 실패 시 함수 종료
+		const { list, nextCursor } = result; // 응답받은 API 데이터 구조분해 (팬덤케이 스웨거 API 참조)
+
+		// 👽 receivedDonations 많은 순으로 정렬
+		const sortedIdols = [...list.sort((a, b) => b.receivedDonations - a.receivedDonations)];
+
+		setIdols((prev) => {
+			// 데이터 담기 위해 이전 값 참조
 			if (cursor) {
-				params.pageSize = pageSize;
-				params.cursor = cursor;
+				// 더보기 실행 시 커서가 있을 것이므로 커서가 참일 때
+				return [...prev, ...sortedIdols]; // 이전 데이터에 새로운 데이터 추가
+			} else {
+				// 커서가 없을 때 (최초 실행 시 혹은 성별버튼 클릭 시)
+				return sortedIdols; // 새로운 데이터만 추가
 			}
-
-			const data = await refetchFunction(params);
-			if (data) {
-				setIdols((prev) => [...prev, ...data?.list]);
-				setCursor(data.nextCursor);
-			}
-		} finally {
-			setDisableButton(false);
-		}
-	}, []);
-
-	const slickNext = async () => {
-		try {
-			setDisableButton(true);
-			if (cursor !== null) await getDataList(cursor);
-		} finally {
-			sliderRef.current.slickNext();
-			setDisableButton(false);
-		}
+		});
+		setCursor(nextCursor); // 서버요청에 사용될 커서 상태
+		setDisableButton(false); // prev, next 버튼 활성화
 	};
 
-	const slickPrev = () => {
-		return sliderRef.current.slickPrev();
+	// 슬라이드 처음으로
+	const slickFirst = () => sliderRef.current.slickGoTo(0);
+
+	// 슬라이드 이전으로
+	const slickPrev = () => sliderRef.current.slickPrev();
+
+	// 슬라이드 다음으로
+	const slickNext = async () => {
+		if (cursor) await getData({ PAGE_SIZES, cursor }); // 추가 데이터 요청
+		sliderRef.current?.slickNext(); // 슬라이드 넘기기
 	};
 
 	useEffect(() => {
-		getDataList();
-	}, [getDataList, load]);
+		getData({ PAGE_SIZES });
+	}, [reload]);
 
 	const settings = {
-		rows: 1, //이미지를 몇 줄로 표시할지 개수
-		dots: false, //슬라이더 아래에 도트 네비게이션 버튼 표시 여부
-		draggable: false, //슬라이드 드래그 가능여부
-		arrows: false, //이전 다음 버튼 표시 여부
+		rows: 1,
+		dots: false,
+		arrows: false,
 		speed: 500,
-		slidesToShow: 4,
-		slidesToScroll: 4,
-		centerMode: false, //중앙에 슬라이드가 보여지는 모드 -> 왜 중앙으로 안가?????
-		infinite: false,
+		slidesToScroll: 2,
+		centerPadding: "0px",
+		infinite: true,
+		variableWidth: true,
+		beforeChange: (oldIndex, newIndex) => {
+			setDisableButton(true); // prev, next 버튼 비활성화
+			console.log("newIndex: ", newIndex);
+			setCurrentSlide(newIndex);
+		}, // 👽 (2) 슬라이드 변경 시 currentSlide 상태 업데이트
+		afterChange: (index) => {
+			setDisableButton(false); // prev, next 버튼 활성화
+			console.log("index: ", index);
+			console.log("idols.length - 3: ", idols.length - 3);
+			// if (index < idols.length - 3) slickNext();
+		},
 		responsive: [
 			{
-				//작은 사이즈
 				breakpoint: 1200,
 				settings: {
-					draggable: true, //슬라이드 드래그 가능여부
-					slidesToShow: 3,
-					slidesToScroll: 1,
-					swipeToSlide: true,
+					arrows: false,
+					draggable: true,
+					slidesToScroll: "auto",
+					dots: true,
+					centerMode: true,
+					infinite: false,
 				},
 			},
 		],
 	};
 
 	return (
-		<TitleSection title={"후원을 기다리는 조공"} carousel={true} size={"normal"}>
-			{pending && idols.length === 0 && <LodingImage />}
-			{error && (
+		<TitleSection
+			title={"후원을 기다리는 조공"}
+			carousel={true}
+			size={"normal"}
+			action={
+				<Button size={"small"} onClick={slickFirst} disabled={currentSlide === 0}>
+					처음으로
+				</Button>
+			}
+		>
+			{error ? (
 				<>
-					<p>{error.message}에러발생🦄</p>
-					<button onClick={() => setLoad((prev) => ++prev)}>RELOAD</button>
+					<p>{error.message} 에러발생🦄</p>
+					<Button size={"wide"} onClick={() => setReload((prev) => ++prev)}>
+						RELOAD
+					</Button>
 				</>
-			)}
-			<Slider ref={sliderRef} {...settings}>
-				{idols &&
-					idols?.map((item) => (
-						<div key={item.id} style={{ padding: "0 10px" }}>
-							<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
-						</div>
-					))}
-			</Slider>
-			{mode === "desktop" && (
+			) : (
 				<>
-					<CaretButton direction="right" onClick={slickNext} disabled={disableButton} />
-					<CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />
+					{pending && <LodingImage style={{ position: "absolute" }} />}
+					<Slider ref={sliderRef} {...settings}>
+						{idols.length === 0 ? (
+							<p>진행중인 후원이 없습니다.</p>
+						) : (
+							idols.map((item) => (
+								<div key={item.id} style={{ padding: "0 10px" }}>
+									<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
+								</div>
+							))
+						)}
+					</Slider>
+					{mode === "desktop" && (
+						<>
+							{currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}
+							{currentSlide < idols.length - 3 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
+						</>
+					)}
 				</>
 			)}
 		</TitleSection>
@@ -114,5 +160,3 @@ function DonationWaitList({ mode, myCreditState }) {
 }
 
 export default DonationWaitList;
-
-//<article style={{ width: "1200px", margin: "0 auto" }}>
