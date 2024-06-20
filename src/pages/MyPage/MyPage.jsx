@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { isEmpty } from "lodash";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import MyFavoriteIdols from "./MyFavoriteIdols/MyFavoriteIdols";
 import AddFavoriteIdols from "./AddFavoriteIdols/AddFavoriteIdols";
-import useMediaQuery from "../../hooks/useMediaQuery";
 
 const MY_FAVORITE_NAME = "myFavoriteList";
 
@@ -24,7 +24,7 @@ function MyPage() {
 	return (
 		<article>
 			<MyFavoriteIdols mode={mode} setMyFavoriteIdolsState={[myFavoriteIdols, setMyFavoriteIdols]} />
-			<AddFavoriteIdols mode={mode} setMyFavoriteIdols={setMyFavoriteIdols} />
+			<AddFavoriteIdols mode={mode} myFavoriteIdols={myFavoriteIdols} setMyFavoriteIdols={setMyFavoriteIdols} />
 		</article>
 	);
 }
