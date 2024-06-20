@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import LodingImage from "../../../components/LodingImage/LodingImage";
 import Card from "./DonationList/DonationCard.jsx";
-
+import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
@@ -15,6 +15,26 @@ const PAGE_SIZES = {
 	tablet: 100,
 	mobile: 100,
 };
+
+const StyledButton = styled.button`
+	background-color: #303030; /* Green */
+	border: none;
+	border-radius: 3px;
+	color: white;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 15px;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+
+	&:hover {
+		background-color: #8c8c8c;
+		color: white;
+	}
+`;
 
 function DonationWaitList({ mode, myCreditState }) {
 	const pageSize = PAGE_SIZES[mode];
@@ -66,6 +86,10 @@ function DonationWaitList({ mode, myCreditState }) {
 		return sliderRef.current.slickPrev();
 	};
 
+	const slickFirst = () => {
+		return sliderRef.current.slickGoTo(0);
+	};
+
 	useEffect(() => {
 		getDataList();
 	}, [getDataList, load]);
@@ -99,12 +123,12 @@ function DonationWaitList({ mode, myCreditState }) {
 	};
 
 	return (
-		<TitleSection title={"후원을 기다리는 조공"} carousel={true} size={"normal"}>
+		<TitleSection title={"후원을 기다리는 조공"} carousel={true} size={"normal"} action={currentSlide !== 0 && <StyledButton onClick={slickFirst}>처음으로</StyledButton>}>
 			{pending && idols.length === 0 && <LodingImage />}
 			{error && (
 				<>
-					<p>{error.message}에러발생🦄</p>
-					<button onClick={() => setLoad((prev) => ++prev)}>RELOAD</button>
+					{/* <p>{error.message}에러발생🦄</p>
+					<button onClick={() => setLoad((prev) => ++prev)}>RELOAD</button> */}
 				</>
 			)}
 			<Slider ref={sliderRef} {...settings}>
@@ -117,7 +141,7 @@ function DonationWaitList({ mode, myCreditState }) {
 			{mode === "desktop" && (
 				<>
 					{currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}
-					{currentSlide !== sortedIdols.length - 4 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
+					{currentSlide !== sortedIdols.length - 3 && currentSlide !== sortedIdols.length - 4 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
 				</>
 			)}
 		</TitleSection>

@@ -62,9 +62,6 @@ const Card = styled.div`
 	height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
 	margin-left: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
 	margin-right: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 `;
 
 const ImgButton = styled.div`
@@ -136,11 +133,17 @@ const Status = styled.div`
 const Subtitle = styled.div`
 	font-size: ${({ size }) => SUBTITLE_FONT_SIZE[size] ?? SUBTITLE_FONT_SIZE["small"]};
 	color: #adadad;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Title = styled.div`
 	font-size: ${({ size }) => TITLE_FONT_SIZE[size] ?? TITLE_FONT_SIZE["small"]};
 	color: #f7f7f8;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Credit = styled.div`
