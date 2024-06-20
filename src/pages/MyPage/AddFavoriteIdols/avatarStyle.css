@@ -3,8 +3,14 @@
 	margin: 0 auto;
 }
 
+.mypage,
+.p {
+	cursor: default;
+}
+
 .addidol {
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	position: relative;
 }
 
 .mypage__title {
@@ -20,8 +26,6 @@
 	grid-template-columns: repeat(8, 1fr);
 	grid-template-rows: repeat(2, 1fr);
 	gap: 24px;
-	/*위치 확인용 색상
-	background-color: aqua;*/
 }
 
 .mypage-addidol__items {
@@ -32,9 +36,6 @@
 	align-items: center;
 	width: 128px;
 	height: 183px;
-	/*위치 확인용 색상background-color: coral;
-	border: 2px solid #000000;
-	*/
 }
 
 .mypage__items-name {
@@ -80,4 +81,34 @@
 	align-items: center;
 	width: 98;
 	height: 150;
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+	.mypage {
+		width: 100%;
+		padding: 0 auto;
+		margin: 0 auto;
+	}
+
+	.mypage-addidol__container-inner {
+		width: 584px;
+		padding: 0 80px;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		gap: 24px;
+	}
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+	.mypage-addidol__container-inner {
+		width: 584px;
+		padding: 0 80px;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		gap: 24px;
+	}
 }
