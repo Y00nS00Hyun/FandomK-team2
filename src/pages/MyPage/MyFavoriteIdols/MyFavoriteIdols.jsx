@@ -17,7 +17,8 @@ const PAGE_SIZES = {
 	desktop: 16,
 };
 
-function MyFavoriteIdols({ mode, myFavoriteIdols }) {
+function MyFavoriteIdols({ mode, setMyFavoriteIdolsState }) {
+	const [myFavoriteIdols, setMyFavoriteIdols] = setMyFavoriteIdolsState;
 	const pageSize = PAGE_SIZES["test"];
 	const profilSize = useMemo(() => {
 		if (mode === "mobile") return "basic";
@@ -42,7 +43,6 @@ function MyFavoriteIdols({ mode, myFavoriteIdols }) {
 	 * @JuhyeokC
 	 * data 가 업데이트될 때 list가 담길 items
 	 */
-	//const items = data?.list || [];
 	console.log({ myFavoriteIdols });
 	const items = myFavoriteIdols;
 
@@ -67,12 +67,20 @@ function MyFavoriteIdols({ mode, myFavoriteIdols }) {
 				{!isEmpty(items) &&
 					items.map(({ id, profilePicture, group, name }) => (
 						<div className="mypage-myidol__items" key={`idol-id-${id}`}>
-							<Avatar src={profilePicture} size={profilSize} alt={`${name} 프로필 이미지`} />
+							<Avatar
+								src={profilePicture}
+								size={profilSize}
+								alt={`${name} 프로필 이미지`}
+								cancled
+								onClick={() => {
+									setMyFavoriteIdols((prev) => prev.filter((idol) => idol.id !== id));
+								}}
+							/>
 							<p className="mypage__items-name">{name}</p>
 							<p className="mypage__items-group">{group}</p>
 						</div>
 					))}
-				{isEmpty(items) && <p>좋아하는 아이돌을 추가해주세요</p>}
+				{isEmpty(items) && <p style={{ marginBottom: "20px" }}>좋아하는 아이돌을 추가해 주세요</p>}
 			</section>
 		</article>
 	);
