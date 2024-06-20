@@ -48,8 +48,7 @@ h1 {
 	font-size: 14px;
 }
 
-/* transition */
-/* calc  */
+/* transition , calc  */
 .chart__vote {
 	display: flex;
 	justify-content: flex-end;
