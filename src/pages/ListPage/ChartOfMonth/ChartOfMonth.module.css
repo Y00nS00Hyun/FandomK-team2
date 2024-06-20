@@ -6,21 +6,6 @@ h1 {
 	font-size: 24px;
 }
 
-.vote {
-	width: 128px;
-	font-size: 13px;
-	padding: 2px 16px 3px;
-	border-radius: 3px;
-	color: #ffffff;
-	background-image: linear-gradient(90deg, rgb(249, 109, 105), rgb(254, 84, 147));
-}
-
-.chartbar {
-	/* width:1200px;
-  margin-top:80px;
-  margin:0 360px; */
-}
-
 .chartbar__header {
 	height: 32px;
 	margin-bottom: 24px;
@@ -31,6 +16,7 @@ h1 {
 
 .chart__ranking {
 	display: flex;
+  width:50%;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #ffffff1a;
@@ -41,7 +27,6 @@ h1 {
   display:flex;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .chart__rank {
@@ -54,7 +39,7 @@ h1 {
   align-items: center;
 }
 
-.chartbar__female {
+.chartbar__gender-button{
 	background-color: #02000e;
 	border-style: none;
 	color: rgb(130, 130, 130);
@@ -73,14 +58,6 @@ h1 {
   padding-right:30px;
 }
 
-.chartbar__male {
-	background-color: #02000e;
-	border-style: none;
-	color: rgb(130, 130, 130);
-	width: 50%;
-	padding: 12px;
-	font-size: 14px;
-}
 
 .selected {
 	background-color: #ffffff1a;
@@ -88,7 +65,7 @@ h1 {
 	color: white;
 }
 
-.chartbar__male:hover {
+.chartbar__button:hover {
 	background-color: #ffffff1a;
 }
 
@@ -117,13 +94,17 @@ h1 {
 
 .container {
 	margin-top: 24px;
-	display: grid;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+	/* display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(5, 20%);
 	grid-gap: 0px 24px;
-	grid-auto-rows: 79px;
-	column-gap: 24px;
-	row-gap: 8px;
+	grid-auto-rows: 79px; */
+	/* column-gap: 24px;
+	row-gap: 8px; */
+
 }
 
 .viewMore {
@@ -144,16 +125,22 @@ h1 {
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
-	.container {
-		display: flex;
-		flex-direction: column;
-	}
+	.container{
+    display:flex;
+    flex-direction: column;
+  }
+  .chart__ranking{
+    width:100%;
+  }
 }
 
 /* Mobile */
 @media screen and (max-width: 767px) {
-	.charbar {
-		width: 100%;
-		padding: 0px 24px;
-	}
+	.container{
+    display:flex;
+    flex-direction: column;
+  }
+  .chart__ranking{
+    width:100%;
+  }
 }
