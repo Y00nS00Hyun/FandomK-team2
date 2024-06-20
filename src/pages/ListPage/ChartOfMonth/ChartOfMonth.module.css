@@ -6,24 +6,35 @@ h1 {
 	font-size: 24px;
 }
 
-.chartbar{
-  margin:0 auto;
+.vote {
+	width: 128px;
+	font-size: 13px;
+	padding: 2px 16px 3px;
+	border-radius: 3px;
+	color: #ffffff;
+	background-image: linear-gradient(90deg, rgb(249, 109, 105), rgb(254, 84, 147));
 }
 
-.chartbar__header{
-  height:32px;
-  margin-bottom: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.chartbar {
+	/* width:1200px;
+  margin-top:80px;
+  margin:0 360px; */
+}
+
+.chartbar__header {
+	height: 32px;
+	margin-bottom: 24px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .chart__ranking {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #FFFFFF1A;
-  padding-bottom:8px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #ffffff1a;
+	padding-bottom: 8px;
 }
 
 .chart__profile{
@@ -71,10 +82,10 @@ h1 {
 	font-size: 14px;
 }
 
-.selected{
-  background-color: #FFFFFF1A;
-  border-bottom: 1px solid #FFFFFF;
-  color:white;
+.selected {
+	background-color: #ffffff1a;
+	border-bottom: 1px solid #ffffff;
+	color: white;
 }
 
 .chartbar__male:hover {
@@ -105,30 +116,30 @@ h1 {
 }
 
 .container {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  grid-template-rows: repeat(5,20%);
-  grid-gap:0px 24px;
-  grid-auto-rows: 79px;
-  column-gap: 24px;
-  row-gap: 8px;
+	margin-top: 24px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(5, 20%);
+	grid-gap: 0px 24px;
+	grid-auto-rows: 79px;
+	column-gap: 24px;
+	row-gap: 8px;
 }
 
 .viewMore {
 	display: flex;
 	margin: 0 auto;
 	border-radius: 3px;
-  border: 1px solid #F1EEF9CC;
+	border: 1px solid #f1eef9cc;
 	color: var(--color-white-50);
-	background-color: #FFFFFF1A;
+	background-color: #ffffff1a;
 	font-size: 14px;
 	padding: 8px 143px;
-  margin-top: 51px;
+	margin-top: 51px;
 }
 
-.viewMore:hover{
-  background-color: #f96d69;
+.viewMore:hover {
+	background-color: #f96d69;
 }
 
 /* Tablet */

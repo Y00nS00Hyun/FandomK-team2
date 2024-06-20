@@ -12,8 +12,8 @@ const CARD_WIDTHS = {
 };
 
 const CARD_HEIGHTS = {
-	small: "303px",
-	medium: "402px",
+	small: "316px",
+	medium: "415px",
 };
 
 const IMG_HEIGHTS = {
@@ -62,6 +62,9 @@ const Card = styled.div`
 	height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
 	margin-left: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
 	margin-right: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const ImgButton = styled.div`
@@ -119,9 +122,6 @@ const Detail = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 `;
 
 const Status = styled.div`
