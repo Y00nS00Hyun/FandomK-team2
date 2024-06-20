@@ -4,9 +4,25 @@ import styled from "styled-components";
 const DEFAULT_MAX_WIDTH = 1200;
 
 const Article = styled.article`
+	position: relative;
 	margin: 0 auto;
-	padding: ${({ $bottomLine }) => ($bottomLine ? 40 : 16)}px 0;
-	min-height: 320px;
+	padding: 40px 0;
+	min-height: 160px;
+
+	${({ $bottomLine }) =>
+		$bottomLine &&
+		`
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: block;
+      width: ${DEFAULT_MAX_WIDTH}px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  `}
 `;
 
 const Head = styled.section`
