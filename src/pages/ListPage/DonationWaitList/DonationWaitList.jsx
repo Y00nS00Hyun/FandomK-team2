@@ -11,9 +11,9 @@ import "slick-carousel/slick/slick-theme.css";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 
 const PAGE_SIZES = {
-	desktop: 4,
-	tablet: 4,
-	mobile: 4,
+	desktop: 100,
+	tablet: 100,
+	mobile: 100,
 };
 
 function DonationWaitList({ mode, myCreditState }) {
@@ -23,26 +23,34 @@ function DonationWaitList({ mode, myCreditState }) {
 	const [idols, setIdols] = useState([]);
 	const [cursor, setCursor] = useState(null);
 	const [disableButton, setDisableButton] = useState(true);
+	const [currentSlide, setCurrentSlide] = useState(0); // 👽 (1) 슬라이드가 변경될 때 마다 현재 인덱스 업데이트
 
 	const { refetchFunction, pending, error } = useAsync(getDonationList);
 
-	const getDataList = useCallback(async (cursor) => {
-		try {
-			const params = { pageSize: pageSize * 2 };
-			if (cursor) {
-				params.pageSize = pageSize;
-				params.cursor = cursor;
-			}
+	const getDataList = useCallback(
+		async (cursor) => {
+			try {
+				const params = { pageSize: pageSize * 2 };
+				if (cursor) {
+					params.pageSize = pageSize;
+					params.cursor = cursor;
+				}
 
-			const data = await refetchFunction(params);
-			if (data) {
-				setIdols((prev) => [...prev, ...data?.list]);
-				setCursor(data.nextCursor);
+				const data = await refetchFunction(params);
+				if (data) {
+					// 👽 데이터 중복 방지 로직 추가
+					setIdols((prev) => {
+						const newData = data.list.filter((item) => !prev.some((prevItem) => prevItem.id === item.id));
+						return [...prev, ...newData];
+					});
+					setCursor(data.nextCursor);
+				}
+			} finally {
+				setDisableButton(false);
 			}
-		} finally {
-			setDisableButton(false);
-		}
-	}, []);
+		},
+		[refetchFunction, pageSize],
+	);
 
 	const slickNext = async () => {
 		try {
@@ -62,25 +70,29 @@ function DonationWaitList({ mode, myCreditState }) {
 		getDataList();
 	}, [getDataList, load]);
 
+	// 👽 receivedDonations 많은 순으로 정렬
+	const sortedIdols = idols.sort((a, b) => b.receivedDonations - a.receivedDonations);
+
 	const settings = {
-		rows: 1, //이미지를 몇 줄로 표시할지 개수
-		dots: false, //슬라이더 아래에 도트 네비게이션 버튼 표시 여부
-		draggable: false, //슬라이드 드래그 가능여부
-		arrows: false, //이전 다음 버튼 표시 여부
+		rows: 1,
+		dots: false,
+		arrows: false,
 		speed: 500,
-		slidesToShow: 4,
-		slidesToScroll: 4,
-		centerMode: false, //중앙에 슬라이드가 보여지는 모드 -> 왜 중앙으로 안가?????
+		slidesToScroll: 2,
+		centerPadding: "0px",
 		infinite: false,
+		variableWidth: true,
+		beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex), // 👽 (2) 슬라이드 변경 시 currentSlide 상태 업데이트
 		responsive: [
 			{
-				//작은 사이즈
 				breakpoint: 1200,
 				settings: {
-					draggable: true, //슬라이드 드래그 가능여부
-					slidesToShow: 3,
-					slidesToScroll: 1,
-					swipeToSlide: true,
+					arrows: false,
+					draggable: true,
+					slidesToScroll: "auto",
+					dots: true,
+					centerMode: true,
+					infinite: false,
 				},
 			},
 		],
@@ -96,17 +108,16 @@ function DonationWaitList({ mode, myCreditState }) {
 				</>
 			)}
 			<Slider ref={sliderRef} {...settings}>
-				{idols &&
-					idols?.map((item) => (
-						<div key={item.id} style={{ padding: "0 10px" }}>
-							<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
-						</div>
-					))}
+				{sortedIdols.map((item) => (
+					<div key={item.id} style={{ padding: "0 10px" }}>
+						<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
+					</div>
+				))}
 			</Slider>
 			{mode === "desktop" && (
 				<>
-					<CaretButton direction="right" onClick={slickNext} disabled={disableButton} />
-					<CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />
+					{currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}
+					{currentSlide !== sortedIdols.length - 4 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
 				</>
 			)}
 		</TitleSection>
@@ -114,5 +125,3 @@ function DonationWaitList({ mode, myCreditState }) {
 }
 
 export default DonationWaitList;
-
-//<article style={{ width: "1200px", margin: "0 auto" }}>

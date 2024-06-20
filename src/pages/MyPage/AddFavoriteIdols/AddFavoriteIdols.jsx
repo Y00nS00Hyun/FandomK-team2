@@ -7,9 +7,11 @@ import { isEmpty } from "lodash";
 import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button";
 import Avatar from "../../../components/Avatar/Avatar";
+import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import style from "../AddFavoriteIdols/avatarStyle.css";
-import ButtonLeft from "../../../assets/images/caret/caret-btn-large-left.svg";
-import ButtonRight from "../../../assets/images/caret/caret-btn-large-right.svg";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 //기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
@@ -18,30 +20,12 @@ const PAGE_SIZES = {
 	desktop: 16,
 };
 
-//기종별 프로필 이미지 크기
-const PROFILE_SIZES = {
-	mobile: 98,
-	others: 128,
-};
-
-function AddFavoriteIdols() {
-	/**
-	 * @JuhyeokC
-	 * AddFavoriteIdols 컴포넌트랑 MyFavoriteIdols 컴포넌트 둘 다 useMediaQuery 를 사용하니
-	 * 부모 컴포넌트에서 mode 생성해서 prop으로 내려주셔도 될 것 같아요!
-	 * 선택사항이니 무시하셔도 좋습니다!
-	 */
-	const mode = useMediaQuery();
-
-	const pageSize = useMemo(() => {
-		if (mode === "mobile") return PAGE_SIZES["mobile"];
-		if (mode === "tablet") return PAGE_SIZES["tablet"];
-		else return PAGE_SIZES["desktop"];
-	}, [mode]);
-
+function AddFavoriteIdols({ mode, setMyFavoriteIdols }) {
+	const [selectedIdolIds, setSelectedIdolIds] = useState([]);
+	const pageSize = PAGE_SIZES[mode];
 	const profilSize = useMemo(() => {
-		if (mode === "mobile") return PROFILE_SIZES["mobile"];
-		else return PROFILE_SIZES["others"];
+		if (mode === "mobile") return "mobileAddIdol";
+		else return "otherAddIdol";
 	}, [mode]);
 
 	/**
@@ -69,6 +53,10 @@ function AddFavoriteIdols() {
 			<section className="mypage__title">
 				<BlockTitle>관심 있는 아이돌을 추가해보세요.</BlockTitle>
 			</section>
+			<section className="mypage-addidol__caretButton">
+				<CaretButton direction="left" size="large" />
+				<CaretButton direction="right" size="large" />
+			</section>
 			<section className="mypage-addidol__container">
 				<div className="mypage-addidol__container-inner">
 					{/**
@@ -84,17 +72,45 @@ function AddFavoriteIdols() {
 					{error && <p>ERROR! {error.message}</p>}
 
 					{!isEmpty(items) &&
-						items.map(({ id, profilePicture, group, name }) => (
-							<div className="mypage-addidol__items" key={`idol-id-${id}`}>
-								<Avatar src={profilePicture} size={"otherAddIdol"} alt={`${name} 프로필 이미지`} />
-								<p className="mypage__items-name">{name}</p>
-								<p className="mypage__items-group">{group}</p>
-							</div>
-						))}
+						items.map(({ id, profilePicture, group, name }) => {
+							const checked = selectedIdolIds.includes(id);
+							return (
+								<div className="mypage-addidol__items" key={`idol-id-${id}`}>
+									<Avatar
+										src={profilePicture}
+										size={profilSize}
+										alt={`${name} 프로필 이미지`}
+										checked={checked}
+										onClick={() => {
+											setSelectedIdolIds((prev) => {
+												const hasId = prev.includes(id);
+												if (hasId) {
+													return prev.filter((item) => item !== id);
+												}
+												return [...new Set([...prev, id])];
+											});
+										}}
+									/>
+									<p className="mypage__items-name">{name}</p>
+									<p className="mypage__items-group">{group}</p>
+								</div>
+							);
+						})}
 				</div>
 			</section>
 			<section className="mypage-addidol_add">
-				<Button className="mypage-addidol_add-button" icon={"plus"} size={"large"} round>
+				<Button
+					className="mypage-addidol_add-button"
+					icon={"plus"}
+					size={"large"}
+					round
+					onClick={() => {
+						setMyFavoriteIdols((prev) => {
+							const selected = items.filter((item) => selectedIdolIds.includes(item.id) && prev.every((p) => p.id !== item.id));
+							return [...prev, ...selected];
+						});
+					}}
+				>
 					추가하기
 				</Button>
 			</section>
@@ -103,11 +119,3 @@ function AddFavoriteIdols() {
 }
 
 export default AddFavoriteIdols;
-
-/**
- * @JuhyeokC
- * 확인 후 제 이름이 달린 주석은 삭제해주세요!
- * 이해가 어려운 부분은 질문해주세요!
- * map 의 key 잘넣어주셧는데요!
- * 백틱으로 템플릿리터럴 사용하실 때 변수는 ${} 중괄호 사용해주셔야해요!
- */

@@ -30,7 +30,7 @@ function DonationList() {
 	return (
 		<>
 			{pending && <LodingImage />}
-			{error && <p>{error.message}에러발생🦄</p>}
+			{error && <p> </p>}
 			<div>
 				<Slider {...settings}>
 					{sortedItems.map((item) => (
@@ -45,3 +45,5 @@ function DonationList() {
 }
 
 export default DonationList;
+
+//{error && <p>{error.message}에러발생🦄</p>}
