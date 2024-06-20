@@ -6,7 +6,9 @@ function PageNotFound() {
 	return (
 		<article className="page-not-found">
 			<h1>PAGE ERROR</h1>
-			<Link to={"/"}>랜딩페이지로</Link>
+			<Link to={"/"} draggable="false">
+				랜딩페이지로
+			</Link>
 		</article>
 	);
 }
