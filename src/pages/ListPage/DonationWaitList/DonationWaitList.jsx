@@ -10,20 +10,6 @@ import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-/**
- * @JuhyeokC
- * 수현님! 이번에 useAsync 커스텀훅을 수정하면서 구조를 수정했어요!
- * 근데.. receivedDonations 정렬을 위해 사이즈를 100으로 해두신 것 같아요!
- * 그럼 페이지 사이즈를 mode 로 결정하지 않고 상수로 만들고
- * 위의 객체를
- * const PAGE_SIZES = 999; 로 수정하구
- * const pageSize = PAGE_SIZES[mode]; 를 삭제하시구
- * 서버 요청 받은 이후에 list를 정렬해서 idols에 세팅 해도 좋을 것 같습니다!
- * 수현님 본래 의도를 무시한 것 같이 수정했지만 ㅜㅜ
- * 한 번에 다 작업하다보니.. 다 신경 쓸 수 없었습니다 ㅜㅜ
- * 주석은 읽어보시고 지워주세요!
- */
-
 const PAGE_SIZES = 999;
 
 function DonationWaitList({ mode, myCreditState }) {
@@ -36,7 +22,7 @@ function DonationWaitList({ mode, myCreditState }) {
 
 	const [pending, error, execute] = useAsync(getDonationList);
 
-	const getData = async ({ cursor }) => {
+	const getData = async (cursor) => {
 		const params = { pageSize: PAGE_SIZES * 2 }; // 초기 로드 될 때 본래사이즈 보다 2배 사이즈로 호출
 		if (cursor) {
 			params.pageSize = PAGE_SIZES; // 커서가 있을 때 본래 사이즈 만큼 추가 로드
@@ -71,9 +57,11 @@ function DonationWaitList({ mode, myCreditState }) {
 	const slickPrev = () => sliderRef.current.slickPrev();
 
 	// 슬라이드 다음으로
-	const slickNext = async () => {
-		if (cursor) await getData({ PAGE_SIZES, cursor }); // 추가 데이터 요청
-		sliderRef.current?.slickNext(); // 슬라이드 넘기기
+	const slickNext = async () => sliderRef.current.slickNext();
+
+	const handleReload = () => {
+		setCurrentSlide(0);
+		setReload((prev) => ++prev);
 	};
 
 	useEffect(() => {
@@ -87,19 +75,19 @@ function DonationWaitList({ mode, myCreditState }) {
 		speed: 500,
 		slidesToScroll: 2,
 		centerPadding: "0px",
-		infinite: true,
+		infinite: false,
 		variableWidth: true,
 		beforeChange: (oldIndex, newIndex) => {
 			setDisableButton(true); // prev, next 버튼 비활성화
-			console.log("newIndex: ", newIndex);
+			setDisableButton(true);
+			//오류 떠서 일단 주석 해놓음
+			//if (newIndex > idols.length - 3) moreIdols();
 			setCurrentSlide(newIndex);
-		}, // 👽 (2) 슬라이드 변경 시 currentSlide 상태 업데이트
+		}, // 💀 (2) 슬라이드 변경 시 currentSlide 상태 업데이트
 		afterChange: (index) => {
 			setDisableButton(false); // prev, next 버튼 활성화
-			console.log("index: ", index);
-			console.log("idols.length - 3: ", idols.length - 3);
-			// if (index < idols.length - 3) slickNext();
 		},
+
 		responsive: [
 			{
 				breakpoint: 1200,
@@ -128,8 +116,8 @@ function DonationWaitList({ mode, myCreditState }) {
 		>
 			{error ? (
 				<>
-					<p>{error.message} 에러발생🦄</p>
-					<Button size={"wide"} onClick={() => setReload((prev) => ++prev)}>
+					<p> </p>
+					<Button size={"wide"} onClick={handleReload}>
 						RELOAD
 					</Button>
 				</>
@@ -142,7 +130,7 @@ function DonationWaitList({ mode, myCreditState }) {
 						) : (
 							idols.map((item) => (
 								<div key={item.id} style={{ padding: "0 10px" }}>
-									<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
+									<Card item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
 								</div>
 							))
 						)}

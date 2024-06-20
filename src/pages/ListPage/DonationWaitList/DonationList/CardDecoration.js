@@ -112,7 +112,6 @@ const InfoWrapper = styled.div`
 
 	position: relative;
 `;
-// ellipsis 왜 안될까 -> 애니메이션이나 적용해볼까??
 
 const Detail = styled.div`
 	height: ${({ size }) => DETAIL_HEIGHT[size] ?? DETAIL_HEIGHT["small"]};
@@ -151,14 +150,21 @@ const Credit = styled.div`
 	color: #f96d69;
 	display: flex;
 	align-items: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Countdown = styled.div`
 	font-size: 12px;
 	color: #f7f7f8;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const StatusInfo = styled.div`
+	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
 	height: 26px;
 `;
 
