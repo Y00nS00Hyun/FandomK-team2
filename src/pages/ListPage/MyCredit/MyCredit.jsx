@@ -5,8 +5,6 @@ import _ from "lodash";
 import Modal from "../../../components/Modal/Modal";
 import TopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/TopupModal";
 import CreditIcon from "../../../assets/images/symbol/symbol-credit.svg";
-import TitleSection from "../../../components/TitleSection/TitleSection";
-import Button from "../../../components/Button/Button";
 
 const PADDING_SIZES = {
 	desktop: "32px 80px",
