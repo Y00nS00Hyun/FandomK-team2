@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
+import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
 
-function Card({ item, size, myCreditState }) {
-	const [credit, setCredit] = myCreditState;
+function Card({ item, size, ...args }) {
+	const [myCredit, setMyCredit] = useMyCredit();
 	const today = new Date();
 	const deadline = new Date(item.deadline);
 	const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));

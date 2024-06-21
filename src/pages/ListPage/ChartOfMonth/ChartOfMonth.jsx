@@ -6,6 +6,7 @@ import TitleSection from "../../../components/TitleSection/TitleSection";
 import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button";
 import style from "./ChartOfMonth.module.css";
+import { useMyCredit } from "../../../context/MyCreditContext";
 
 /**
  * @JuhyeokC
@@ -33,6 +34,7 @@ const Container = styled.div`
 
 // TODO : 내가 개발할 곳 (이대진) 2024.06.10 13:20
 function ChartOfMonth({ mode }) {
+	const [myCredit, setMyCredit] = useMyCredit();
   const pageSize = PAGE_SIZES[mode]; // 서버에 요청할 데이터 갯수
   const [gender, setGender] = useState("female"); // 성별 선택
   const [items, setItems] = useState([]); // 서버에서 응답받은 데이터

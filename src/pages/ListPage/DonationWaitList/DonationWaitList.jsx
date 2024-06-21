@@ -9,6 +9,7 @@ import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useMyCredit } from "../../../context/MyCreditContext.jsx";
 
 /**
  * @JuhyeokC
@@ -26,7 +27,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 const PAGE_SIZES = 999;
 
-function DonationWaitList({ mode, myCreditState }) {
+function DonationWaitList({ mode }) {
+	const [myCredit, setMyCredit] = useMyCredit();
 	const sliderRef = useRef(null);
 	const [reload, setReload] = useState(0);
 	const [idols, setIdols] = useState([]);
@@ -142,7 +144,7 @@ function DonationWaitList({ mode, myCreditState }) {
 						) : (
 							idols.map((item) => (
 								<div key={item.id} style={{ padding: "0 10px" }}>
-									<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
+									<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} />
 								</div>
 							))
 						)}
