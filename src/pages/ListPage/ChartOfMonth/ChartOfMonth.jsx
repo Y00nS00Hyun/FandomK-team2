@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useAsync from "../../../hooks/useAsync";
 import { getChartData } from "../../../api/chartsApi";
-import TitleSection from "../../../components/TitleSection/TitleSection";
-import Button from "../../../components/Button/Button";
-import style from "./ChartOfMonth.module.css";
-import Avatar from "../../../components/Avatar/Avatar";
 import { useMyCredit } from "../../../context/MyCreditContext";
+import TitleSection from "../../../components/TitleSection/TitleSection";
+import ErrorSection from "../../../components/ErrorSection/ErrorSection";
+import Avatar from "../../../components/Avatar/Avatar";
+import Button from "../../../components/Button/Button";
+import Modal from "../../../components/Modal/Modal";
+import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal";
+import style from "./ChartOfMonth.module.css";
+import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
 
 /**
  * @JuhyeokC
@@ -35,12 +39,18 @@ const Container = styled.div`
 // TODO : 내가 개발할 곳 (이대진) 2024.06.10 13:20
 function ChartOfMonth({ mode }) {
 	const [myCredit, setMyCredit] = useMyCredit();
+	const [votes, setVotes] = useState(false); // 투표하기 모달 on, off 관리
 	const pageSize = PAGE_SIZES[mode]; // 서버에 요청할 데이터 갯수
 	const [gender, setGender] = useState("female"); // 성별 선택
 	const [items, setItems] = useState([]); // 서버에서 응답받은 데이터
 	const [cursor, setCursor] = useState(null); // 서버요청에 사용될 커서
 	const [reload, setReload] = useState(0); // 응답에러 시 컴포넌트 재 렌더링을 위한 스테이트
 	const [disableButton, setDisableButton] = useState(false); // 더보기 버튼 비활성화 상태
+
+	const [theme, setTheme] = useState("dark");
+
+	const votesOpen = () => setVotes(true);
+	const votesClose = () => setVotes(false);
 
 	/**
 	 * @JuhyeokC
@@ -93,7 +103,7 @@ function ChartOfMonth({ mode }) {
 			return gender;
 		});
 	};
-  
+
 	/**
 	 * @JuhyeokC
 	 * 차트 투표하기 모달 출력
@@ -107,83 +117,83 @@ function ChartOfMonth({ mode }) {
 	 * 렌더링 된 후 데이터호출 함수 실행 이후
 	 * pageSize, gender 스테이트가 변경될 때 마다 실행
 	 */
+
 	useEffect(() => {
 		getData({ pageSize, gender });
 	}, [gender, reload]);
 
 	return (
-		<TitleSection
-			title={"이달의 차트"}
-			action={
-				<Button icon={"chart"} size={"small"} onClick={handleClick}>
-					차트 투표하기
-				</Button>
-			}
-		>
-			{/**
-			 * @JuhyeokC
-			 * 데이터호출 함수 실행 이후
-			 * error(에러), pending(응답대기), items(응답데이터) 의 상태에 따른 렌더링
-			 */}
-			{error ? (
-				<>
-					<p>ERROR! {error.message}</p>
-					<Button size={"wide"} onClick={handleReload}>
-						RELOAD
+		<>
+			<TitleSection
+				title={"이달의 차트"}
+				action={
+					<Button icon={"chart"} size={"small"} onClick={votesOpen}>
+						차트 투표하기
 					</Button>
-				</>
-			) : (
-				<>
-					<section className={style["chartbar__gender"]}>
-						<button onClick={() => handleGender("female")} className={`${style["chartbar__gender-button"]} ${gender === "female" && style["selected"]}`}>
-							이달의 여자 아이돌
-						</button>
-						<button onClick={() => handleGender("male")} className={`${style["chartbar__gender-button"]} ${gender === "male" && style["selected"]}`}>
-							이달의 남자 아이돌
-						</button>
-					</section>
-					<Container className={style["container"]} $mode={mode}>
-						{items &&
-							items.map((item) => (
-                <article key={item.id} className={style["chart__ranking"]}>
-                  <section className={style["chart__profile"]}>
-                    <Avatar src={item.profilePicture} size={"basic"} alt={`${item.name} 프로필 이미지`} />
-                    <span className={style["chart__rank"]}>{item.rank}</span>
-                    <div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
-                  </section>
-                  <div className={style["chart__vote"]}>{item.totalVotes}표</div>
-                </article>
-							))}
-						{pending && (
-							<>
-								{Array.from({ length: pageSize }, (v, i) => i).map((_, i) => (
-									<article key={`skeleton-chart-${i}`} className={style["chart__ranking"]}>
+				}
+			>
+				{/**
+				 * @JuhyeokC
+				 * 데이터호출 함수 실행 이후
+				 * error(에러), pending(응답대기), items(응답데이터) 의 상태에 따른 렌더링
+				 */}
+				{error ? (
+					<ErrorSection error={error} onReload={handleReload}></ErrorSection>
+				) : (
+					<>
+						<section className={style["chartbar__gender"]}>
+							<button onClick={() => handleGender("female")} className={`${style["chartbar__gender-button"]} ${gender === "female" && style["selected"]}`}>
+								이달의 여자 아이돌
+							</button>
+							<button onClick={() => handleGender("male")} className={`${style["chartbar__gender-button"]} ${gender === "male" && style["selected"]}`}>
+								이달의 남자 아이돌
+							</button>
+						</section>
+
+						<Container className={style["container"]} $mode={mode}>
+							{items &&
+								items.map((item) => (
+									<article key={item.id} className={style["chart__ranking"]}>
 										<section className={style["chart__profile"]}>
-											<div className={style["chart__circle"] + " skeleton"}></div>
-											<span className={style["chart__rank"]}></span>
-											<div className={style["chart__group"] + " skeleton"} style={{ minWidth: "100px", minHeight: "16px" }}>
-												&nbsp;
-											</div>
+											<Avatar src={item.profilePicture} size={"basic"} alt={`${item.name} 프로필 이미지`} />
+											<span className={style["chart__rank"]}>{item.rank}</span>
+											<div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
 										</section>
-										<div className={style["chart__vote"]}>
-											<div className="skeleton" style={{ minWidth: "24px" }}>
-												&nbsp;
-											</div>
-										</div>
+										<div className={style["chart__vote"]}>{item.totalVotes}표</div>
 									</article>
 								))}
-							</>
-						)}
-					</Container>
-				</>
-			)}
+							{pending && (
+								<>
+									{Array.from({ length: pageSize }, (v, i) => i).map((_, i) => (
+										<article key={`skeleton-chart-${i}`} className={style["chart__ranking"]}>
+											<section className={style["chart__profile"]}>
+												<div className={style["chart__circle"] + " skeleton"}></div>
+												<span className={style["chart__rank"]}></span>
+												<div className={style["chart__group"] + " skeleton"} style={{ minWidth: "100px", minHeight: "16px" }}>
+													&nbsp;
+												</div>
+											</section>
+											<div className={style["chart__vote"]}>
+												<div className="skeleton" style={{ minWidth: "24px" }}>
+													&nbsp;
+												</div>
+											</div>
+										</article>
+									))}
+								</>
+							)}
+						</Container>
+					</>
+				)}
+				{votes && <VotesModal onClose={votesClose} />}
 
-			{!error && (
-				<button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton}>
-					더보기
-				</button>
-			)}
-		</TitleSection>
+				{!error && (
+					<button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton}>
+						더보기
+					</button>
+				)}
+			</TitleSection>
+		</>
 	);
 }
 

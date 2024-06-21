@@ -5,7 +5,7 @@ import Button from "../../../Button/Button";
 import Xbutton from "../../../Button/Xbutton";
 
 // 후원하기 모달
-function DonationModal({ onClose }) {
+function DonationModal({ onClose, selectedItem }) {
 	return (
 		<div id={done.modalBackground}>
 			<div className={done.donationContainer}>
@@ -13,10 +13,10 @@ function DonationModal({ onClose }) {
 					후원하기
 				</Xbutton>
 				<div className={done.donationBody}>
-					<img src={avatar} className={done.donationImg} alt="연예인 프로필 사진" />
+					<img src={`${selectedItem.idol.prifilePicture}`} className={done.donationImg} alt="연예인 프로필 사진" />
 					<div className={done.adTitle}>
-						<span className={done.adWhere}>강남역 광고</span>
-						<span>민지 2023 첫 광고</span>
+						<span className={done.adWhere}>{selectedItem.subtitle}</span>
+						<span>{selectedItem.title}</span>
 					</div>
 					<form>
 						<div className={done.creditInputBox}>
