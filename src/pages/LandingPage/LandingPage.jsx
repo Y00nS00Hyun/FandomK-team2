@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useMyCredit } from "../../context/MyCreditContext";
+import Logo from "../../components/Logo/Logo";
 import Button from "../../components/Button/Button";
-
-import style from "./LandingPage.module.css";
-
 import BackgroundImage00 from "../../assets/images/landing/background-00.png";
 import BackgroundImage01 from "../../assets/images/landing/background-01.png";
 import BackgroundImage02 from "../../assets/images/landing/background-02.png";
 import BackgroundImage03 from "../../assets/images/landing/background-03.png";
-
 import DeviceImage00 from "../../assets/images/landing/iPhone14Pro-Silver-Portrait.png";
 import DeviceImage01 from "../../assets/images/landing/device-01.png";
 import DeviceImage02 from "../../assets/images/landing/device-02.png";
 import DeviceImage03 from "../../assets/images/landing/device-03.png";
-import Logo from "../../components/Logo/Logo";
+import style from "./LandingPage.module.css";
 
 const SECTION_LIST = [
 	{
@@ -39,10 +36,12 @@ const SECTION_LIST = [
 
 function LandingPage() {
 	const navigate = useNavigate();
+	const [myCredit, setMyCredit] = useMyCredit();
 
 	const clearLocalStorage = () => {
-		Object.keys(localStorage).forEach((key) => localStorage.removeItem(key)); // localStorage 비우기
-		navigate("/list"); // list 페이지로 이동
+		setMyCredit(0);
+		Object.keys(localStorage).forEach((key) => localStorage.removeItem(key));
+		navigate("/list");
 	};
 
 	/**
