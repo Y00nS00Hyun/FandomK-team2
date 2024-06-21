@@ -11,6 +11,7 @@ import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal.js";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Modal from "../../../components/Modal/Modal.jsx";
 
 const PAGE_SIZES = 999;
 
@@ -152,7 +153,11 @@ function DonationWaitList({ mode }) {
 					</>
 				)}
 			</TitleSection>
-			{modalOpen && <DonationModal onClose={closeModal} selectedItem={selectedItem} />}
+			{modalOpen && (
+				<Modal show={modalOpen} onClose={closeModal} title={"후원하기"} buttonName={"후원하기"}>
+					<DonationModal selectedItem={selectedItem} />
+				</Modal>
+			)}
 		</>
 	);
 }
