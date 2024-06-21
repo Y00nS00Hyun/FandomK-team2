@@ -2,8 +2,8 @@ import httpClient from "./httpClient";
 
 const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
-	response: "차트 데이터를 가져오는데 실패했습니다.",
-	gender: "성별을 선택해주세요.",
+  response: "차트 데이터를 가져오는데 실패했습니다.",
+  gender: "성별을 선택해주세요.",
 };
 
 /**
@@ -22,9 +22,9 @@ const ERROR_MESSAGES = {
  * const result = await getChartData({ gender, pageSize, cursor: '이전에 호출한 데이터의 nextCursor' });
  */
 export const getChartData = async ({ pageSize = 10, gender = "male", cursor }) => {
-	const params = { pageSize, gender };
-	if (cursor) params.cursor = cursor;
-	return await httpClient.get(`${API_URL}/charts/{gender}`, params).catch((e) => {
-		throw new Error(ERROR_MESSAGES.response, e);
-	});
+  const params = { pageSize, gender };
+  if (cursor) params.cursor = cursor;
+  return await httpClient.get(`${API_URL}/charts/{gender}`, params).catch((e) => {
+    throw new Error(ERROR_MESSAGES.response, e);
+  });
 };

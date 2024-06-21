@@ -4,14 +4,14 @@ import styled from "styled-components";
 const DEFAULT_MAX_WIDTH = 1200;
 
 const Article = styled.article`
-	position: relative;
-	margin: 0 auto;
-	padding: 40px 0;
-	min-height: 160px;
+  position: relative;
+  margin: 0 auto;
+  padding: 40px 0;
+  min-height: 160px;
 
-	${({ $bottomLine }) =>
-		$bottomLine &&
-		`
+  ${({ $bottomLine }) =>
+    $bottomLine &&
+    `
     &:after {
       content: '';
       position: absolute;
@@ -26,33 +26,33 @@ const Article = styled.article`
 `;
 
 const Head = styled.section`
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-between;
-	align-items: center;
-	gap: 16px;
-	margin: 0 auto;
-	max-width: ${DEFAULT_MAX_WIDTH}px;
-	padding-bottom: 32px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto;
+  max-width: ${DEFAULT_MAX_WIDTH}px;
+  padding-bottom: 32px;
 `;
 
 const Body = styled.section`
-	margin: 0 auto;
-	max-width: ${DEFAULT_MAX_WIDTH}px;
+  margin: 0 auto;
+  max-width: ${DEFAULT_MAX_WIDTH}px;
 `;
 
 const Content = styled.article`
-	position: relative;
+  position: relative;
 `;
 
 const Title = styled.p`
-	flex: 1;
-	font-size: 24px;
-	font-weight: 700;
+  flex: 1;
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 const Buttons = styled.section`
-	position: relative;
+  position: relative;
 `;
 
 /**
@@ -64,17 +64,17 @@ const Buttons = styled.section`
  * @param {Boolean} bottomLine 하단 테두리 여부
  */
 function TitleSection({ children, title, action, bottomLine }) {
-	return (
-		<Article $bottomLine={bottomLine}>
-			<Head>
-				<Title>{title}</Title>
-				{action && <Buttons>{action}</Buttons>}
-			</Head>
-			<Body>
-				<Content>{children}</Content>
-			</Body>
-		</Article>
-	);
+  return (
+    <Article $bottomLine={bottomLine}>
+      <Head>
+        <Title>{title}</Title>
+        {action && <Buttons>{action}</Buttons>}
+      </Head>
+      <Body>
+        <Content>{children}</Content>
+      </Body>
+    </Article>
+  );
 }
 
 export default TitleSection;

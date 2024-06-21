@@ -52,21 +52,21 @@ import { useState } from "react";
  * export default MyComponent;
  */
 export default function useAsync(asyncFunction) {
-	const [pending, setPending] = useState(false);
-	const [error, setError] = useState(null);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState(null);
 
-	async function refetchFunction(...args) {
-		try {
-			setPending(true);
-			setError(null);
-			return await asyncFunction(...args);
-		} catch (error) {
-			setError(error);
-			return;
-		} finally {
-			setPending(false);
-		}
-	}
+  async function refetchFunction(...args) {
+    try {
+      setPending(true);
+      setError(null);
+      return await asyncFunction(...args);
+    } catch (error) {
+      setError(error);
+      return;
+    } finally {
+      setPending(false);
+    }
+  }
 
-	return [pending, error, refetchFunction];
+  return [pending, error, refetchFunction];
 }
