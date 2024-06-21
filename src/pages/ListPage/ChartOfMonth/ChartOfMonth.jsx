@@ -8,7 +8,6 @@ import ErrorSection from "../../../components/ErrorSection/ErrorSection";
 import Avatar from "../../../components/Avatar/Avatar";
 import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
-import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal";
 import style from "./ChartOfMonth.module.css";
 import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
 
@@ -185,7 +184,11 @@ function ChartOfMonth({ mode }) {
 						</Container>
 					</>
 				)}
-				{votes && <VotesModal onClose={votesClose} />}
+				{votes && (
+					<Modal show={votes} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"}>
+						<VotesModal />
+					</Modal>
+				)}
 
 				{!error && (
 					<button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton}>
