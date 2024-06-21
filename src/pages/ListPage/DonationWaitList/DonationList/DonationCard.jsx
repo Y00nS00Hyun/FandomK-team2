@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
+import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
 
-function Card({ item, size, myCreditState, openModal }) {
+function Card({ item, size, openModal }) {
     const today = new Date();
     const deadline = new Date(item.deadline);
     const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
@@ -10,7 +11,7 @@ function Card({ item, size, myCreditState, openModal }) {
     const progressRef = useRef(null);
     const progressBarRef = useRef(null);
 
-    //후원이 100% 채워진 경우, 기한이 지난 경우
+    // 후원이 100% 채워진 경우, 기한이 지난 경우
     const isDonationComplete = item.receivedDonations >= item.targetDonation;
     const isPastDeadline = dDay < 0;
 
@@ -45,7 +46,8 @@ function Card({ item, size, myCreditState, openModal }) {
         };
     }, [item.receivedDonations, item.targetDonation]);
 
-    const buttonText = item.receivedDonations >= item.targetDonation ? "후원 종료" : displaysDay === 0 ? "후원 종료" : "후원하기";
+    // 버튼 텍스트 설정
+    const buttonText = isDonationComplete ? "후원 종료" : isPastDeadline ? "후원 마감" : "후원하기";
 
     return (
         <style.Card size={size}>

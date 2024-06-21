@@ -69,6 +69,11 @@ const ImgButton = styled.div`
 	display: flex;
 `;
 
+const SkeletonImg = styled.div`
+	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
+	height: ${({ size }) => IMG_HEIGHTS[size] ?? IMG_HEIGHTS["small"]};
+`;
+
 const Img = styled.img`
 	width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
 	height: ${({ size }) => IMG_HEIGHTS[size] ?? IMG_HEIGHTS["small"]};
@@ -169,6 +174,6 @@ const StatusInfo = styled.div`
 
 // 😸 export 해보자 😸
 
-const style = { SliderStyle, Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block };
+const style = { SliderStyle, Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block, SkeletonImg };
 
 export default style;

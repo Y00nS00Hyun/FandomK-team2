@@ -3,20 +3,21 @@ import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
 import Slider from "react-slick";
 import TitleSection from "../../../components/TitleSection/TitleSection";
-import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
-
+import LodingImage from "../../../components/LodingImage/LodingImage";
 import Modal from "../../../components/Modal/Modal";
 import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useMyCredit } from "../../../context/MyCreditContext.jsx";
 
 const PAGE_SIZES = 999;
 
-function DonationWaitList({ mode, myCreditState }) {
+function DonationWaitList({ mode }) {
+	const [myCredit, setMyCredit] = useMyCredit();
 	const sliderRef = useRef(null);
 	const [reload, setReload] = useState(0);
 	const [idols, setIdols] = useState([]);
@@ -50,18 +51,19 @@ function DonationWaitList({ mode, myCreditState }) {
 		setDisableButton(false);
 	};
 
-	const moreIdols = async () => {
+	const moreIdols = async (cursor) => {
 		if (cursor) await getData(cursor);
 	};
 
+	const handleReload = () => {
+		setIdols([]);
+		setReload((prev) => ++prev);
+	};
+
+	// 슬라이드 처음으로
 	const slickFirst = () => sliderRef.current.slickGoTo(0);
 	const slickPrev = () => sliderRef.current.slickPrev();
 	const slickNext = async () => sliderRef.current.slickNext();
-
-	const handleReload = () => {
-		setCurrentSlide(0);
-		setReload((prev) => ++prev);
-	};
 
 	const openModal = (item) => {
 		setSelectedItem(item);
@@ -88,7 +90,7 @@ function DonationWaitList({ mode, myCreditState }) {
 		variableWidth: true,
 		beforeChange: (oldIndex, newIndex) => {
 			setDisableButton(true);
-			if (newIndex > idols.length - 3) moreIdols();
+			if (newIndex > idols.length - 3) moreIdols(cursor);
 			setCurrentSlide(newIndex);
 		},
 		afterChange: (index) => {
@@ -137,7 +139,7 @@ function DonationWaitList({ mode, myCreditState }) {
 							) : (
 								idols.map((item) => (
 									<div key={item.id} style={{ padding: "0 10px" }}>
-										<Card item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} openModal={openModal} />
+										<Card item={item} size={mode === "mobile" ? "small" : "medium"} openModal={openModal} />
 									</div>
 								))
 							)}
