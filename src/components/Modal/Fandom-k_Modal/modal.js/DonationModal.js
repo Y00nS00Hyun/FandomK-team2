@@ -1,5 +1,4 @@
 import done from "../module.css/Donation.module.css";
-import avatar from "../../../../assets/images/avatar/avater-skeleton.svg";
 import credit from "../../../../assets/images/icon/icon-credit.svg";
 import Button from "../../../Button/Button";
 import Xbutton from "../../../Button/Xbutton";
@@ -29,6 +28,12 @@ function DonationModal({ onClose, selectedItem }) {
 					</form>
 				</div>
 			</div>
+			<form>
+				<div className={done.creditInputBox}>
+					<input className={done.creditInput} type="number" name="chargeCredit" placeholder="크레딧 입력" min={1} max={9999} />
+					<img src={credit} alt="크레딧 사진" />
+				</div>
+			</form>
 		</div>
 	);
 }
