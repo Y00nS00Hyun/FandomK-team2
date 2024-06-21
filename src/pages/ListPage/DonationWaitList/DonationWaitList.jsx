@@ -12,20 +12,6 @@ import { useMyCredit } from "../../../context/MyCreditContext.jsx";
 import Modal from "../../../components/Modal/Modal.jsx";
 import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal.js";
 
-/**
- * @JuhyeokC
- * 수현님! 이번에 useAsync 커스텀훅을 수정하면서 구조를 수정했어요!
- * 근데.. receivedDonations 정렬을 위해 사이즈를 100으로 해두신 것 같아요!
- * 그럼 페이지 사이즈를 mode 로 결정하지 않고 상수로 만들고
- * 위의 객체를
- * const PAGE_SIZES = 999; 로 수정하구
- * const pageSize = PAGE_SIZES[mode]; 를 삭제하시구
- * 서버 요청 받은 이후에 list를 정렬해서 idols에 세팅 해도 좋을 것 같습니다!
- * 수현님 본래 의도를 무시한 것 같이 수정했지만 ㅜㅜ
- * 한 번에 다 작업하다보니.. 다 신경 쓸 수 없었습니다 ㅜㅜ
- * 주석은 읽어보시고 지워주세요!
- */
-
 const PAGE_SIZES = 999;
 
 function DonationWaitList({ mode }) {
