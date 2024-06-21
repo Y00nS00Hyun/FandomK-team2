@@ -2,9 +2,9 @@ import httpClient from "./httpClient";
 
 const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
-	response: "후원 데이터를 가져오는데 실패했습니다.",
-	id: "후원 id를 입력해주세요.",
-	credit: "크레딧이 1000 보다 작습니다.",
+  response: "후원 데이터를 가져오는데 실패했습니다.",
+  id: "후원 id를 입력해주세요.",
+  credit: "크레딧이 1000 보다 작습니다.",
 };
 
 /**
@@ -29,12 +29,12 @@ const ERROR_MESSAGES = {
  * const result = await getDonationList({ pageSize, priorityIdolIds: [ 200, 202, 404, 500 ] });
  */
 export const getDonationList = async ({ pageSize = 10, cursor, priorityIdolIds }) => {
-	const params = { pageSize };
-	if (cursor) params.cursor = cursor;
-	if (priorityIdolIds) params.priorityIdolIds = priorityIdolIds;
-	return await httpClient.get(`${API_URL}/donations`, params).catch((e) => {
-		throw new Error(ERROR_MESSAGES.response, e);
-	});
+  const params = { pageSize };
+  if (cursor) params.cursor = cursor;
+  if (priorityIdolIds) params.priorityIdolIds = priorityIdolIds;
+  return await httpClient.get(`${API_URL}/donations`, params).catch((e) => {
+    throw new Error(ERROR_MESSAGES.response, e);
+  });
 };
 
 /**
@@ -51,10 +51,10 @@ export const getDonationList = async ({ pageSize = 10, cursor, priorityIdolIds }
  * const result = await updateDonationData(id, { deadline, targetDonation });
  */
 const updateDonationData = async (id, body) => {
-	if (!id) throw new Error(ERROR_MESSAGES.id);
-	return await httpClient.put(`${API_URL}/donations/${id}`, body).catch((e) => {
-		throw new Error(ERROR_MESSAGES, e);
-	});
+  if (!id) throw new Error(ERROR_MESSAGES.id);
+  return await httpClient.put(`${API_URL}/donations/${id}`, body).catch((e) => {
+    throw new Error(ERROR_MESSAGES, e);
+  });
 };
 
 /**
@@ -65,10 +65,10 @@ const updateDonationData = async (id, body) => {
  * @returns {Promise<Object>} The response data parsed as JSON.
  */
 const deleteDonationData = async (id) => {
-	if (!id) throw new Error(ERROR_MESSAGES.id);
-	return await httpClient.delete(`${API_URL}/donations/${id}`).catch((e) => {
-		throw new Error(ERROR_MESSAGES, e);
-	});
+  if (!id) throw new Error(ERROR_MESSAGES.id);
+  return await httpClient.delete(`${API_URL}/donations/${id}`).catch((e) => {
+    throw new Error(ERROR_MESSAGES, e);
+  });
 };
 
 /**
@@ -84,9 +84,9 @@ const deleteDonationData = async (id) => {
  * const result = await updateDonationData(id, { amount });
  */
 export const donateCredit = async (id, { amount }) => {
-	const body = { amount };
-	if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
-	return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {
-		throw new Error(ERROR_MESSAGES, e);
-	});
+  const body = { amount };
+  if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
+  return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {
+    throw new Error(ERROR_MESSAGES, e);
+  });
 };
