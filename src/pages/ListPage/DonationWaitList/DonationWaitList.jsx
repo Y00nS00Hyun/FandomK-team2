@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import Slider from "react-slick";
 import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
-import Slider from "react-slick";
+import { useMyCredit } from "../../../context/MyCreditContext.jsx";
 import TitleSection from "../../../components/TitleSection/TitleSection";
+import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
+import Modal from "../../../components/Modal/Modal.jsx";
+import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal.js";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useMyCredit } from "../../../context/MyCreditContext.jsx";
 
 /**
  * @JuhyeokC
@@ -133,12 +136,7 @@ function DonationWaitList({ mode }) {
 			}
 		>
 			{error ? (
-				<>
-					<p>{error.message} 에러발생🦄</p>
-					<Button size={"wide"} onClick={handleReload}>
-						RELOAD
-					</Button>
-				</>
+				<ErrorSection error={error} onReload={handleReload}></ErrorSection>
 			) : (
 				<>
 					{pending && idols.length === 0 && (
