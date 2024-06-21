@@ -8,6 +8,24 @@
 	cursor: default;
 }
 
+.myidol {
+	margin-bottom: 42px;
+}
+
+.mypage-myidol__container {
+	display: flex;
+	gap: 24px;
+	z-index: 1;
+}
+
+.mypage-myidol__items {
+	grid-column: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 .addidol {
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
 	position: relative;
@@ -62,22 +80,8 @@
 	margin: 0 auto;
 }
 
-.myidol {
-	margin-bottom: 42px;
-}
-
-.mypage-myidol__container {
+.mypage__caretButton {
 	display: flex;
-	gap: 24px;
-	z-index: 1;
-}
-
-.mypage-myidol__items {
-	grid-column: auto;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 }
 
 /* Tablet */

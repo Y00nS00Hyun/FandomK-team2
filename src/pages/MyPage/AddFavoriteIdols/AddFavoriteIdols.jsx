@@ -8,7 +8,7 @@ import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button";
 import Avatar from "../../../components/Avatar/Avatar";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
-import style from "../AddFavoriteIdols/avatarStyle.css";
+import style from "../AddFavoriteIdols/myPageStyle.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { isEmpty } from "lodash";
@@ -166,7 +166,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 									})
 								)}
 							</Slider>
-							{mode === "desktop" && (
+							{mode !== "mobile" && (
 								<>
 									<CaretButton direction="left" size="large" onClick={slickPrev} />
 									<CaretButton direction="right" size="large" onClick={slickNext} />
