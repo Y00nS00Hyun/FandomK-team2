@@ -16,30 +16,30 @@ h1 {
 
 .chart__ranking {
 	display: flex;
-  width:50%;
+	width: 50%;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid #ffffff1a;
 	padding-bottom: 8px;
 }
 
-.chart__profile{
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
+.chart__profile {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .chart__rank {
 	margin: 0 12px;
 }
 
-.chartbar__gender{
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
+.chartbar__gender {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-.chartbar__gender-button{
+.chartbar__gender-button {
 	background-color: #02000e;
 	border-style: none;
 	color: rgb(130, 130, 130);
@@ -48,16 +48,13 @@ h1 {
 	font-size: 14px;
 }
 
-  /* transition */
-  /* calc  */
-.chart__vote{
-  display:flex;
-  justify-content: flex-end;
-  color:#FFFFFF99;
-  font-size:14px;
-  padding-right:30px;
+.chart__vote {
+	display: flex;
+	justify-content: flex-end;
+	color: #ffffff99;
+	font-size: 14px;
+	padding-right: 30px;
 }
-
 
 .selected {
 	background-color: #ffffff1a;
@@ -65,7 +62,7 @@ h1 {
 	color: white;
 }
 
-.chartbar__button:hover {
+.chartbar__gender-button:hover {
 	background-color: #ffffff1a;
 }
 
@@ -94,17 +91,9 @@ h1 {
 
 .container {
 	margin-top: 24px;
-  display:flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-	/* display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(5, 20%);
-	grid-gap: 0px 24px;
-	grid-auto-rows: 79px; */
-	/* column-gap: 24px;
-	row-gap: 8px; */
-
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .viewMore {
@@ -125,22 +114,22 @@ h1 {
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
-	.container{
-    display:flex;
-    flex-direction: column;
-  }
-  .chart__ranking{
-    width:100%;
-  }
+	.container {
+		display: flex;
+		flex-direction: column;
+	}
+	.chart__ranking {
+		width: 100%;
+	}
 }
 
 /* Mobile */
 @media screen and (max-width: 767px) {
-	.container{
-    display:flex;
-    flex-direction: column;
-  }
-  .chart__ranking{
-    width:100%;
-  }
+	.container {
+		display: flex;
+		flex-direction: column;
+	}
+	.chart__ranking {
+		width: 100%;
+	}
 }
