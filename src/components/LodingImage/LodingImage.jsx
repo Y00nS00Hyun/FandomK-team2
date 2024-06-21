@@ -10,7 +10,7 @@ const COLORS = {
 };
 
 const Container = styled.section`
-	position: relative;
+	position: fixed;
 	z-index: 10;
 	inset: 0;
 	display: flex;
@@ -20,12 +20,14 @@ const Container = styled.section`
 	width: 100%;
 	height: 100%;
 	padding: 100px;
+	background: var(--modal-cover);
+	background-color: var(--background-color-basic);
 `;
 
 function LodingImage({ ...args }) {
 	return (
 		<Container {...args}>
-			<HashLoader color={COLORS.orange} size={160} cssOverride={{ opacity: "0.8" }} />
+			<HashLoader color={COLORS.orange} size={160} />
 		</Container>
 	);
 }
