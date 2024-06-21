@@ -10,7 +10,6 @@ function Card({ item, size, onClick, ...args }) {
 	const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
 	const displaysDay = dDay >= 0 ? dDay : 0;
 	const progressRef = useRef(null);
-
 	const progressBarRef = useRef(null);
 	// 후원이 100% 채워진 경우, 기한이 지난 경우
 	const isDonationComplete = item.receivedDonations >= item.targetDonation;
@@ -66,7 +65,7 @@ function Card({ item, size, onClick, ...args }) {
 						<style.Block>
 							<style.SubmitButton
 								size={size}
-								onClick={onClick} // 버튼 활성화
+								onClick={onClick}
 								disabled={isDonationComplete || isPastDeadline} // 버튼 비활성화
 							>
 								{buttonText}

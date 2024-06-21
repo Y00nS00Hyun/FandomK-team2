@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import Slider from "react-slick";
 import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
-import { useMyCredit } from "../../../context/MyCreditContext.jsx";
+import Slider from "react-slick";
 import TitleSection from "../../../components/TitleSection/TitleSection";
-import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
-import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal.js";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useMyCredit } from "../../../context/MyCreditContext.jsx";
+import Modal from "../../../components/Modal/Modal.jsx";
+import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal.js";
+import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 
 const PAGE_SIZES = 999;
 
@@ -22,20 +23,24 @@ function DonationWaitList({ mode }) {
 	const [cursor, setCursor] = useState(null);
 	const [disableButton, setDisableButton] = useState(true);
 	const [currentSlide, setCurrentSlide] = useState(0);
-	const [modalOpen, setModalOpen] = useState(false);
-	const [selectedItem, setSelectedItem] = useState(null);
+	const [visibleModal, setVisibleModal] = useState(false);
+	const [currentIdol, setCurrentIdol] = useState(null); // 기본값 null로 변경
+	const [creditValue, setCreditValue] = useState("");
+	const [donationButtonDisabled, setDonationButtonDisabled] = useState(true);
 
 	const [pending, error, execute] = useAsync(getDonationList);
 
-	const getData = async (cursor) => {
+	const getData = async ({ cursor }) => {
 		const params = { pageSize: PAGE_SIZES * 2 };
-		if (cursor) params.cursor = cursor;
+		if (cursor) {
+			params.pageSize = PAGE_SIZES;
+			params.cursor = cursor;
+		}
 
 		const result = await execute(params);
 		if (!result) return;
 		const { list, nextCursor } = result;
 
-		// 종료된 카드들은 맨 뒤로 이동
 		const sortedIdols = [...list].sort((a, b) => {
 			const aIsEnded = a.receivedDonations >= a.targetDonation || new Date(a.deadline) < new Date();
 			const bIsEnded = b.receivedDonations >= b.targetDonation || new Date(b.deadline) < new Date();
@@ -50,7 +55,7 @@ function DonationWaitList({ mode }) {
 	};
 
 	const moreIdols = async (cursor) => {
-		if (cursor) await getData(cursor);
+		if (cursor) await getData({ cursor });
 	};
 
 	const handleReload = () => {
@@ -58,23 +63,22 @@ function DonationWaitList({ mode }) {
 		setReload((prev) => ++prev);
 	};
 
-	// 슬라이드 처음으로
 	const slickFirst = () => sliderRef.current.slickGoTo(0);
 	const slickPrev = () => sliderRef.current.slickPrev();
 	const slickNext = async () => sliderRef.current.slickNext();
 
 	const openModal = (item) => {
-		setSelectedItem(item);
-		setModalOpen(true);
+		setCurrentIdol(item);
+		setVisibleModal(true);
 	};
 
 	const closeModal = () => {
-		setSelectedItem(null);
-		setModalOpen(false);
+		setCurrentIdol(null); // 모달 닫을 때 null로 설정
+		setVisibleModal(false);
 	};
 
 	useEffect(() => {
-		getData();
+		getData({ cursor: null });
 	}, [reload]);
 
 	const settings = {
@@ -132,7 +136,7 @@ function DonationWaitList({ mode }) {
 								})}
 							</div>
 						)}
-						{!pending && idols.length === 0 ? (
+						{idols.length === 0 && !pending ? (
 							<p>진행중인 후원이 없습니다.</p>
 						) : (
 							<Slider ref={sliderRef} {...settings}>
@@ -152,7 +156,11 @@ function DonationWaitList({ mode }) {
 					</>
 				)}
 			</TitleSection>
-			{modalOpen && <DonationModal onClose={closeModal} show={modalOpen} selectedItem={selectedItem} />}
+			{visibleModal && currentIdol && (
+				<Modal title={"후원하기"} show={visibleModal} onClose={closeModal}>
+					<DonationModal onClose={closeModal} icon={"credit"} idol={currentIdol} creditValueState={[creditValue, setCreditValue]} donationButtonDisabledState={[donationButtonDisabled, setDonationButtonDisabled]} disabled={donationButtonDisabled} buttonName={"후원하기"} />
+				</Modal>
+			)}
 		</>
 	);
 }
