@@ -134,7 +134,7 @@ function Avatar({ onClick, src, size, alt, checked, cancled, ...args }) {
 		<Article $size={size} {...args}>
 			<XButton $cancled={cancled} onClick={onClick}></XButton>
 			<Cover $checked={checked} onClick={onClick}>
-				<Photo src={src} alt={alt} />
+				<Photo src={src} alt={alt} draggable="false" />
 			</Cover>
 		</Article>
 	);
