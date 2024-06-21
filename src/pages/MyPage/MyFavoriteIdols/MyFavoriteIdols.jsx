@@ -49,7 +49,7 @@ function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
 
 	const settings = {
 		rows: rowSize,
-		slidesToShow: pageSize / 2,
+		slidesToShow: myFavoriteIdols.length,
 		swipeToSlide: true,
 		infinite: true,
 		speed: 500,
