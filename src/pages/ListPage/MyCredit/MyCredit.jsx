@@ -87,27 +87,32 @@ const TextButton = styled.button`
 
 function MyCredit({ mode }) {
 	const [myCredit, setMyCredit] = useMyCredit();
-	const [creditValue, setcreditValue] = useState(0);
+	const [startValue, setStartValue] = useState(0);
+	const [creditValue, setCreditValue] = useState(0);
 	const [visibleModal, setVisibelModal] = useState(false);
 
-	const handleChange = (e) => setcreditValue(Number(e.target.value));
+	const handleChange = (e) => setCreditValue(Number(e.target.value));
 
 	const handleClick = () => {
-		setMyCredit((prev) => {
-			const next = _.add(Number(prev), Number(creditValue));
-			const count = new CountUp("myCredit", next, {
-				startVal: prev,
-				duration: 0.48,
-			});
-			if (!count.error) count.start();
-			else console.error(count.error);
-			return next;
-		});
+		setMyCredit((prev) => _.add(Number(prev), Number(creditValue)));
 		setVisibelModal(false);
 	};
 
 	useEffect(() => {
-		if (!visibleModal) setcreditValue(0);
+		const count = new CountUp("myCredit", myCredit, {
+			startVal: startValue,
+			duration: 0.48,
+		});
+		if (!count.error) {
+			count.start();
+			setStartValue(myCredit);
+		} else {
+			console.error(count.error);
+		}
+	}, [myCredit]);
+
+	useEffect(() => {
+		if (!visibleModal) setCreditValue(0);
 	}, [visibleModal]);
 
 	return (
