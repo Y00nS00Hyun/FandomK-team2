@@ -50,9 +50,8 @@ const Cover = styled.div`
 	position: absolute;
 	width: 90%;
 	height: 90%;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	top: 5%;
+	left: 5%;
 	border-radius: 9999px;
 	z-index: 1;
 

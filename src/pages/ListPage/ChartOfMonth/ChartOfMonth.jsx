@@ -5,6 +5,7 @@ import { getChartData } from "../../../api/chartsApi";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import Button from "../../../components/Button/Button";
 import style from "./ChartOfMonth.module.css";
+import Avatar from "../../../components/Avatar/Avatar";
 import { useMyCredit } from "../../../context/MyCreditContext";
 
 /**
@@ -92,7 +93,7 @@ function ChartOfMonth({ mode }) {
 			return gender;
 		});
 	};
-
+  
 	/**
 	 * @JuhyeokC
 	 * 차트 투표하기 모달 출력
@@ -144,16 +145,14 @@ function ChartOfMonth({ mode }) {
 					<Container className={style["container"]} $mode={mode}>
 						{items &&
 							items.map((item) => (
-								<article key={item.id} className={style["chart__ranking"]}>
-									<section className={style["chart__profile"]}>
-										<div className={style["chart__circle"]}>
-											<img className={style["chart__img"]} src={item.profilePicture} alt={`${item.name} 프로필 이미지`} height={80} draggable="false" />
-										</div>
-										<span className={style["chart__rank"]}>{item.rank}</span>
-										<div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
-									</section>
-									<div className={style["chart__vote"]}>{item.totalVotes}표</div>
-								</article>
+                <article key={item.id} className={style["chart__ranking"]}>
+                  <section className={style["chart__profile"]}>
+                    <Avatar src={item.profilePicture} size={"basic"} alt={`${item.name} 프로필 이미지`} />
+                    <span className={style["chart__rank"]}>{item.rank}</span>
+                    <div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
+                  </section>
+                  <div className={style["chart__vote"]}>{item.totalVotes}표</div>
+                </article>
 							))}
 						{pending && (
 							<>
