@@ -76,7 +76,6 @@ function DonationWaitList({ mode }) {
 		setReload((prev) => ++prev);
 	};
 
-	// 슬라이드 처음으로
 	const slickFirst = () => sliderRef.current.slickGoTo(0);
 
 	// 슬라이드 이전으로
