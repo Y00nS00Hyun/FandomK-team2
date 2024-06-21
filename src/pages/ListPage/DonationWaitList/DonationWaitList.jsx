@@ -3,12 +3,12 @@ import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
 import Slider from "react-slick";
 import TitleSection from "../../../components/TitleSection/TitleSection";
-import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useMyCredit } from "../../../context/MyCreditContext.jsx";
 
 /**
  * @JuhyeokC
@@ -26,7 +26,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 const PAGE_SIZES = 999;
 
-function DonationWaitList({ mode, myCreditState }) {
+function DonationWaitList({ mode }) {
+	const [myCredit, setMyCredit] = useMyCredit();
 	const sliderRef = useRef(null);
 	const [reload, setReload] = useState(0);
 	const [idols, setIdols] = useState([]);
@@ -62,6 +63,11 @@ function DonationWaitList({ mode, myCreditState }) {
 		});
 		setCursor(nextCursor); // 서버요청에 사용될 커서 상태
 		setDisableButton(false); // prev, next 버튼 활성화
+	};
+
+	const handleReload = () => {
+		setIdols([]);
+		setReload((prev) => ++prev);
 	};
 
 	// 슬라이드 처음으로
@@ -129,24 +135,30 @@ function DonationWaitList({ mode, myCreditState }) {
 			{error ? (
 				<>
 					<p>{error.message} 에러발생🦄</p>
-					<Button size={"wide"} onClick={() => setReload((prev) => ++prev)}>
+					<Button size={"wide"} onClick={handleReload}>
 						RELOAD
 					</Button>
 				</>
 			) : (
 				<>
-					{pending && <LodingImage style={{ position: "absolute" }} />}
-					<Slider ref={sliderRef} {...settings}>
-						{idols.length === 0 ? (
-							<p>진행중인 후원이 없습니다.</p>
-						) : (
-							idols.map((item) => (
+					{pending && idols.length === 0 && (
+						<div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
+							{Array.from({ length: 4 }, (v, i) => i).map((_, i) => {
+								return <Card key={`skeleton-card-${i}`} item={"skeleton"} size={mode === "mobile" ? "small" : "medium"} style={{ margin: 0 }} />;
+							})}
+						</div>
+					)}
+					{!pending && idols.length === 0 ? (
+						<p>진행중인 후원이 없습니다.</p>
+					) : (
+						<Slider ref={sliderRef} {...settings}>
+							{idols.map((item) => (
 								<div key={item.id} style={{ padding: "0 10px" }}>
-									<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} myCreditState={myCreditState} />
+									<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} />
 								</div>
-							))
-						)}
-					</Slider>
+							))}
+						</Slider>
+					)}
 					{mode === "desktop" && (
 						<>
 							{currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}

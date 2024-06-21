@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { MyCreditProvider } from "./context/MyCreditContext";
 import RootHeader from "./layout/RootHeader/RootHeader";
-import LodingImage from "./components/LodingImage/LodingImage";
 import DecotationImage from "./assets/images/decoration/decoration-background-top-design.svg";
 
 const HEADER_HEIGHT = 80;
@@ -17,28 +17,15 @@ const Main = styled.main`
 `;
 
 function App() {
-	const [isLoading, setIsLoading] = useState(false);
 	const { pathname } = useLocation();
 
-	useEffect(() => {
-		setTimeout(() => {
-			setIsLoading((prev) => false);
-		}, 2400);
-	}, []);
-
 	return (
-		<>
-			{isLoading ? (
-				<LodingImage />
-			) : (
-				<>
-					{pathname !== "/" && <RootHeader headerHeight={HEADER_HEIGHT} />}
-					<Main id="rootContainer">
-						<Outlet />
-					</Main>
-				</>
-			)}
-		</>
+		<MyCreditProvider>
+			{pathname !== "/" && <RootHeader headerHeight={HEADER_HEIGHT} />}
+			<Main id="rootContainer">
+				<Outlet />
+			</Main>
+		</MyCreditProvider>
 	);
 }
 

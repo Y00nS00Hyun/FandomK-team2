@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
@@ -12,6 +12,8 @@ const Header = styled.header`
 	bottom: auto;
 	padding: 0 24px;
 	backdrop-filter: blur(8px);
+	${({ $visible }) => $visible && `top: -${$visible}px;`}
+	transition: top 1s;
 `;
 
 const Inner = styled.section`
@@ -33,14 +35,32 @@ const Section = styled.section`
 
 function RootHeader({ headerHeight }) {
 	const { pathname } = useLocation();
+	const [scroll, setScroll] = useState(0);
+	const [visible, setVisible] = useState(true);
 
 	const handleRefresh = (e) => {
 		const href = `/${e.currentTarget.href.split("/").pop()}`;
 		if (href === pathname) window.location.replace(href);
 	};
 
+	/**
+	 * @todo 스크롤 인터렉션 개발하기
+	 */
+	useEffect(() => {
+		const handleScroll = (e) => {
+			const currentScroll = e.srcElement.scrollingElement.scrollTop;
+			setScroll((prev) => {
+				prev < currentScroll ? setVisible(false) : setVisible(true);
+				return currentScroll;
+			});
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, [scroll]);
+
 	return (
-		<Header>
+		<Header $visible={visible || headerHeight}>
 			<Inner className="inner" $headerHeight={headerHeight}>
 				<Section>
 					<Link to={"/"} draggable="false">
