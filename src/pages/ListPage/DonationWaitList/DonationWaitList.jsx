@@ -153,7 +153,7 @@ function DonationWaitList({ mode }) {
 					</>
 				)}
 			</TitleSection>
-			{modalOpen && <DonationModal onClose={closeModal} selectedItem={selectedItem} />}
+			{modalOpen && <DonationModal onClose={closeModal} show={modalOpen} selectedItem={selectedItem} />}
 		</>
 	);
 }
