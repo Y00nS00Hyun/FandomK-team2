@@ -50,7 +50,7 @@ function RootHeader({ headerHeight }) {
 		const handleScroll = (e) => {
 			const currentScroll = e.srcElement.scrollingElement.scrollTop;
 			setScroll((prev) => {
-				prev < currentScroll ? setVisible(false) : setVisible(true);
+				prev !== 0 && prev < currentScroll ? setVisible(false) : setVisible(true);
 				return currentScroll;
 			});
 		};
