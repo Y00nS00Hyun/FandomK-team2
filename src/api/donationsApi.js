@@ -83,7 +83,7 @@ const deleteDonationData = async (id) => {
  * // 크레딧 후원 하기
  * const result = await updateDonationData(id, { amount });
  */
-const donateCredit = async (id, { amount }) => {
+export const donateCredit = async (id, { amount }) => {
 	const body = { amount };
 	if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
 	return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {

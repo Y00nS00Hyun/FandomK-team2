@@ -51,22 +51,26 @@ const Title = styled.p`
 	font-weight: 700;
 `;
 
-const Buttons = styled.section``;
+const Buttons = styled.section`
+	position: relative;
+`;
 
 /**
+ * @name TitleSection
  *
- * @param {Object} title 영역 제목
- * @param {Object} action 영역 제목
- * @returns
+ * @param {Object} children 자식 객체
+ * @param {String} title 영역 제목
+ * @param {Object} action 영역 기능 버튼
+ * @param {Boolean} bottomLine 하단 테두리 여부
  */
-function TitleSection({ children, title, action, carousel, bottomLine }) {
+function TitleSection({ children, title, action, bottomLine }) {
 	return (
 		<Article $bottomLine={bottomLine}>
 			<Head>
 				<Title>{title}</Title>
 				{action && <Buttons>{action}</Buttons>}
 			</Head>
-			<Body $carousel={carousel}>
+			<Body>
 				<Content>{children}</Content>
 			</Body>
 		</Article>
