@@ -73,6 +73,11 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 		if (cursor) await getData({ pageSize, cursor });
 	};
 
+	const handleReload = () => {
+		setIdols([]);
+		setReload((prev) => ++prev);
+	};
+
 	// 슬라이드 처음으로
 	const slickFirst = () => sliderRef.current.slickGoTo(0);
 
@@ -126,7 +131,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 				{error ? (
 					<>
 						<p>{error.message} 에러발생🦄</p>
-						<Button size={"wide"} onClick={() => setReload((prev) => ++prev)}>
+						<Button size={"wide"} onClick={handleReload}>
 							RELOAD
 						</Button>
 					</>

@@ -3,7 +3,6 @@ import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
 import Slider from "react-slick";
 import TitleSection from "../../../components/TitleSection/TitleSection";
-import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
@@ -64,6 +63,11 @@ function DonationWaitList({ mode }) {
 		});
 		setCursor(nextCursor); // 서버요청에 사용될 커서 상태
 		setDisableButton(false); // prev, next 버튼 활성화
+	};
+
+	const handleReload = () => {
+		setIdols([]);
+		setReload((prev) => ++prev);
 	};
 
 	// 슬라이드 처음으로
@@ -131,7 +135,7 @@ function DonationWaitList({ mode }) {
 			{error ? (
 				<>
 					<p>{error.message} 에러발생🦄</p>
-					<Button size={"wide"} onClick={() => setReload((prev) => ++prev)}>
+					<Button size={"wide"} onClick={handleReload}>
 						RELOAD
 					</Button>
 				</>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import useAsync from "../../../hooks/useAsync";
 import { getChartData } from "../../../api/chartsApi";
 import TitleSection from "../../../components/TitleSection/TitleSection";
-import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button";
 import style from "./ChartOfMonth.module.css";
 import { useMyCredit } from "../../../context/MyCreditContext";
@@ -74,13 +73,25 @@ function ChartOfMonth({ mode }) {
     setDisableButton(!nextCursor); // 더보기 버튼 비활성화 상태 (커서 값이 null일 때 ! 반전으로 참이 되므로 더보기 버튼의 disabled 프롭이 true 가 되어 더보기 조작을 막을 수 있다.)
   };
 
-  /**
-   * @JuhyeokC
-   * 더보기 데이터 호출 함수
-   */
-  const moreData = async () => {
-    await getData({ pageSize, gender, cursor });
-  };
+	/**
+	 * @JuhyeokC
+	 * 더보기 데이터 호출 함수
+	 */
+	const moreData = async () => {
+		await getData({ pageSize, gender, cursor });
+	};
+
+	const handleReload = () => {
+		setItems([]);
+		setReload((prev) => ++prev);
+	};
+
+	const handleGender = (gender) => {
+		setGender((prev) => {
+			if (gender !== prev) setItems([]);
+			return gender;
+		});
+	};
 
   /**
    * @JuhyeokC
@@ -113,14 +124,14 @@ function ChartOfMonth({ mode }) {
 			 * 데이터호출 함수 실행 이후
 			 * error(에러), pending(응답대기), items(응답데이터) 의 상태에 따른 렌더링
 			 */}
-      {error ? (
-        <>
-          <p>ERROR! {error.message}</p>
-          <Button size={"wide"} onClick={() => setReload((prev) => ++prev)}>
-            RELOAD
-          </Button>
-        </>
-      ) : (
+			{error ? (
+				<>
+					<p>ERROR! {error.message}</p>
+					<Button size={"wide"} onClick={handleReload}>
+						RELOAD
+					</Button>
+				</>
+			) : (
         <>
           {pending ? (
             <LodingImage />
