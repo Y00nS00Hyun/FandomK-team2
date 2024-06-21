@@ -25,7 +25,7 @@ input::-webkit-inner-spin-button {
 
 /*연예인 후원하기 모달*/
 .donationContainer {
-	background-color: #181026;
+	background-color: #181d26;
 	width: 327px;
 	padding: 24px 16px 32px;
 	border-radius: 8px;
@@ -52,6 +52,9 @@ input::-webkit-inner-spin-button {
 	width: 158px;
 	height: 206px;
 	margin: 0 auto;
+	overflow: hidden;
+	object-fit: cover;
+	object-position: center;
 }
 
 .adTitle {
