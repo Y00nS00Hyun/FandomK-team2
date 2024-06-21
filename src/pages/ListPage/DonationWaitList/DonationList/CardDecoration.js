@@ -62,9 +62,6 @@ const Card = styled.div`
 	height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
 	margin-left: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
 	margin-right: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 `;
 
 const ImgButton = styled.div`
@@ -120,7 +117,6 @@ const InfoWrapper = styled.div`
 
 	position: relative;
 `;
-// ellipsis 왜 안될까 -> 애니메이션이나 적용해볼까??
 
 const Detail = styled.div`
 	height: ${({ size }) => DETAIL_HEIGHT[size] ?? DETAIL_HEIGHT["small"]};
@@ -141,11 +137,17 @@ const Status = styled.div`
 const Subtitle = styled.div`
 	font-size: ${({ size }) => SUBTITLE_FONT_SIZE[size] ?? SUBTITLE_FONT_SIZE["small"]};
 	color: #adadad;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Title = styled.div`
 	font-size: ${({ size }) => TITLE_FONT_SIZE[size] ?? TITLE_FONT_SIZE["small"]};
 	color: #f7f7f8;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Credit = styled.div`
@@ -153,11 +155,17 @@ const Credit = styled.div`
 	color: #f96d69;
 	display: flex;
 	align-items: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const Countdown = styled.div`
 	font-size: 12px;
 	color: #f7f7f8;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const StatusInfo = styled.div`
