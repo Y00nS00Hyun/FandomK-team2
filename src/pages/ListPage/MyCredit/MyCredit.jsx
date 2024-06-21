@@ -5,6 +5,7 @@ import _ from "lodash";
 import Modal from "../../../components/Modal/Modal";
 import TopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/TopupModal";
 import CreditIcon from "../../../assets/images/symbol/symbol-credit.svg";
+import { useMyCredit } from "../../../context/MyCreditContext";
 
 const PADDING_SIZES = {
 	desktop: "32px 80px",
@@ -84,8 +85,8 @@ const TextButton = styled.button`
 	}
 `;
 
-function MyCredit({ mode, myCreditState }) {
-	const [myCredit, setMyCredit] = myCreditState;
+function MyCredit({ mode }) {
+	const [myCredit, setMyCredit] = useMyCredit();
 	const [creditValue, setcreditValue] = useState(0);
 	const [visibleModal, setVisibelModal] = useState(false);
 
