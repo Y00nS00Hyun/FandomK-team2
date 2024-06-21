@@ -185,7 +185,11 @@ function ChartOfMonth({ mode }) {
 						</Container>
 					</>
 				)}
-				{votes && <VotesModal onClose={votesClose} />}
+				{votes && (
+					<Modal show={votes} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"}>
+						<VotesModal />
+					</Modal>
+				)}
 
 				{!error && (
 					<button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton}>
