@@ -8,7 +8,6 @@ import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Button from "../../../components/Button/Button.jsx";
 import Card from "./DonationList/DonationCard.jsx";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
-import Modal from "../../../components/Modal/Modal.jsx";
 import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal.js";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -139,7 +138,7 @@ function DonationWaitList({ mode }) {
 							<Slider ref={sliderRef} {...settings}>
 								{idols.map((item) => (
 									<div key={item.id} style={{ padding: "0 10px" }}>
-										<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} />
+										<Card key={item.id} item={item} onClick={() => openModal(item)} size={mode === "mobile" ? "small" : "medium"} />
 									</div>
 								))}
 							</Slider>
