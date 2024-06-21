@@ -11,26 +11,18 @@ import style from "../AddFavoriteIdols/avatarStyle.css";
 
 //기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
-	top: 3,
+	test: 3,
 	mobile: 6,
 	tablet: 8,
 	desktop: 16,
 };
 
-//기종별 프로필 이미지 크기
-const PROFILE_SIZES = {
-	mobile: 98,
-	others: 128,
-};
-
-function MyFavoriteIdols() {
-	const mode = useMediaQuery();
-
-	const pageSize = PAGE_SIZES["top"];
-
+function MyFavoriteIdols({ mode, setMyFavoriteIdolsState }) {
+	const [myFavoriteIdols, setMyFavoriteIdols] = setMyFavoriteIdolsState;
+	const pageSize = PAGE_SIZES["test"];
 	const profilSize = useMemo(() => {
-		if (mode === "mobile") return PROFILE_SIZES["mobile"];
-		else return PROFILE_SIZES["others"];
+		if (mode === "mobile") return "basic";
+		else return "otherMyIdol";
 	}, [mode]);
 
 	/**
@@ -51,7 +43,8 @@ function MyFavoriteIdols() {
 	 * @JuhyeokC
 	 * data 가 업데이트될 때 list가 담길 items
 	 */
-	const items = data?.list || [];
+	console.log({ myFavoriteIdols });
+	const items = myFavoriteIdols;
 
 	return (
 		<article className="mypage myidol">
@@ -73,32 +66,24 @@ function MyFavoriteIdols() {
 
 				{!isEmpty(items) &&
 					items.map(({ id, profilePicture, group, name }) => (
-						<div className="mypage-myidol__items" key={`idol-id-$(id)`}>
+						<div className="mypage-myidol__items" key={`idol-id-${id}`}>
 							<Avatar
 								src={profilePicture}
-								size={"otherMyIdol"}
+								size={profilSize}
 								alt={`${name} 프로필 이미지`}
-								checked
-								onCanceled={() => {
-									console.log("canceled", id);
+								cancled
+								onClick={() => {
+									setMyFavoriteIdols((prev) => prev.filter((idol) => idol.id !== id));
 								}}
 							/>
 							<p className="mypage__items-name">{name}</p>
 							<p className="mypage__items-group">{group}</p>
 						</div>
 					))}
+				{isEmpty(items) && <p style={{ marginBottom: "20px" }}>좋아하는 아이돌을 추가해 주세요</p>}
 			</section>
-			{/* TODO: LIST COMPONENT */}
 		</article>
 	);
 }
 
 export default MyFavoriteIdols;
-
-/**
- * @JuhyeokC
- * 확인 후 제 이름이 달린 주석은 삭제해주세요!
- * 이해가 어려운 부분은 질문해주세요!
- * map 의 key 잘넣어주셧는데요!
- * 백틱으로 템플릿리터럴 사용하실 때 변수는 ${} 중괄호 사용해주셔야해요!
- */
