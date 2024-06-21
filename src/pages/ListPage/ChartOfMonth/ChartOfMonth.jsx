@@ -8,7 +8,6 @@ import ErrorSection from "../../../components/ErrorSection/ErrorSection";
 import Avatar from "../../../components/Avatar/Avatar";
 import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
-import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal";
 import style from "./ChartOfMonth.module.css";
 import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
 

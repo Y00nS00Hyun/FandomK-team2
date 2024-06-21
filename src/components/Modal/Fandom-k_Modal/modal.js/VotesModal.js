@@ -36,10 +36,10 @@ function VotesModal() {
 	const cursor = data?.nextCursor;
 
 	/*useEffect(() => {
-		refetchFunction({ pageSize: 6 });
+		execute({ pageSize: 6 });
 		console.log(items);
 		console.log(sortedItems);
-	}, [refetchFunction]);*/
+	}, [execute]);*/
 
 	useEffect(() => {
 		if (typeof refetchFunction !== "function") {
@@ -50,14 +50,11 @@ function VotesModal() {
 		refetchFunction({ pageSize: 6 })
 			.then(() => {
 				console.log("Data fetched successfully");
-				console.log(items);
-				console.log(sortedItems);
 			})
 			.catch((error) => {
 				console.error("Error fetching data:", error.message);
-				// Handle error: display message to the user or perform other actions
 			});
-	}, [refetchFunction, items, sortedItems]);
+	}, [refetchFunction]);
 
 	return (
 		<div className={votes.Contents}>
