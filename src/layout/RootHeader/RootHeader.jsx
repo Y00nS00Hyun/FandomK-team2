@@ -31,31 +31,31 @@ const Section = styled.section`
 	}
 `;
 
-const LogoButton = styled.button`
-	border: none;
-	background: none;
-`;
-
 function RootHeader({ headerHeight }) {
 	const { pathname } = useLocation();
+
+	const handleRefresh = (e) => {
+		const href = `/${e.currentTarget.href.split("/").pop()}`;
+		if (href === pathname) window.location.replace(href);
+	};
 
 	return (
 		<Header>
 			<Inner className="inner" $headerHeight={headerHeight}>
 				<Section>
-					<Link to={"/"}>
+					<Link to={"/"} draggable="false">
 						<img src={Symbol} alt={"Credit symbol"} height={32} draggable="false" />
 					</Link>
 				</Section>
 
 				<Section>
-					<LogoButton onClick={() => window.location.replace(pathname)}>
+					<Link to={"/list"} draggable="false" onClick={handleRefresh}>
 						<Logo size={"lg"} />
-					</LogoButton>
+					</Link>
 				</Section>
 
 				<Section>
-					<Link to={"/mypage"}>
+					<Link to={"/mypage"} draggable="false" onClick={handleRefresh}>
 						<img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={32} draggable="false" />
 					</Link>
 				</Section>

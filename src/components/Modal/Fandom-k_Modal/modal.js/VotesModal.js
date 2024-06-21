@@ -50,7 +50,7 @@ function VotesModal({ onClose }) {
 					<div>이달의 여자 아이돌</div>
 					<Xbutton $size={"small"} onClick={onClose} />
 				</div>
-				<div className={votes.Contents}>
+				<form className={votes.Contents}>
 					<ul className={votes.content}>
 						{pending && <LodingImage />}
 
@@ -66,7 +66,7 @@ function VotesModal({ onClose }) {
 								);
 							})}
 					</ul>
-				</div>
+				</form>
 				<Button className={votes.button}>투표하기</Button>
 				<div className={votes.notification}>
 					<span>
