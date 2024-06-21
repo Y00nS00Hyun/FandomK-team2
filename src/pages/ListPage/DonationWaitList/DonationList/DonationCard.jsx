@@ -85,5 +85,3 @@ function Card({ item, size, openModal }) {
 }
 
 export default Card;
-
-//PR 올리기 버튼 왜 안생기지??? 🐰
