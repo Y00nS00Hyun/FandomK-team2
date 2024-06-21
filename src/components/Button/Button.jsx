@@ -4,11 +4,13 @@ import styled from "styled-components";
 import CreditIcon from "../../assets/images/icon/icon-credit-white.svg";
 import ChartIcon from "../../assets/images/icon/icon-chart.svg";
 import PlusIcon from "../../assets/images/icon/icon-plus.svg";
+import RepostIcon from "../../assets/images/icon/icon-repost.svg";
 
 const ICON_IMAGES = {
 	credit: { src: CreditIcon, size: 24 },
 	chart: { src: ChartIcon, size: 20 },
 	plus: { src: PlusIcon, size: 20 },
+	repost: { src: RepostIcon, size: 20 },
 };
 
 const BUTTON_WIDTHS = {
