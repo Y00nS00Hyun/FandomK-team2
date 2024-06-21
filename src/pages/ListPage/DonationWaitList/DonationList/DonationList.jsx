@@ -4,7 +4,7 @@ import { getDonationList } from "../../../../api/donationsApi";
 import LodingImage from "../../../../components/LodingImage/LodingImage";
 import Card from "./DonationCard";
 import Slider from "react-slick";
-import settings from "./a.js";
+import settings from "./SlickDecoration.js";
 import useMediaQuery from "../../../../hooks/useMediaQuery.js";
 import "./CardLocation.css";
 
