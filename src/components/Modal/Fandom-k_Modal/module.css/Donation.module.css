@@ -1,121 +1,123 @@
 /*인풋 number 타입 설정 시 발생하는 숫자 버튼 제거*/
 input::-webkit-inner-spin-button {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 /*모달 백그라운드 설정 및 버튼 누르기 전까지 숨기기*/
 #modalBackground {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
 }
 
 #modalBackground.hidden {
-	display: none;
+  display: none;
 }
 
 /*연예인 후원하기 모달*/
 .donationContainer {
-	background-color: #181d26;
-	width: 327px;
-	padding: 24px 16px 32px;
-	border-radius: 8px;
-	color: white;
+  background-color: #181026;
+  width: 327px;
+  padding: 24px 16px 32px;
+  border-radius: 8px;
+  color: white;
 }
 
 .donationTop {
-	display: flex;
-	justify-content: space-between;
-	text-align: center;
-	font-size: 18px;
-	width: 100%;
-	height: 24px;
-	color: white;
-	margin-bottom: 19px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 18px;
+  width: 100%;
+  height: 24px;
+  color: white;
+  margin-bottom: 19px;
 }
 
 .donationBody {
-	width: 100%;
+  width: 100%;
 }
 
 .donationImg {
-	display: block;
-	width: 158px;
-	height: 206px;
-	margin: 0 auto;
-	overflow: hidden;
-	object-fit: cover;
-	object-position: center;
+  display: block;
+  width: 158px;
+  height: 206px;
+  margin: 0 auto;
+  border-radius: 10px;
+  /* 이미지 안 깨지게 하는 속성 */
+  object-fit: cover;
+  object-position: center;
 }
 
 .adTitle {
-	width: 158px;
-	color: #67666e;
-	font-size: 12px;
-	display: block;
-	margin: 10px auto 24px;
-	color: white;
-	font-size: 14px;
+  width: 158px;
+  color: #67666e;
+  font-size: 12px;
+  display: block;
+  margin: 10px auto 24px;
+  color: white;
+  font-size: 14px;
 }
 
 .adTitle > span {
-	display: block;
+  display: block;
 }
 
 .adWhere {
-	color: #67666e;
-	margin-bottom: 6px;
+  color: #67666e;
+  margin-bottom: 6px;
+  font-size: 12px;
 }
 
 .creditInputBox {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 16px;
-	margin-bottom: 24px;
-	background-color: #181026;
-	border-radius: 8px;
-	height: 58px;
-	border: 1px solid white;
-	box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 24px;
+  background-color: #181026;
+  border-radius: 8px;
+  height: 58px;
+  border: 1px solid white;
+  box-sizing: border-box;
 }
 
 .creditInputBox > img {
-	width: 24px;
-	height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .creditInput {
-	height: 20px;
-	width: 100%;
-	font-size: 20px;
-	color: white;
-	border: none;
-	background-color: #181026;
-	outline: none;
+  height: 20px;
+  width: 100%;
+  font-size: 20px;
+  color: white;
+  border: none;
+  background-color: #181026;
+  outline: none;
 
-	::placeholder {
-		color: #67666e;
-	}
+  ::placeholder {
+    color: #67666e;
+  }
 }
 
 .donationButton {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 42px;
-	background-color: #828282;
-	color: white;
-	border-radius: 3px;
-	margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+  background-color: #828282;
+  color: white;
+  border-radius: 3px;
+  margin-top: 24px;
 }

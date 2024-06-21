@@ -5,15 +5,15 @@ import ChartOfMonth from "./ChartOfMonth/ChartOfMonth";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 function ListPage() {
-	const mode = useMediaQuery();
+  const mode = useMediaQuery();
 
-	return (
-		<article>
-			<MyCredit mode={mode} />
-			<DonationWaitList mode={mode} />
-			<ChartOfMonth mode={mode} />
-		</article>
-	);
+  return (
+    <article>
+      <MyCredit mode={mode} />
+      <DonationWaitList mode={mode} />
+      <ChartOfMonth mode={mode} />
+    </article>
+  );
 }
 
 export default ListPage;

@@ -6,82 +6,82 @@ import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
 import Symbol from "../../assets/images/symbol/symbol-credit-white.svg";
 
 const Header = styled.header`
-	position: fixed;
-	z-index: 8;
-	inset: 0;
-	bottom: auto;
-	padding: 0 24px;
-	backdrop-filter: blur(8px);
-	${({ $visible }) => $visible && `top: -${$visible}px;`}
-	transition: top 1s;
+  position: fixed;
+  z-index: 8;
+  inset: 0;
+  bottom: auto;
+  padding: 0 24px;
+  backdrop-filter: blur(8px);
+  ${({ $visible }) => $visible && `top: -${$visible}px;`}
+  transition: top 1s;
 `;
 
 const Inner = styled.section`
-	position: relative;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-between;
-	align-items: center;
-	height: ${({ $headerHeight }) => ($headerHeight ? $headerHeight : 80)}px;
-	filter: drop-shadow(0 0 2px var(--background-color-basic));
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: ${({ $headerHeight }) => ($headerHeight ? $headerHeight : 80)}px;
+  filter: drop-shadow(0 0 2px var(--background-color-basic));
 `;
 
 const Section = styled.section`
-	& a,
-	& img {
-		display: block;
-	}
+  & a,
+  & img {
+    display: block;
+  }
 `;
 
 function RootHeader({ headerHeight }) {
-	const { pathname } = useLocation();
-	const [scroll, setScroll] = useState(0);
-	const [visible, setVisible] = useState(true);
+  const { pathname } = useLocation();
+  const [scroll, setScroll] = useState(0);
+  const [visible, setVisible] = useState(true);
 
-	const handleRefresh = (e) => {
-		const href = `/${e.currentTarget.href.split("/").pop()}`;
-		if (href === pathname) window.location.replace(href);
-	};
+  const handleRefresh = (e) => {
+    const href = `/${e.currentTarget.href.split("/").pop()}`;
+    if (href === pathname) window.location.replace(href);
+  };
 
-	/**
-	 * @todo 스크롤 인터렉션 개발하기
-	 */
-	useEffect(() => {
-		const handleScroll = (e) => {
-			const currentScroll = e.srcElement.scrollingElement.scrollTop;
-			setScroll((prev) => {
-				prev < currentScroll ? setVisible(false) : setVisible(true);
-				return currentScroll;
-			});
-		};
+  /**
+   * @todo 스크롤 인터렉션 개발하기
+   */
+  useEffect(() => {
+    const handleScroll = (e) => {
+      const currentScroll = e.srcElement.scrollingElement.scrollTop;
+      setScroll((prev) => {
+        prev !== 0 && prev < currentScroll ? setVisible(false) : setVisible(true);
+        return currentScroll;
+      });
+    };
 
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, [scroll]);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scroll]);
 
-	return (
-		<Header $visible={visible || headerHeight}>
-			<Inner className="inner" $headerHeight={headerHeight}>
-				<Section>
-					<Link to={"/"} draggable="false">
-						<img src={Symbol} alt={"Credit symbol"} height={32} draggable="false" />
-					</Link>
-				</Section>
+  return (
+    <Header $visible={visible || headerHeight}>
+      <Inner className="inner" $headerHeight={headerHeight}>
+        <Section>
+          <Link to={"/"} draggable="false">
+            <img src={Symbol} alt={"Credit symbol"} height={32} draggable="false" />
+          </Link>
+        </Section>
 
-				<Section>
-					<Link to={"/list"} draggable="false" onClick={handleRefresh}>
-						<Logo size={"lg"} />
-					</Link>
-				</Section>
+        <Section>
+          <Link to={"/list"} draggable="false" onClick={handleRefresh}>
+            <Logo size={"lg"} />
+          </Link>
+        </Section>
 
-				<Section>
-					<Link to={"/mypage"} draggable="false" onClick={handleRefresh}>
-						<img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={32} draggable="false" />
-					</Link>
-				</Section>
-			</Inner>
-		</Header>
-	);
+        <Section>
+          <Link to={"/mypage"} draggable="false" onClick={handleRefresh}>
+            <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={32} draggable="false" />
+          </Link>
+        </Section>
+      </Inner>
+    </Header>
+  );
 }
 
 export default RootHeader;

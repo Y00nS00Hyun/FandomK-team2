@@ -32,32 +32,32 @@ const AVATAR_SIZE = {
 /*목록 페이지, 투표 모달창은 디바이스 상관 없이 크기 같음
 전부 basic 사용*/
 const IMAGE_SZIE = {
-	basic: "70px",
-	mobileAddIdol: "98px",
-	otherMyIdol: "100px",
-	otherAddIdol: "128px",
+  basic: "70px",
+  mobileAddIdol: "98px",
+  otherMyIdol: "100px",
+  otherAddIdol: "128px",
 };
 
 const Article = styled.article`
-	position: relative;
-	border-radius: 9999px;
-	width: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
-	height: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
-	border: 2px solid var(--color-brand-orange);
+  position: relative;
+  border-radius: 9999px;
+  width: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
+  height: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
+  border: 2px solid var(--color-brand-orange);
 `;
 
 const Cover = styled.div`
-	position: absolute;
-	width: 90%;
-	height: 90%;
-	top: 5%;
-	left: 5%;
-	border-radius: 9999px;
-	z-index: 1;
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: 5%;
+  border-radius: 9999px;
+  z-index: 1;
 
-	${({ $checked }) =>
-		$checked &&
-		`
+  ${({ $checked }) =>
+    $checked &&
+    `
     &:before {
       content: '';
       position: absolute;
@@ -80,28 +80,28 @@ const Cover = styled.div`
 `;
 
 const Photo = styled.img`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	border-radius: 9999px;
-	object-fit: cover;
-	cursor: pointer;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  object-fit: cover;
+  cursor: pointer;
 `;
 
 const XButton = styled.div`
-	position: absolute;
-	top: 0;
-	right: 0;
-	border-radius: 9999px;
-	z-index: 5;
-	width: 30%;
-	height: 30%;
-	border: none;
-	visibility: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 9999px;
+  z-index: 5;
+  width: 30%;
+  height: 30%;
+  border: none;
+  visibility: hidden;
 
-	${({ $cancled }) =>
-		$cancled &&
-		`
+  ${({ $cancled }) =>
+    $cancled &&
+    `
 		visibility: visible;
 		cursor: pointer;
     &:before {
@@ -130,14 +130,14 @@ const XButton = styled.div`
  */
 
 function Avatar({ onClick, src, size, alt, checked, cancled, ...args }) {
-	return (
-		<Article $size={size} {...args}>
-			<XButton $cancled={cancled} onClick={onClick}></XButton>
-			<Cover $checked={checked} onClick={onClick}>
-				<Photo src={src} alt={alt} />
-			</Cover>
-		</Article>
-	);
+  return (
+    <Article $size={size} {...args}>
+      <XButton $cancled={cancled} onClick={onClick}></XButton>
+      <Cover $checked={checked} onClick={onClick}>
+        <Photo src={src} alt={alt} draggable="false" />
+      </Cover>
+    </Article>
+  );
 }
 /**
  * <큰 틀>

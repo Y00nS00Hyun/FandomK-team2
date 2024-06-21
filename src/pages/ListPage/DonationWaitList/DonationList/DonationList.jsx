@@ -9,39 +9,39 @@ import useMediaQuery from "../../../../hooks/useMediaQuery.js";
 import "./CardLocation.css";
 
 const PAGE_SIZES = {
-	desktop: 100,
-	tablet: 100,
-	mobile: 100,
+  desktop: 100,
+  tablet: 100,
+  mobile: 100,
 };
 
 function DonationList() {
-	const mode = useMediaQuery();
-	const pageSize = PAGE_SIZES[mode];
-	const { refetchFunction, data, pending, error } = useAsync(getDonationList);
-	useEffect(() => {
-		refetchFunction({ pageSize });
-	}, [refetchFunction, pageSize]);
+  const mode = useMediaQuery();
+  const pageSize = PAGE_SIZES[mode];
+  const { refetchFunction, data, pending, error } = useAsync(getDonationList);
+  useEffect(() => {
+    refetchFunction({ pageSize });
+  }, [refetchFunction, pageSize]);
 
-	const items = data?.list || [];
+  const items = data?.list || [];
 
-	// 아이템 인기순으로 정렬하기 👽
-	const sortedItems = items.sort((a, b) => b.receivedDonations - a.receivedDonations);
+  // 아이템 인기순으로 정렬하기 👽
+  const sortedItems = items.sort((a, b) => b.receivedDonations - a.receivedDonations);
 
-	return (
-		<>
-			{pending && <LodingImage />}
-			{error && <p> </p>}
-			<div>
-				<Slider {...settings}>
-					{sortedItems.map((item) => (
-						<div key={item.id} style={{ padding: "0 10px" }}>
-							<Card item={item} size={mode === "mobile" ? "small" : "medium"} />
-						</div>
-					))}
-				</Slider>
-			</div>
-		</>
-	);
+  return (
+    <>
+      {pending && <LodingImage />}
+      {error && <p> </p>}
+      <div>
+        <Slider {...settings}>
+          {sortedItems.map((item) => (
+            <div key={item.id} style={{ padding: "0 10px" }}>
+              <Card item={item} size={mode === "mobile" ? "small" : "medium"} />
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </>
+  );
 }
 
 export default DonationList;

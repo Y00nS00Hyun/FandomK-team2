@@ -8,7 +8,6 @@ import ErrorSection from "../../../components/ErrorSection/ErrorSection";
 import Avatar from "../../../components/Avatar/Avatar";
 import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
-import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal";
 import style from "./ChartOfMonth.module.css";
 import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
 
@@ -17,184 +16,188 @@ import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesM
  * mode 별 페이지사이즈 매직넘버
  */
 const PAGE_SIZES = {
-	desktop: 10,
-	tablet: 5,
-	mobile: 5,
+  desktop: 10,
+  tablet: 5,
+  mobile: 5,
 };
 
 const Container = styled.div`
-	${({ $mode }) => {
-		switch ($mode) {
-			case "desktop":
-				return `
+  ${({ $mode }) => {
+    switch ($mode) {
+      case "desktop":
+        return `
         `;
-			default:
-				return `
+      default:
+        return `
         display:flex;
         `;
-		}
-	}}
+    }
+  }}
 `;
 
 // TODO : 내가 개발할 곳 (이대진) 2024.06.10 13:20
 function ChartOfMonth({ mode }) {
-	const [myCredit, setMyCredit] = useMyCredit();
-	const [votes, setVotes] = useState(false); // 투표하기 모달 on, off 관리
-	const pageSize = PAGE_SIZES[mode]; // 서버에 요청할 데이터 갯수
-	const [gender, setGender] = useState("female"); // 성별 선택
-	const [items, setItems] = useState([]); // 서버에서 응답받은 데이터
-	const [cursor, setCursor] = useState(null); // 서버요청에 사용될 커서
-	const [reload, setReload] = useState(0); // 응답에러 시 컴포넌트 재 렌더링을 위한 스테이트
-	const [disableButton, setDisableButton] = useState(false); // 더보기 버튼 비활성화 상태
+  const [myCredit, setMyCredit] = useMyCredit();
+  const [votes, setVotes] = useState(false); // 투표하기 모달 on, off 관리
+  const pageSize = PAGE_SIZES[mode]; // 서버에 요청할 데이터 갯수
+  const [gender, setGender] = useState("female"); // 성별 선택
+  const [items, setItems] = useState([]); // 서버에서 응답받은 데이터
+  const [cursor, setCursor] = useState(null); // 서버요청에 사용될 커서
+  const [reload, setReload] = useState(0); // 응답에러 시 컴포넌트 재 렌더링을 위한 스테이트
+  const [disableButton, setDisableButton] = useState(false); // 더보기 버튼 비활성화 상태
 
-	const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("dark");
 
-	const votesOpen = () => setVotes(true);
-	const votesClose = () => setVotes(false);
+  const votesOpen = () => setVotes(true);
+  const votesClose = () => setVotes(false);
 
-	/**
-	 * @JuhyeokC
-	 * useAsync 커스텀훅 사용
-	 */
-	const [pending, error, execute] = useAsync(getChartData);
+  /**
+   * @JuhyeokC
+   * useAsync 커스텀훅 사용
+   */
+  const [pending, error, execute] = useAsync(getChartData);
 
-	/**
-	 * @JuhyeokC
-	 * 데이터 호출 함수
-	 */
-	const getData = async ({ pageSize, gender, cursor }) => {
-		const params = { pageSize, gender }; // 필수 파라미터들
-		if (cursor) params.cursor = cursor; // 커서가 있을 때 커서 추가 (더보기)
+  /**
+   * @JuhyeokC
+   * 데이터 호출 함수
+   */
+  const getData = async ({ pageSize, gender, cursor }) => {
+    const params = { pageSize, gender }; // 필수 파라미터들
+    if (cursor) params.cursor = cursor; // 커서가 있을 때 커서 추가 (더보기)
 
-		const result = await execute(params); // 데이터 호출
-		if (!result) return; // 호출 실패 시 함수 종료
-		const { idols, nextCursor } = result; // 응답받은 API 데이터 구조분해 (팬덤케이 스웨거 API 참조)
+    const result = await execute(params); // 데이터 호출
+    if (!result) return; // 호출 실패 시 함수 종료
+    const { idols, nextCursor } = result; // 응답받은 API 데이터 구조분해 (팬덤케이 스웨거 API 참조)
 
-		setItems((prev) => {
-			// 데이터 담기 위해 이전 값 참조
-			if (cursor) {
-				// 더보기 실행 시 커서가 있을 것이므로 커서가 참일 때
-				return [...prev, ...idols]; // 이전 데이터에 새로운 데이터 추가
-			} else {
-				// 커서가 없을 때 (최초 실행 시 혹은 성별버튼 클릭 시)
-				return idols; // 새로운 데이터만 추가
-			}
-		});
-		setCursor(nextCursor); // 서버요청에 사용될 커서 상태
-		setDisableButton(!nextCursor); // 더보기 버튼 비활성화 상태 (커서 값이 null일 때 ! 반전으로 참이 되므로 더보기 버튼의 disabled 프롭이 true 가 되어 더보기 조작을 막을 수 있다.)
-	};
+    setItems((prev) => {
+      // 데이터 담기 위해 이전 값 참조
+      if (cursor) {
+        // 더보기 실행 시 커서가 있을 것이므로 커서가 참일 때
+        return [...prev, ...idols]; // 이전 데이터에 새로운 데이터 추가
+      } else {
+        // 커서가 없을 때 (최초 실행 시 혹은 성별버튼 클릭 시)
+        return idols; // 새로운 데이터만 추가
+      }
+    });
+    setCursor(nextCursor); // 서버요청에 사용될 커서 상태
+    setDisableButton(!nextCursor); // 더보기 버튼 비활성화 상태 (커서 값이 null일 때 ! 반전으로 참이 되므로 더보기 버튼의 disabled 프롭이 true 가 되어 더보기 조작을 막을 수 있다.)
+  };
 
-	/**
-	 * @JuhyeokC
-	 * 더보기 데이터 호출 함수
-	 */
-	const moreData = async () => {
-		await getData({ pageSize, gender, cursor });
-	};
+  /**
+   * @JuhyeokC
+   * 더보기 데이터 호출 함수
+   */
+  const moreData = async () => {
+    await getData({ pageSize, gender, cursor });
+  };
 
-	const handleReload = () => {
-		setItems([]);
-		setReload((prev) => ++prev);
-	};
+  const handleReload = () => {
+    setItems([]);
+    setReload((prev) => ++prev);
+  };
 
-	const handleGender = (gender) => {
-		setGender((prev) => {
-			if (gender !== prev) setItems([]);
-			return gender;
-		});
-	};
+  const handleGender = (gender) => {
+    setGender((prev) => {
+      if (gender !== prev) setItems([]);
+      return gender;
+    });
+  };
 
-	/**
-	 * @JuhyeokC
-	 * 차트 투표하기 모달 출력
-	 */
-	function handleClick() {
-		console.log("차트 투표하기 모달 출력");
-	}
+  /**
+   * @JuhyeokC
+   * 차트 투표하기 모달 출력
+   */
+  function handleClick() {
+    console.log("차트 투표하기 모달 출력");
+  }
 
-	/**
-	 * @JuhyeokC
-	 * 렌더링 된 후 데이터호출 함수 실행 이후
-	 * pageSize, gender 스테이트가 변경될 때 마다 실행
-	 */
+  /**
+   * @JuhyeokC
+   * 렌더링 된 후 데이터호출 함수 실행 이후
+   * pageSize, gender 스테이트가 변경될 때 마다 실행
+   */
 
-	useEffect(() => {
-		getData({ pageSize, gender });
-	}, [gender, reload]);
+  useEffect(() => {
+    getData({ pageSize, gender });
+  }, [gender, reload]);
 
-	return (
-		<>
-			<TitleSection
-				title={"이달의 차트"}
-				action={
-					<Button icon={"chart"} size={"small"} onClick={votesOpen}>
-						차트 투표하기
-					</Button>
-				}
-			>
-				{/**
-				 * @JuhyeokC
-				 * 데이터호출 함수 실행 이후
-				 * error(에러), pending(응답대기), items(응답데이터) 의 상태에 따른 렌더링
-				 */}
-				{error ? (
-					<ErrorSection error={error} onReload={handleReload}></ErrorSection>
-				) : (
-					<>
-						<section className={style["chartbar__gender"]}>
-							<button onClick={() => handleGender("female")} className={`${style["chartbar__gender-button"]} ${gender === "female" && style["selected"]}`}>
-								이달의 여자 아이돌
-							</button>
-							<button onClick={() => handleGender("male")} className={`${style["chartbar__gender-button"]} ${gender === "male" && style["selected"]}`}>
-								이달의 남자 아이돌
-							</button>
-						</section>
+  return (
+    <>
+      <TitleSection
+        title={"이달의 차트"}
+        action={
+          <Button icon={"chart"} size={"small"} onClick={votesOpen}>
+            차트 투표하기
+          </Button>
+        }
+      >
+        {/**
+         * @JuhyeokC
+         * 데이터호출 함수 실행 이후
+         * error(에러), pending(응답대기), items(응답데이터) 의 상태에 따른 렌더링
+         */}
+        {error ? (
+          <ErrorSection error={error} onReload={handleReload}></ErrorSection>
+        ) : (
+          <>
+            <section className={style["chartbar__gender"]}>
+              <button onClick={() => handleGender("female")} className={`${style["chartbar__gender-button"]} ${gender === "female" && style["selected"]}`}>
+                이달의 여자 아이돌
+              </button>
+              <button onClick={() => handleGender("male")} className={`${style["chartbar__gender-button"]} ${gender === "male" && style["selected"]}`}>
+                이달의 남자 아이돌
+              </button>
+            </section>
 
-						<Container className={style["container"]} $mode={mode}>
-							{items &&
-								items.map((item) => (
-									<article key={item.id} className={style["chart__ranking"]}>
-										<section className={style["chart__profile"]}>
-											<Avatar src={item.profilePicture} size={"basic"} alt={`${item.name} 프로필 이미지`} />
-											<span className={style["chart__rank"]}>{item.rank}</span>
-											<div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
-										</section>
-										<div className={style["chart__vote"]}>{item.totalVotes}표</div>
-									</article>
-								))}
-							{pending && (
-								<>
-									{Array.from({ length: pageSize }, (v, i) => i).map((_, i) => (
-										<article key={`skeleton-chart-${i}`} className={style["chart__ranking"]}>
-											<section className={style["chart__profile"]}>
-												<div className={style["chart__circle"] + " skeleton"}></div>
-												<span className={style["chart__rank"]}></span>
-												<div className={style["chart__group"] + " skeleton"} style={{ minWidth: "100px", minHeight: "16px" }}>
-													&nbsp;
-												</div>
-											</section>
-											<div className={style["chart__vote"]}>
-												<div className="skeleton" style={{ minWidth: "24px" }}>
-													&nbsp;
-												</div>
-											</div>
-										</article>
-									))}
-								</>
-							)}
-						</Container>
-					</>
-				)}
-				{votes && <VotesModal onClose={votesClose} />}
+            <Container className={style["container"]} $mode={mode}>
+              {items &&
+                items.map((item) => (
+                  <article key={item.id} className={style["chart__ranking"]}>
+                    <section className={style["chart__profile"]}>
+                      <Avatar src={item.profilePicture} size={"basic"} alt={`${item.name} 프로필 이미지`} />
+                      <span className={style["chart__rank"]}>{item.rank}</span>
+                      <div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
+                    </section>
+                    <div className={style["chart__vote"]}>{item.totalVotes}표</div>
+                  </article>
+                ))}
+              {pending && (
+                <>
+                  {Array.from({ length: pageSize }, (v, i) => i).map((_, i) => (
+                    <article key={`skeleton-chart-${i}`} className={style["chart__ranking"]}>
+                      <section className={style["chart__profile"]}>
+                        <div className={style["chart__circle"] + " skeleton"}></div>
+                        <span className={style["chart__rank"]}></span>
+                        <div className={style["chart__group"] + " skeleton"} style={{ minWidth: "100px", minHeight: "16px" }}>
+                          &nbsp;
+                        </div>
+                      </section>
+                      <div className={style["chart__vote"]}>
+                        <div className="skeleton" style={{ minWidth: "24px" }}>
+                          &nbsp;
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </>
+              )}
+            </Container>
+          </>
+        )}
+        {votes && (
+          <Modal show={votes} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"}>
+            <VotesModal />
+          </Modal>
+        )}
 
-				{!error && (
-					<button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton}>
-						더보기
-					</button>
-				)}
-			</TitleSection>
-		</>
-	);
+        {!error && (
+          <button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton}>
+            더보기
+          </button>
+        )}
+      </TitleSection>
+    </>
+  );
 }
 
 export default ChartOfMonth;
