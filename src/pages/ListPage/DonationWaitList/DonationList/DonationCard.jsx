@@ -10,6 +10,10 @@ function Card({ item, size, myCreditState, openModal }) {
     const progressRef = useRef(null);
     const progressBarRef = useRef(null);
 
+    //후원이 100% 채워진 경우, 기한이 지난 경우
+    const isDonationComplete = item.receivedDonations >= item.targetDonation;
+    const isPastDeadline = dDay < 0;
+
     useEffect(() => {
         if (progressRef.current && !progressBarRef.current) {
             progressBarRef.current = new ProgressBar.Line(progressRef.current, {
@@ -41,14 +45,20 @@ function Card({ item, size, myCreditState, openModal }) {
         };
     }, [item.receivedDonations, item.targetDonation]);
 
+    const buttonText = item.receivedDonations >= item.targetDonation ? "후원 종료" : displaysDay === 0 ? "후원 종료" : "후원하기";
+
     return (
         <style.Card size={size}>
             <style.ImgButton>
                 <style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
                 <style.BlackGradation src="donationImg/blackgradation.png" size={size} />
                 <style.Block>
-                    <style.SubmitButton size={size} onClick={() => openModal(item)}>
-                        후원하기
+                    <style.SubmitButton
+                        size={size}
+                        onClick={() => openModal(item)} // 버튼 활성화
+                        disabled={isDonationComplete || isPastDeadline} // 버튼 비활성화
+                    >
+                        {buttonText}
                     </style.SubmitButton>
                 </style.Block>
             </style.ImgButton>

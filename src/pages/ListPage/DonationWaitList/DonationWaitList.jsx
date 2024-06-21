@@ -36,7 +36,14 @@ function DonationWaitList({ mode, myCreditState }) {
 		if (!result) return;
 		const { list, nextCursor } = result;
 
-		const sortedIdols = [...list.sort((a, b) => b.receivedDonations - a.receivedDonations)];
+		// 종료된 카드들은 맨 뒤로 이동
+		const sortedIdols = [...list].sort((a, b) => {
+			const aIsEnded = a.receivedDonations >= a.targetDonation || new Date(a.deadline) < new Date();
+			const bIsEnded = b.receivedDonations >= b.targetDonation || new Date(b.deadline) < new Date();
+			if (aIsEnded && !bIsEnded) return 1;
+			if (!aIsEnded && bIsEnded) return -1;
+			return b.receivedDonations - a.receivedDonations;
+		});
 
 		setIdols((prev) => (cursor ? [...prev, ...sortedIdols] : sortedIdols));
 		setCursor(nextCursor);
@@ -44,7 +51,7 @@ function DonationWaitList({ mode, myCreditState }) {
 	};
 
 	const moreIdols = async () => {
-		if (cursor) await getData({ cursor });
+		if (cursor) await getData(cursor);
 	};
 
 	const slickFirst = () => sliderRef.current.slickGoTo(0);
