@@ -10,6 +10,7 @@ import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
 import DonationModal from "../../../components/Modal/Fandom-k_Modal/modal.js/DonationModal";
 import style from "./ChartOfMonth.module.css";
+import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
 
 /**
  * @JuhyeokC
@@ -38,6 +39,7 @@ const Container = styled.div`
 // TODO : 내가 개발할 곳 (이대진) 2024.06.10 13:20
 function ChartOfMonth({ mode }) {
 	const [myCredit, setMyCredit] = useMyCredit();
+	const [votes, setVotes] = useState(false); // 투표하기 모달 on, off 관리
 	const pageSize = PAGE_SIZES[mode]; // 서버에 요청할 데이터 갯수
 	const [gender, setGender] = useState("female"); // 성별 선택
 	const [items, setItems] = useState([]); // 서버에서 응답받은 데이터
@@ -46,6 +48,9 @@ function ChartOfMonth({ mode }) {
 	const [disableButton, setDisableButton] = useState(false); // 더보기 버튼 비활성화 상태
 
 	const [theme, setTheme] = useState("dark");
+
+	const votesOpen = () => setVotes(true);
+	const votesClose = () => setVotes(false);
 
 	/**
 	 * @JuhyeokC
@@ -112,6 +117,7 @@ function ChartOfMonth({ mode }) {
 	 * 렌더링 된 후 데이터호출 함수 실행 이후
 	 * pageSize, gender 스테이트가 변경될 때 마다 실행
 	 */
+
 	useEffect(() => {
 		getData({ pageSize, gender });
 	}, [gender, reload]);
@@ -121,7 +127,7 @@ function ChartOfMonth({ mode }) {
 			<TitleSection
 				title={"이달의 차트"}
 				action={
-					<Button icon={"chart"} size={"small"} onClick={handleClick}>
+					<Button icon={"chart"} size={"small"} onClick={votesOpen}>
 						차트 투표하기
 					</Button>
 				}
@@ -179,6 +185,7 @@ function ChartOfMonth({ mode }) {
 						</Container>
 					</>
 				)}
+				{votes && <VotesModal onClose={votesClose} />}
 
 				{!error && (
 					<button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton}>
