@@ -141,18 +141,24 @@ function DonationWaitList({ mode }) {
 				</>
 			) : (
 				<>
-					{pending && <LodingImage style={{ position: "absolute" }} />}
-					<Slider ref={sliderRef} {...settings}>
-						{idols.length === 0 ? (
-							<p>진행중인 후원이 없습니다.</p>
-						) : (
-							idols.map((item) => (
+					{pending && idols.length === 0 && (
+						<div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
+							{Array.from({ length: 4 }, (v, i) => i).map((_, i) => {
+								return <Card key={`skeleton-card-${i}`} item={"skeleton"} size={mode === "mobile" ? "small" : "medium"} style={{ margin: 0 }} />;
+							})}
+						</div>
+					)}
+					{!pending && idols.length === 0 ? (
+						<p>진행중인 후원이 없습니다.</p>
+					) : (
+						<Slider ref={sliderRef} {...settings}>
+							{idols.map((item) => (
 								<div key={item.id} style={{ padding: "0 10px" }}>
 									<Card key={item.id} item={item} size={mode === "mobile" ? "small" : "medium"} />
 								</div>
-							))
-						)}
-					</Slider>
+							))}
+						</Slider>
+					)}
 					{mode === "desktop" && (
 						<>
 							{currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}

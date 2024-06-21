@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import { getIdolList } from "../../../api/idolsApi";
 import useAsync from "../../../hooks/useAsync";
 import TitleSection from "../../../components/TitleSection/TitleSection.jsx";
-import LodingImage from "../../../components/LodingImage/LodingImage";
 import Button from "../../../components/Button/Button";
 import Avatar from "../../../components/Avatar/Avatar";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
@@ -137,10 +136,9 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 					</>
 				) : (
 					<>
-						<Container className="slider-container">
-							{pending && <LodingImage style={{ position: "absolute" }} />}
+						<Container>
 							<Slider ref={sliderRef} {...settings}>
-								{isEmpty(idols) ? (
+								{!pending && isEmpty(idols) ? (
 									<p>등록된 아이돌이 없습니다...</p>
 								) : (
 									idols.map(({ id, profilePicture, group, name }) => {
@@ -171,6 +169,25 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 									})
 								)}
 							</Slider>
+							{pending && idols.length === 0 && (
+								<div style={{ display: "grid", gridTemplateColumns: `repeat(${pageSize / 2}, 1fr)`, gap: "16px" }}>
+									{Array.from({ length: pageSize }, (v, i) => i).map((_, i) => {
+										return (
+											<div key={`idol-id-${i}`}>
+												<article className="mypage-addidol__items">
+													<Avatar src={""} size={profilSize} alt={`프로필 이미지`} className="skeleton" />
+													<p className="mypage__items-name skeleton" style={{ minWidth: "40px" }}>
+														&nbsp;
+													</p>
+													<p className="mypage__items-group skeleton" style={{ minWidth: "64px" }}>
+														&nbsp;
+													</p>
+												</article>
+											</div>
+										);
+									})}
+								</div>
+							)}
 							{mode === "desktop" && (
 								<>
 									<CaretButton direction="left" size="large" onClick={slickPrev} />
@@ -188,9 +205,11 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 								onClick={() => {
 									setMyFavoriteIdols((prev) => {
 										const selected = idols.filter((item) => selectedIdolIds.includes(item.id) && prev.every((p) => p.id !== item.id));
+										setSelectedIdolIds([]);
 										return [...prev, ...selected];
 									});
 								}}
+								disabled={selectedIdolIds.length === 0}
 							>
 								추가하기
 							</Button>

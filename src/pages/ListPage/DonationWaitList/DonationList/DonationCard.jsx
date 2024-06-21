@@ -6,7 +6,7 @@ import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
 function Card({ item, size, ...args }) {
 	const [myCredit, setMyCredit] = useMyCredit();
 	const today = new Date();
-	const deadline = new Date(item.deadline);
+	const deadline = new Date(item !== "skeleton" && item.deadline);
 	const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
 	const displaysDay = dDay >= 0 ? dDay : 0;
 	const progressRef = useRef(null);
@@ -45,30 +45,42 @@ function Card({ item, size, ...args }) {
 	}, [item.receivedDonations, item.targetDonation]);
 
 	return (
-		<style.Card size={size}>
-			<style.ImgButton>
-				<style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
-				<style.BlackGradation src="donationImg/blackgradation.png" size={size} />
-				<style.Block>
-					<style.SubmitButton size={size}>후원하기</style.SubmitButton>
-				</style.Block>
-			</style.ImgButton>
-			<style.InfoWrapper size={size}>
-				<style.Detail size={size}>
-					<style.Subtitle size={size}>{item.subtitle}</style.Subtitle>
-					<style.Title size={size}>{item.title}</style.Title>
-				</style.Detail>
-				<style.StatusInfo>
-					<style.Status>
-						<style.Credit>
-							<img src="donationImg/CreditImg.png" alt="크레딧 이미지" />
-							{item.targetDonation.toLocaleString()}
-						</style.Credit>
-						<style.Countdown>{displaysDay}일 남음</style.Countdown>
-					</style.Status>
-					<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
-				</style.StatusInfo>
-			</style.InfoWrapper>
+		<style.Card size={size} {...args}>
+			{item === "skeleton" ? (
+				<>
+					<style.SkeletonImg size={size} className="skeleton"></style.SkeletonImg>
+					<style.InfoWrapper size={size}>
+						<style.Detail size={size} className="skeleton"></style.Detail>
+						<style.StatusInfo className="skeleton"></style.StatusInfo>
+					</style.InfoWrapper>
+				</>
+			) : (
+				<>
+					<style.ImgButton>
+						<style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
+						<style.BlackGradation src="donationImg/blackgradation.png" size={size} />
+						<style.Block>
+							<style.SubmitButton size={size}>후원하기</style.SubmitButton>
+						</style.Block>
+					</style.ImgButton>
+					<style.InfoWrapper size={size}>
+						<style.Detail size={size}>
+							<style.Subtitle size={size}>{item.subtitle}</style.Subtitle>
+							<style.Title size={size}>{item.title}</style.Title>
+						</style.Detail>
+						<style.StatusInfo>
+							<style.Status>
+								<style.Credit>
+									<img src="donationImg/CreditImg.png" alt="크레딧 이미지" />
+									{item.targetDonation.toLocaleString()}
+								</style.Credit>
+								<style.Countdown>{displaysDay}일 남음</style.Countdown>
+							</style.Status>
+							<div ref={progressRef} style={{ width: "100%", height: "1px" }} />
+						</style.StatusInfo>
+					</style.InfoWrapper>
+				</>
+			)}
 		</style.Card>
 	);
 }
