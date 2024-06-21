@@ -91,7 +91,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 		slidesPerRow: 1,
 		slidesToShow: pageSize / 2,
 		swipeToSlide: true,
-		infinite: true,
+
 		speed: 500,
 		centerPadding: "0px",
 		arrows: false,
