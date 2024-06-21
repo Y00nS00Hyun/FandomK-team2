@@ -1,16 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
-import { getIdolList } from "../../../api/idolsApi";
+import { isEmpty } from "lodash";
 import useAsync from "../../../hooks/useAsync";
+import { getIdolList } from "../../../api/idolsApi";
 import TitleSection from "../../../components/TitleSection/TitleSection.jsx";
-import Button from "../../../components/Button/Button";
+import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Avatar from "../../../components/Avatar/Avatar";
+import Button from "../../../components/Button/Button";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import style from "../AddFavoriteIdols/myPageStyle.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { isEmpty } from "lodash";
 
 const Container = styled.article`
 	position: relative;
@@ -91,7 +92,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 		slidesPerRow: 1,
 		slidesToShow: pageSize / 2,
 		swipeToSlide: true,
-		infinite: true,
+
 		speed: 500,
 		centerPadding: "0px",
 		arrows: false,
@@ -128,12 +129,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 		<>
 			<TitleSection title={"관심 있는 아이돌을 추가해보세요."} carousel={true}>
 				{error ? (
-					<>
-						<p>{error.message} 에러발생🦄</p>
-						<Button size={"wide"} onClick={handleReload}>
-							RELOAD
-						</Button>
-					</>
+					<ErrorSection error={error} onReload={handleReload}></ErrorSection>
 				) : (
 					<>
 						<Container>

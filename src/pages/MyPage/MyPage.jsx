@@ -3,6 +3,7 @@ import { isEmpty } from "lodash";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import MyFavoriteIdols from "./MyFavoriteIdols/MyFavoriteIdols";
 import AddFavoriteIdols from "./AddFavoriteIdols/AddFavoriteIdols";
+import MyCredit from "../ListPage/MyCredit/MyCredit";
 
 const MY_FAVORITE_NAME = "myFavoriteList";
 
@@ -23,6 +24,7 @@ function MyPage() {
 
 	return (
 		<article>
+			<MyCredit mode={mode} />
 			<MyFavoriteIdols mode={mode} myFavoriteIdolsState={[myFavoriteIdols, setMyFavoriteIdols]} />
 			<AddFavoriteIdols mode={mode} myFavoriteIdolsState={[myFavoriteIdols, setMyFavoriteIdols]} />
 		</article>
