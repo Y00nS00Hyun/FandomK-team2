@@ -52,6 +52,9 @@ input::-webkit-inner-spin-button {
 	width: 158px;
 	height: 206px;
 	margin: 0 auto;
+	/* 이미지 안 깨지게 하는 속성 */
+	object-fit: cover;
+	object-position: center;
 }
 
 .adTitle {

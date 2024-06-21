@@ -13,7 +13,7 @@ function DonationModal({ onClose, selectedItem }) {
 					후원하기
 				</Xbutton>
 				<div className={done.donationBody}>
-					<img src={`${selectedItem.idol.prifilePicture}`} className={done.donationImg} alt="연예인 프로필 사진" />
+					<img src={`${selectedItem.idol.profilePicture}`} className={done.donationImg} alt="연예인 프로필 사진" />
 					<div className={done.adTitle}>
 						<span className={done.adWhere}>{selectedItem.subtitle}</span>
 						<span>{selectedItem.title}</span>
