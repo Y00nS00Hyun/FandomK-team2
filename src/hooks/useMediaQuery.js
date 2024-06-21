@@ -9,9 +9,9 @@ import { useState, useEffect } from "react";
  * @property {number} desktop - 그 이상
  */
 const BREAK_POINTS = {
-	mobile: 768,
-	tablet: 1200,
-	desktop: Infinity,
+  mobile: 768,
+  tablet: 1200,
+  desktop: Infinity,
 };
 
 /**
@@ -35,26 +35,26 @@ const BREAK_POINTS = {
  * };
  */
 function useMediaQuery() {
-	const [mode, setMode] = useState("desktop");
+  const [mode, setMode] = useState("desktop");
 
-	useEffect(() => {
-		const handleResize = () => {
-			const width = window.innerWidth;
-			if (width < BREAK_POINTS.mobile) {
-				return setMode("mobile");
-			} else if (width < BREAK_POINTS.tablet) {
-				return setMode("tablet");
-			} else {
-				return setMode("desktop");
-			}
-		};
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < BREAK_POINTS.mobile) {
+        return setMode("mobile");
+      } else if (width < BREAK_POINTS.tablet) {
+        return setMode("tablet");
+      } else {
+        return setMode("desktop");
+      }
+    };
 
-		handleResize();
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, [mode]);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [mode]);
 
-	return mode;
+  return mode;
 }
 
 export default useMediaQuery;

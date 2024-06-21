@@ -7,18 +7,18 @@ import ListPage from "./pages/ListPage/ListPage";
 import MyPage from "./pages/MyPage/MyPage";
 
 function Main() {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<App />}>
-					<Route index element={<LandingPage />} />
-					<Route path="list" element={<ListPage />} />
-					<Route path="mypage" element={<MyPage />} />
-				</Route>
-				<Route path="*" element={<PageNotFound />} />
-			</Routes>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<LandingPage />} />
+          <Route path="list" element={<ListPage />} />
+          <Route path="mypage" element={<MyPage />} />
+        </Route>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default Main;
