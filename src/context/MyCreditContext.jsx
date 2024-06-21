@@ -10,7 +10,11 @@ export const MyCreditProvider = ({ children }) => {
 	const [myCredit, setMyCredit] = useState(() => (localStorage?.getItem(CREDIT_NAME) === null ? 0 : Number(localStorage.getItem(CREDIT_NAME))));
 
 	useEffect(() => {
-		localStorage.setItem(CREDIT_NAME, myCredit);
+		if (myCredit < 0) {
+			setMyCredit(0);
+		} else {
+			localStorage.setItem(CREDIT_NAME, myCredit);
+		}
 	}, [myCredit]);
 
 	return <MyCreditContext.Provider value={[myCredit, setMyCredit]}>{children}</MyCreditContext.Provider>;

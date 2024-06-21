@@ -1,12 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import Slider from "react-slick";
 import { isEmpty } from "lodash";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import Avatar from "../../../components/Avatar/Avatar";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const Container = styled.article`
 	position: relative;
@@ -19,94 +16,183 @@ const PAGE_SIZES = {
 	mobile: 6,
 };
 
+const Carousel = styled.article`
+	position: relative;
+	overflow-x: auto;
+	width: 100%;
+	height: auto;
+`;
+
+const CarouselInner = styled.section`
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	${({ $size }) => {
+		if ($size) {
+			return `
+        flex-direction: column;
+        align-items: flex-start;
+      `;
+		} else {
+			return `
+        flex-direction: row;
+        align-items: center;
+      `;
+		}
+	}}
+
+	width: 100%;
+	${({ $rows }) => {
+		switch ($rows) {
+			case 2:
+				return `
+        height: 400px;
+      `;
+			default:
+				return `
+          height: 200px;
+      `;
+		}
+	}}
+`;
+
+const CarouselItem = styled.article`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 8px;
+	${({ $pageSize }) => $pageSize && `width: calc(100% / ${$pageSize})`};
+	height: 50%;
+`;
+
 function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
 	const pageSize = PAGE_SIZES[mode];
 	const profilSize = useMemo(() => {
 		if (mode === "mobile") return "basic";
 		else return "otherMyIdol";
 	}, [mode]);
-	let sliderRef = useRef(null);
 	const [myFavoriteIdols, setMyFavoriteIdols] = myFavoriteIdolsState;
 
+	const carouselRef = useRef(null);
+	const [carouselButtonDisabled, setCarouselButtonDisabled] = useState(false);
+	const [carouselScrollPosition, setCarouselScrollPosition] = useState("first");
+	const carouselRows = pageSize / 2 < myFavoriteIdols.length ? 2 : 1;
+
+	// 스크롤 애니메이션
+	function scroll(element, to, duration) {
+		// t = current time
+		// b = start value
+		// c = change in value
+		// d = duration
+		Math.easeInOutQuad = function (t, b, c, d) {
+			t /= d / 2;
+			if (t < 1) return (c / 2) * t * t + b;
+			t--;
+			return (-c / 2) * (t * (t - 2) - 1) + b;
+		};
+
+		var start = element.scrollLeft;
+		var change = to - start;
+		var increment = 20;
+		var currentTime = 0;
+
+		function animate() {
+			currentTime += increment;
+			var val = Math.easeInOutQuad(currentTime, start, change, duration);
+			element.scrollLeft = val;
+			if (currentTime < duration) {
+				setTimeout(animate, increment);
+			} else {
+				setCarouselButtonDisabled(false);
+			}
+		}
+
+		animate();
+	}
+
 	// 슬라이드 처음으로
-	const slickFirst = () => sliderRef.slickGoTo(0);
+	const carouselFirst = () => {
+		const carousel = carouselRef.current;
+		scroll(carousel, 0, 1000);
+		setCarouselButtonDisabled(true);
+	};
+
+	// 슬라이드 마지막
+	const carouselLast = () => {
+		const carousel = carouselRef.current;
+		const carouselItemWidth = carousel.children[0].children[0].clientWidth;
+		const dataLength = Math.round(myFavoriteIdols.length / 2);
+		scroll(carousel, carouselItemWidth * dataLength, 1000);
+		setCarouselButtonDisabled(true);
+	};
 
 	// 슬라이드 이전으로
-	const slickPrev = () => sliderRef.slickPrev();
+	const carouselPrev = () => {
+		const carousel = carouselRef.current;
+		const to = carousel.scrollLeft - carousel.clientWidth;
+		scroll(carousel, to, 1000);
+		setCarouselButtonDisabled(true);
+	};
 
 	// 슬라이드 다음으로
-	const slickNext = async () => sliderRef.slickNext();
-
-	/**
-	 * @JuhyeokC
-	 * 크아악!!!!
-	 * 적용하고 넘겨드리고 싶었는데 ㅜㅜ
-	 * 슬라이더 설정 정말 모르겠어요 ㅜㅜ
-	 * https://react-slick.neostack.com/docs/get-started
-	 */
-	const checkSize = pageSize / 2 < myFavoriteIdols.length;
-	const rowSize = checkSize ? 2 : 1;
-
-	const settings = {
-		rows: rowSize,
-		slidesToShow: myFavoriteIdols.length,
-		swipeToSlide: true,
-		infinite: true,
-		speed: 500,
-		centerPadding: "0px",
-		arrows: false,
-		dots: false,
-		beforeChange: (oldIndex, newIndex) => {},
-		afterChange: (index) => {},
-		responsive: [
-			{
-				breakpoint: 1200,
-				settings: {
-					arrows: false,
-					draggable: true,
-					slidesToScroll: "auto",
-					dots: true,
-					centerMode: true,
-					infinite: false,
-				},
-			},
-		],
+	const carouselNext = () => {
+		const carousel = carouselRef.current;
+		const to = carousel.scrollLeft + carousel.clientWidth;
+		scroll(carousel, to, 1000);
+		setCarouselButtonDisabled(true);
 	};
+
+	useEffect(() => {
+		const handleScroll = ({ currentTarget }) => {
+			const carousel = currentTarget;
+			const carouselInner = carousel.children[0];
+			setCarouselScrollPosition(() => {
+				if (carousel.scrollLeft === 0) {
+					return "first";
+				} else if (carousel.scrollLeft >= carouselInner.scrollWidth - carousel.clientWidth) {
+					return "last";
+				} else {
+					return false;
+				}
+			});
+		};
+
+		carouselRef.current?.addEventListener("scroll", handleScroll);
+		return () => carouselRef.current?.removeEventListener("scroll", handleScroll);
+	}, []);
 
 	return (
 		<TitleSection title={"내가 관심있는 아이돌"} bottomLine>
 			{isEmpty(myFavoriteIdols) ? (
 				<p>좋아하는 아이돌을 추가해주세요</p>
 			) : (
-				<Container className="slider-container">
-					<Slider
-						ref={(slider) => {
-							sliderRef = slider;
-						}}
-						{...settings}
-					>
-						{myFavoriteIdols.map(({ id, profilePicture, group, name }) => (
-							<div key={`idol-id-${id}`}>
-								<article className="mypage-myidol__items">
-									<Avatar
-										src={profilePicture}
-										size={profilSize}
-										alt={`${name} 프로필 이미지`}
-										cancled
-										onClick={() => {
-											setMyFavoriteIdols((prev) => prev.filter((idol) => idol.id !== id));
-										}}
-									/>
-									<p className="mypage__items-name">{name}</p>
-									<p className="mypage__items-group">{group}</p>
-								</article>
-							</div>
-						))}
-					</Slider>
+				<Container>
+					<Carousel ref={carouselRef}>
+						<CarouselInner $rows={carouselRows} $size={pageSize < myFavoriteIdols.length}>
+							{myFavoriteIdols.map(({ id, profilePicture, group, name }) => (
+								<CarouselItem key={`idol-id-${id}`} $pageSize={pageSize / 2}>
+									<article className="mypage-myidol__items">
+										<Avatar
+											src={profilePicture}
+											size={profilSize}
+											alt={`${name} 프로필 이미지`}
+											cancled
+											onClick={() => {
+												setMyFavoriteIdols((prev) => prev.filter((idol) => idol.id !== id));
+											}}
+										/>
+										<p className="mypage__items-name">{name}</p>
+										<p className="mypage__items-group">{group}</p>
+									</article>
+								</CarouselItem>
+							))}
+						</CarouselInner>
+					</Carousel>
 					{mode === "desktop" && (
 						<>
-							<CaretButton direction="left" size="large" onClick={slickPrev} />
-							<CaretButton direction="right" size="large" onClick={slickNext} />
+							<CaretButton direction="left" size="large" onClick={carouselPrev} disabled={carouselScrollPosition === "first" || carouselButtonDisabled} />
+							<CaretButton direction="right" size="large" onClick={carouselNext} disabled={carouselScrollPosition === "last" || carouselButtonDisabled} />
 						</>
 					)}
 				</Container>

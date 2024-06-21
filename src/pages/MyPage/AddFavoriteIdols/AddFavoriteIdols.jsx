@@ -1,6 +1,5 @@
-import React, { useEffect, useCallback, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import Slider from "react-slick";
 import { isEmpty } from "lodash";
 import useAsync from "../../../hooks/useAsync";
 import { getIdolList } from "../../../api/idolsApi";
@@ -9,9 +8,7 @@ import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Avatar from "../../../components/Avatar/Avatar";
 import Button from "../../../components/Button/Button";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
-import style from "../AddFavoriteIdols/myPageStyle.css";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import "../AddFavoriteIdols/myPageStyle.css";
 
 const Container = styled.article`
 	position: relative;
@@ -24,50 +21,172 @@ const PAGE_SIZES = {
 	desktop: 16,
 };
 
+const Carousel = styled.article`
+	position: relative;
+	overflow-x: auto;
+	width: 100%;
+	height: auto;
+`;
+
+const CarouselInner = styled.section`
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	${({ $size }) => {
+		if ($size) {
+			return `
+        flex-direction: column;
+        align-items: flex-start;
+      `;
+		} else {
+			return `
+        flex-direction: row;
+        align-items: center;
+      `;
+		}
+	}}
+
+	width: 100%;
+	${({ $rows }) => {
+		switch ($rows) {
+			case 2:
+				return `
+        height: 400px;
+      `;
+			default:
+				return `
+          height: 200px;
+      `;
+		}
+	}}
+`;
+
+const CarouselItem = styled.article`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 8px;
+	${({ $pageSize }) => $pageSize && `width: calc(100% / ${$pageSize})`};
+	height: 50%;
+`;
+
 function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 	const pageSize = PAGE_SIZES[mode];
 	const profilSize = useMemo(() => {
 		if (mode === "mobile") return "mobileAddIdol";
 		else return "otherAddIdol";
 	}, [mode]);
-
-	const [selectedIdolIds, setSelectedIdolIds] = useState([]);
-	const [idols, setIdols] = useState([]);
-	const [load, setLoad] = useState(0);
-	const [reload, setReload] = useState(0);
-	const sliderRef = useRef(null);
-	const [cursor, setCursor] = useState(null);
-	const [disableButton, setDisableButton] = useState(true);
 	const [myFavoriteIdols, setMyFavoriteIdols] = myFavoriteIdolsState;
+	const [reload, setReload] = useState(0);
+	const [idols, setIdols] = useState([]);
+	const [cursor, setCursor] = useState(null);
+	const [selectedIdolIds, setSelectedIdolIds] = useState([]);
 
+	const carouselRef = useRef(null);
+	const [carouselButtonDisabled, setCarouselButtonDisabled] = useState(false);
+	const [carouselScrollPosition, setCarouselScrollPosition] = useState("first");
+	const carouselRows = pageSize / 2 < idols.length ? 2 : 1;
+
+	/**
+	 * @JuhyeokC
+	 * useAsync 커스텀훅 사용
+	 */
 	const [pending, error, execute] = useAsync(getIdolList);
 
-	const getDataList = useCallback(async (cursor) => {
-		const params = { pageSize: pageSize * 4 };
+	const getData = async ({ pageSize, cursor }) => {
+		const params = { pageSize: 999 };
 		if (cursor) {
 			params.pageSize = pageSize;
 			params.cursor = cursor;
 		}
-		const data = await execute(params);
-		if (!data) return;
-		const { list, nextCursor } = data;
 
-		if (list) {
-			setIdols((prev) => [...prev, ...list]);
-			setCursor(nextCursor);
-		}
-		console.log(list);
-		setDisableButton(false);
-	}, []);
+		const result = await execute(params);
+		if (!result) return;
+		const { list, nextCursor } = result;
 
-	const slickPrev = () => sliderRef.current.slickPrev();
-	const slickNext = async () => sliderRef.current.slickNext();
-	// 슬라이드 처음으로
-	//const slickFirst = () => sliderRef.current.slickGoTo(0);
+		setIdols((prev) => {
+			if (cursor) {
+				return [...prev, ...list];
+			} else {
+				return list;
+			}
+		});
+		setCursor(nextCursor);
+	};
+
+	const getMoreData = async () => {
+		if (cursor) await getData({ pageSize, cursor });
+	};
 
 	const handleReload = () => {
 		setIdols([]);
 		setReload((prev) => ++prev);
+	};
+
+	// 스크롤 애니메이션
+	function scroll(element, to, duration) {
+		// t = current time
+		// b = start value
+		// c = change in value
+		// d = duration
+		Math.easeInOutQuad = function (t, b, c, d) {
+			t /= d / 2;
+			if (t < 1) return (c / 2) * t * t + b;
+			t--;
+			return (-c / 2) * (t * (t - 2) - 1) + b;
+		};
+
+		var start = element.scrollLeft;
+		var change = to - start;
+		var increment = 20;
+		var currentTime = 0;
+
+		function animate() {
+			currentTime += increment;
+			var val = Math.easeInOutQuad(currentTime, start, change, duration);
+			element.scrollLeft = val;
+			if (currentTime < duration) {
+				setTimeout(animate, increment);
+			} else {
+				setCarouselButtonDisabled(false);
+			}
+		}
+
+		animate();
+	}
+
+	// 슬라이드 처음으로
+	const carouselFirst = () => {
+		const carousel = carouselRef.current;
+		scroll(carousel, 0, 1000);
+		setCarouselButtonDisabled(true);
+	};
+
+	// 슬라이드 마지막
+	const carouselLast = () => {
+		const carousel = carouselRef.current;
+		const carouselItemWidth = carousel.children[0].children[0].clientWidth;
+		const dataLength = Math.round(idols.length / 2);
+		scroll(carousel, carouselItemWidth * dataLength, 1000);
+		setCarouselButtonDisabled(true);
+	};
+
+	// 슬라이드 이전으로
+	const carouselPrev = () => {
+		const carousel = carouselRef.current;
+		const to = carousel.scrollLeft - carousel.clientWidth;
+		scroll(carousel, to, 1000);
+		setCarouselButtonDisabled(true);
+	};
+
+	// 슬라이드 다음으로
+	const carouselNext = () => {
+		const carousel = carouselRef.current;
+		const to = carousel.scrollLeft + carousel.clientWidth;
+		scroll(carousel, to, 1000);
+		setCarouselButtonDisabled(true);
+		getMoreData();
 	};
 
 	/**
@@ -75,34 +194,28 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 	 * 렌더링 된 후 fetch 함수 실행
 	 */
 	useEffect(() => {
-		getDataList();
+		getData({ pageSize });
 	}, [reload]);
 
-	const settings = {
-		rows: 2,
-		slidesPerRow: 1,
-		slidesToShow: pageSize / 2,
-		slidesToScroll: pageSize / 4,
-		swipeToSlide: true,
-		infinite: false,
-		speed: 500,
-		centerPadding: "0px",
-		arrows: false,
-		dots: false,
-		responsive: [
-			{
-				breakpoint: 1200,
-				settings: {
-					arrows: false,
-					draggable: true,
-					slidesToScroll: "auto",
-					dots: true,
-					centerMode: true,
-					infinite: false,
-				},
-			},
-		],
-	};
+	useEffect(() => {
+		const handleScroll = ({ currentTarget }) => {
+			const carousel = currentTarget;
+			const carouselInner = carousel.children[0];
+			setCarouselScrollPosition(() => {
+				if (carousel.scrollLeft === 0) {
+					return "first";
+				} else if (carousel.scrollLeft >= carouselInner.scrollWidth - carousel.clientWidth) {
+					return "last";
+				} else {
+					return false;
+				}
+			});
+		};
+
+		carouselRef.current?.addEventListener("scroll", handleScroll);
+		return () => carouselRef.current?.removeEventListener("scroll", handleScroll);
+	}, []);
+
 	return (
 		<>
 			<TitleSection title={"관심 있는 아이돌을 추가해보세요."} carousel={true}>
@@ -111,65 +224,71 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 				) : (
 					<>
 						<Container>
-							<Slider ref={sliderRef} {...settings}>
-								{!pending && isEmpty(idols) ? (
-									<p>등록된 아이돌이 없습니다...</p>
-								) : (
-									idols.map(({ id, profilePicture, group, name }) => {
-										if (myFavoriteIdols.some((idol) => idol.id === id)) return false;
-										return (
-											<div key={`idol-id-${id}`}>
-												<article className="mypage-addidol__items">
-													<Avatar
-														src={profilePicture}
-														size={profilSize}
-														alt={`${name} 프로필 이미지`}
-														checked={selectedIdolIds.includes(id)}
-														onClick={() => {
-															setSelectedIdolIds((prev) => {
-																const hasId = prev.includes(id);
-																if (hasId) {
-																	return prev.filter((item) => item !== id);
-																}
-																return [...new Set([...prev, id])];
-															});
-														}}
-													/>
-													<p className="mypage__items-name">{name}</p>
-													<p className="mypage__items-group">{group}</p>
-												</article>
-											</div>
-										);
-									})
-								)}
-								{pending && idols.length === 0 && (
-									<div style={{ display: "grid", gridTemplateColumns: `repeat(${pageSize / 2}, 1fr)`, gap: "16px" }}>
-										{Array.from({ length: pageSize }, (v, i) => i).map((_, i) => {
+							<Carousel ref={carouselRef}>
+								<CarouselInner $rows={carouselRows} $size={pageSize < idols.length}>
+									{!pending && isEmpty(idols) ? (
+										<p>등록된 아이돌이 없습니다...</p>
+									) : (
+										idols.map(({ id, profilePicture, group, name }) => {
+											if (myFavoriteIdols.some((idol) => idol.id === id)) return false;
 											return (
-												<div key={`idol-id-${i}`}>
+												<CarouselItem key={`idol-id-${id}`} $pageSize={pageSize / 2}>
 													<article className="mypage-addidol__items">
-														<Avatar src={""} size={profilSize} alt={`프로필 이미지`} className="skeleton" />
-														<p className="mypage__items-name skeleton" style={{ minWidth: "40px" }}>
-															&nbsp;
-														</p>
-														<p className="mypage__items-group skeleton" style={{ minWidth: "64px" }}>
-															&nbsp;
-														</p>
+														<Avatar
+															src={profilePicture}
+															size={profilSize}
+															alt={`${name} 프로필 이미지`}
+															checked={selectedIdolIds.includes(id)}
+															onClick={() => {
+																setSelectedIdolIds((prev) => {
+																	const hasId = prev.includes(id);
+																	if (hasId) {
+																		return prev.filter((item) => item !== id);
+																	}
+																	return [...new Set([...prev, id])];
+																});
+															}}
+														/>
+														<p className="mypage__items-name">{name}</p>
+														<p className="mypage__items-group">{group}</p>
 													</article>
-												</div>
+												</CarouselItem>
 											);
-										})}
-									</div>
-								)}
-							</Slider>
+										})
+									)}
+									{pending && idols.length === 0 && (
+										<>
+											{Array.from({ length: pageSize }, (v, i) => i).map((_, i) => {
+												return (
+													<CarouselItem key={`idol-id-${i}`} $pageSize={pageSize / 2}>
+														<article className="mypage-addidol__items">
+															<Avatar src={""} size={profilSize} alt={`프로필 이미지`} className="skeleton" />
+															<p className="mypage__items-name skeleton" style={{ minWidth: "40px" }}>
+																&nbsp;
+															</p>
+															<p className="mypage__items-group skeleton" style={{ minWidth: "64px" }}>
+																&nbsp;
+															</p>
+														</article>
+													</CarouselItem>
+												);
+											})}
+										</>
+									)}
+								</CarouselInner>
+							</Carousel>
+							{mode !== "mobile" && (
+								<>
+									<CaretButton direction="left" size="large" onClick={carouselPrev} disabled={carouselScrollPosition === "first" || carouselButtonDisabled} />
+									<CaretButton direction="right" size="large" onClick={carouselNext} disabled={carouselScrollPosition === "last" || carouselButtonDisabled} />
+								</>
+							)}
 						</Container>
-						{mode !== "mobile" && (
-							<>
-								<CaretButton direction="left" size="large" onClick={slickPrev} />
-								<CaretButton direction="right" size="large" onClick={slickNext} />
-							</>
-						)}
+
 						<section className="mypage-addidol_add">
+							{/* <Button onClick={carouselFirst} disabled={carouselScrollPosition === "first" || carouselButtonDisabled}>
+								FIRST
+							</Button> */}
 							<Button
 								className="mypage-addidol_add-button"
 								icon={"plus"}
@@ -186,6 +305,10 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 							>
 								추가하기
 							</Button>
+
+							{/* <Button onClick={carouselLast} disabled={carouselScrollPosition === "last" || carouselButtonDisabled}>
+								LAST
+							</Button> */}
 						</section>
 					</>
 				)}
