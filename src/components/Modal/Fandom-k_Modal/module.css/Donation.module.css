@@ -52,6 +52,10 @@ input::-webkit-inner-spin-button {
 	width: 158px;
 	height: 206px;
 	margin: 0 auto;
+	border-radius: 10px;
+	/* 이미지 안 깨지게 하는 속성 */
+	object-fit: cover;
+	object-position: center;
 }
 
 .adTitle {
@@ -71,6 +75,7 @@ input::-webkit-inner-spin-button {
 .adWhere {
 	color: #67666e;
 	margin-bottom: 6px;
+	font-size: 12px;
 }
 
 .creditInputBox {
@@ -78,7 +83,7 @@ input::-webkit-inner-spin-button {
 	justify-content: space-between;
 	align-items: center;
 	padding: 16px;
-	margin-bottom: 4px;
+	margin-bottom: 24px;
 	background-color: #181026;
 	border-radius: 8px;
 	height: 58px;

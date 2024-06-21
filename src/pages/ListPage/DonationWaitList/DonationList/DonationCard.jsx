@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
 import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
@@ -11,9 +11,7 @@ function Card({ item, size, onClick, ...args }) {
 	const displaysDay = dDay >= 0 ? dDay : 0;
 	const progressRef = useRef(null);
 	const progressBarRef = useRef(null);
-	// 후원이 100% 채워진 경우, 기한이 지난 경우
-	const isDonationComplete = item.receivedDonations >= item.targetDonation;
-	const isPastDeadline = dDay < 0;
+
 	useEffect(() => {
 		if (progressRef.current && !progressBarRef.current) {
 			progressBarRef.current = new ProgressBar.Line(progressRef.current, {
@@ -45,10 +43,9 @@ function Card({ item, size, onClick, ...args }) {
 			}
 		};
 	}, [item.receivedDonations, item.targetDonation]);
-	// 버튼 텍스트 설정
-	const buttonText = isDonationComplete ? "후원 종료" : isPastDeadline ? "후원 마감" : "후원하기";
+
 	return (
-		<style.Card size={size} onClick={onClick} {...args}>
+		<style.Card size={size} {...args}>
 			{item === "skeleton" ? (
 				<>
 					<style.SkeletonImg size={size} className="skeleton"></style.SkeletonImg>
@@ -63,12 +60,8 @@ function Card({ item, size, onClick, ...args }) {
 						<style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
 						<style.BlackGradation src="donationImg/blackgradation.png" size={size} />
 						<style.Block>
-							<style.SubmitButton
-								size={size}
-								onClick={onClick} // 버튼 활성화
-								disabled={isDonationComplete || isPastDeadline} // 버튼 비활성화
-							>
-								{buttonText}
+							<style.SubmitButton size={size} onClick={onClick}>
+								후원하기
 							</style.SubmitButton>
 						</style.Block>
 					</style.ImgButton>
