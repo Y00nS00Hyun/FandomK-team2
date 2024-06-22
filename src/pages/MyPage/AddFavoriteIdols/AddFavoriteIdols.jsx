@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { isEmpty } from "lodash";
 import useAsync from "../../../hooks/useAsync";
 import { getIdolList } from "../../../api/idolsApi";
+import animateFunction from "../../../func/animateFunction.js";
 import TitleSection from "../../../components/TitleSection/TitleSection.jsx";
 import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Avatar from "../../../components/Avatar/Avatar";
@@ -87,6 +88,9 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
   const [carouselButtonDisabled, setCarouselButtonDisabled] = useState(false);
   const [carouselScrollPosition, setCarouselScrollPosition] = useState("first");
   const carouselRows = pageSize / 2 < idols.length ? 2 : 1;
+  const checkCarousel = ({ currentTarget }) => {
+    if (currentTarget !== carouselRef.current) carouselRef.current = currentTarget;
+  };
 
   /**
    * @JuhyeokC
@@ -124,69 +128,51 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
     setReload((prev) => ++prev);
   };
 
-  // 스크롤 애니메이션
-  function scroll(element, to, duration) {
-    // t = current time
-    // b = start value
-    // c = change in value
-    // d = duration
-    Math.easeInOutQuad = function (t, b, c, d) {
-      t /= d / 2;
-      if (t < 1) return (c / 2) * t * t + b;
-      t--;
-      return (-c / 2) * (t * (t - 2) - 1) + b;
-    };
-
-    var start = element.scrollLeft;
-    var change = to - start;
-    var increment = 20;
-    var currentTime = 0;
-
-    function animate() {
-      currentTime += increment;
-      var val = Math.easeInOutQuad(currentTime, start, change, duration);
-      element.scrollLeft = val;
-      if (currentTime < duration) {
-        setTimeout(animate, increment);
-      } else {
-        setCarouselButtonDisabled(false);
-      }
-    }
-
-    animate();
-  }
-
   // 슬라이드 처음으로
   const carouselFirst = () => {
-    const carousel = carouselRef.current;
-    scroll(carousel, 0, 1000);
     setCarouselButtonDisabled(true);
+    const carousel = carouselRef.current;
+    animateFunction(carousel, "scrollLeft", 0, 1000, () => setCarouselButtonDisabled(false));
   };
 
   // 슬라이드 마지막
   const carouselLast = () => {
+    setCarouselButtonDisabled(true);
     const carousel = carouselRef.current;
     const carouselItemWidth = carousel.children[0].children[0].clientWidth;
     const dataLength = Math.round(idols.length / 2);
-    scroll(carousel, carouselItemWidth * dataLength, 1000);
-    setCarouselButtonDisabled(true);
+    animateFunction(carousel, "scrollLeft", carouselItemWidth * dataLength, 1000, () => setCarouselButtonDisabled(false));
   };
 
   // 슬라이드 이전으로
   const carouselPrev = () => {
+    setCarouselButtonDisabled(true);
     const carousel = carouselRef.current;
     const to = carousel.scrollLeft - carousel.clientWidth;
-    scroll(carousel, to, 1000);
-    setCarouselButtonDisabled(true);
+    animateFunction(carousel, "scrollLeft", to, 1000, () => setCarouselButtonDisabled(false));
   };
 
   // 슬라이드 다음으로
   const carouselNext = () => {
+    setCarouselButtonDisabled(true);
     const carousel = carouselRef.current;
     const to = carousel.scrollLeft + carousel.clientWidth;
-    scroll(carousel, to, 1000);
-    setCarouselButtonDisabled(true);
+    animateFunction(carousel, "scrollLeft", to, 1000, () => setCarouselButtonDisabled(false));
     getMoreData();
+  };
+
+  const handleScroll = ({ currentTarget }) => {
+    const carousel = currentTarget;
+    const carouselInner = carousel.children[0];
+    setCarouselScrollPosition(() => {
+      if (carousel.scrollLeft === 0) {
+        return "first";
+      } else if (carousel.scrollLeft >= carouselInner.scrollWidth - carousel.clientWidth) {
+        return "last";
+      } else {
+        return false;
+      }
+    });
   };
 
   /**
@@ -197,25 +183,6 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
     getData({ pageSize });
   }, [reload]);
 
-  useEffect(() => {
-    const handleScroll = ({ currentTarget }) => {
-      const carousel = currentTarget;
-      const carouselInner = carousel.children[0];
-      setCarouselScrollPosition(() => {
-        if (carousel.scrollLeft === 0) {
-          return "first";
-        } else if (carousel.scrollLeft >= carouselInner.scrollWidth - carousel.clientWidth) {
-          return "last";
-        } else {
-          return false;
-        }
-      });
-    };
-
-    carouselRef.current?.addEventListener("scroll", handleScroll);
-    return () => carouselRef.current?.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <>
       <TitleSection title={"관심 있는 아이돌을 추가해보세요."} carousel={true}>
@@ -224,8 +191,8 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
         ) : (
           <>
             <Container>
-              <Carousel ref={carouselRef}>
-                <CarouselInner $rows={carouselRows} $size={pageSize < idols.length}>
+              <Carousel ref={carouselRef} onLoad={checkCarousel} onScroll={handleScroll}>
+                <CarouselInner $rows={isEmpty(idols) ? 2 : carouselRows} $size={pageSize < idols.length}>
                   {!pending && isEmpty(idols) ? (
                     <p>등록된 아이돌이 없습니다...</p>
                   ) : (
@@ -305,7 +272,6 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
               >
                 추가하기
               </Button>
-
               {/* <Button onClick={carouselLast} disabled={carouselScrollPosition === "last" || carouselButtonDisabled}>
 								LAST
 							</Button> */}
