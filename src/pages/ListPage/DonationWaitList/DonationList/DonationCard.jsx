@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
 import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
-
 function Card({ item, size, onClick, ...args }) {
   const [myCredit, setMyCredit] = useMyCredit();
   const today = new Date();
@@ -11,7 +10,9 @@ function Card({ item, size, onClick, ...args }) {
   const displaysDay = dDay >= 0 ? dDay : 0;
   const progressRef = useRef(null);
   const progressBarRef = useRef(null);
-
+  // 후원이 100% 채워진 경우, 기한이 지난 경우
+  const isDonationComplete = item.receivedDonations >= item.targetDonation;
+  const isPastDeadline = dDay < 0;
   useEffect(() => {
     if (progressRef.current && !progressBarRef.current) {
       progressBarRef.current = new ProgressBar.Line(progressRef.current, {
@@ -29,7 +30,10 @@ function Card({ item, size, onClick, ...args }) {
         },
       });
     }
-
+    if (progressBarRef.current) {
+      const progress = item.receivedDonations / item.targetDonation;
+      progressBarRef.current.animate(progress);
+    }
     // Clean up the progress bar instance on unmount
     return () => {
       if (progressBarRef.current) {
@@ -58,7 +62,7 @@ function Card({ item, size, onClick, ...args }) {
             <style.Block>
               <style.SubmitButton
                 size={size}
-                onClick={onClick}
+                onClick={onClick} // 버튼 활성화
                 disabled={isDonationComplete || isPastDeadline} // 버튼 비활성화
               >
                 {buttonText}
@@ -86,5 +90,4 @@ function Card({ item, size, onClick, ...args }) {
     </style.Card>
   );
 }
-
 export default Card;

@@ -5,11 +5,9 @@ import useAsync from "../../../../hooks/useAsync";
 import LodingImage from "../../../LodingImage/LodingImage";
 import { getIdolList } from "../../../../api/idolsApi";
 import Avatar from "../../../Avatar/Avatar";
-
 // 투표 모달 콘텐츠 : 프로필, 그룹명, 멤버명, 선택 버튼
 function ProfileListItem({ item }) {
   //const [items, setItems] = useState();
-
   return (
     <>
       <InputRadio className={votes.ProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id}>
@@ -27,42 +25,40 @@ function ProfileListItem({ item }) {
     </>
   );
 }
-
 function VotesModal() {
   const { refetchFunction, data, pending, error } = useAsync(getIdolList);
-
   const items = data?.list || [];
   const sortedItems = items.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes));
   const cursor = data?.nextCursor;
 
   /*useEffect(() => {
-		execute({ pageSize: 6 });
+		refetchFunction({ pageSize: 6 });
 		console.log(items);
 		console.log(sortedItems);
-	}, [execute]);*/
+	}, [refetchFunction]);*/
 
   useEffect(() => {
     if (typeof refetchFunction !== "function") {
       console.error("refetchFunction is not a function");
       return;
     }
-
     refetchFunction({ pageSize: 6 })
       .then(() => {
         console.log("Data fetched successfully");
+        console.log(items);
+        console.log(sortedItems);
       })
       .catch((error) => {
         console.error("Error fetching data:", error.message);
+        // Handle error: display message to the user or perform other actions
       });
-  }, [refetchFunction]);
+  }, [refetchFunction, items, sortedItems]);
 
   return (
     <div className={votes.Contents}>
       <ul className={votes.content}>
         {pending && <LodingImage />}
-
         {error && <p>ERROR! {error.message}</p>}
-
         {items &&
           items.map((item) => {
             return (
@@ -76,5 +72,4 @@ function VotesModal() {
     </div>
   );
 }
-
 export default VotesModal;

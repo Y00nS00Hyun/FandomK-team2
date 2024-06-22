@@ -55,7 +55,7 @@ export default function useAsync(asyncFunction) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
 
-  async function refetchFunction(...args) {
+  async function execute(...args) {
     try {
       setPending(true);
       setError(null);
@@ -68,5 +68,5 @@ export default function useAsync(asyncFunction) {
     }
   }
 
-  return [pending, error, refetchFunction];
+  return [pending, error, execute];
 }
