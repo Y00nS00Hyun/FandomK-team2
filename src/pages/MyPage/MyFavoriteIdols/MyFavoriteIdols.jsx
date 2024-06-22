@@ -7,16 +7,16 @@ import Avatar from "../../../components/Avatar/Avatar";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import Button from "../../../components/Button/Button.jsx";
 
-const Container = styled.article`
-  position: relative;
-`;
-
 // 기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
   desktop: 16,
   tablet: 8,
   mobile: 6,
 };
+
+const Container = styled.article`
+  position: relative;
+`;
 
 const Carousel = styled.article`
   position: relative;

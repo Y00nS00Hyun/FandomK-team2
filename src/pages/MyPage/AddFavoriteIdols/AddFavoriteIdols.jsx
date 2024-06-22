@@ -11,16 +11,16 @@ import Button from "../../../components/Button/Button";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import "../AddFavoriteIdols/myPageStyle.css";
 
-const Container = styled.article`
-  position: relative;
-`;
-
 //기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
   mobile: 6,
   tablet: 8,
   desktop: 16,
 };
+
+const Container = styled.article`
+  position: relative;
+`;
 
 const Carousel = styled.article`
   position: relative;
