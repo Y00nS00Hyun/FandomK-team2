@@ -67,16 +67,6 @@ function DonationWaitList({ mode }) {
   const slickPrev = () => sliderRef.current.slickPrev();
   const slickNext = async () => sliderRef.current.slickNext();
 
-  const openModal = (item) => {
-    setSelectedItem(item);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
-    setModalOpen(false);
-  };
-
   useEffect(() => {
     getData();
   }, [reload]);
