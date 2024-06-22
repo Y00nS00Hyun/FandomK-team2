@@ -1,45 +1,45 @@
 /* Modal.css */
 .modal-backdrop {
-	position: fixed;
-	z-index: 999;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-	background-color: #181026;
-	padding: 24px 16px 32px;
-	border-radius: 8px;
-	position: relative;
-	min-width: 300px;
-	max-width: 100%;
+  background-color: #181026;
+  padding: 24px 16px 32px;
+  border-radius: 8px;
+  position: relative;
+  min-width: 300px;
+  max-width: 100%;
 }
 
 .modal-close {
-	background: none;
-	border: none;
-	font-size: 20px;
-	cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .modal-head {
-	position: relative;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-between;
-	align-items: center;
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modal-body {
-	padding: 20px 0;
+  padding: 24px 0 0;
 }
 
 .modal-head {
-	position: relative;
+  position: relative;
 }
