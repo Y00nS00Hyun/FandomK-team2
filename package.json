@@ -21,7 +21,8 @@
     "react-slot-counter": "^2.3.3",
     "react-spinners": "^0.13.8",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "swiper": "^11.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
