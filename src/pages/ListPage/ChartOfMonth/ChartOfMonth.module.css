@@ -108,6 +108,7 @@ h1 {
   font-size: 14px;
   padding: 8px 143px;
   margin-top: 51px;
+  border-style: none;
 }
 
 .viewMore:not([disabled]):hover {

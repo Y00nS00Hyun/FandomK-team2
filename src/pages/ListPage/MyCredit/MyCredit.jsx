@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { CountUp } from "countup.js";
+// CountUp JS
+// import { CountUp } from "countup.js";
+import SlotCounter from "react-slot-counter";
 import _ from "lodash";
 import Modal from "../../../components/Modal/Modal";
 import TopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/TopupModal";
@@ -87,7 +89,8 @@ const TextButton = styled.button`
 
 function MyCredit({ mode }) {
   const [myCredit, setMyCredit] = useMyCredit();
-  const [startValue, setStartValue] = useState(0);
+  // CountUp JS
+  // const [startValue, setStartValue] = useState(0);
   const [creditValue, setCreditValue] = useState(0);
   const [visibleModal, setVisibelModal] = useState(false);
 
@@ -98,18 +101,19 @@ function MyCredit({ mode }) {
     setVisibelModal(false);
   };
 
-  useEffect(() => {
-    const count = new CountUp("myCredit", myCredit, {
-      startVal: startValue,
-      duration: 0.48,
-    });
-    if (!count.error) {
-      count.start();
-      setStartValue(myCredit);
-    } else {
-      console.error(count.error);
-    }
-  }, [myCredit]);
+  // CountUp JS
+  // useEffect(() => {
+  //   const count = new CountUp("myCredit", myCredit, {
+  //     startVal: startValue,
+  //     duration: 0.48,
+  //   });
+  //   if (!count.error) {
+  //     count.start();
+  //     setStartValue(myCredit);
+  //   } else {
+  //     console.error(count.error);
+  //   }
+  // }, [myCredit]);
 
   useEffect(() => {
     if (!visibleModal) setCreditValue(0);
@@ -122,7 +126,11 @@ function MyCredit({ mode }) {
           <SummaryText>내 크레딧</SummaryText>
           <CreditSection>
             <Icon src={CreditIcon} alt={"크레딧 아이콘"} height={32} />
-            <CreditText id={"myCredit"}>{myCredit.toLocaleString()}</CreditText>
+            {/* CountUp JS */}
+            {/* <CreditText id={"myCredit"}>{myCredit.toLocaleString()}</CreditText> */}
+            <CreditText>
+              <SlotCounter value={myCredit.toLocaleString()} sequentialAnimationMode useMonospaceWidth />
+            </CreditText>
           </CreditSection>
         </LeftSection>
         <RightSection>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import votes from "../module.css/Votes.module.css";
-import InputRadio from "../../../InputRadio/InputRadio";
 import useAsync from "../../../../hooks/useAsync";
+import { getChartData } from "../../../../api/chartsApi";
 import LodingImage from "../../../LodingImage/LodingImage";
-import { getIdolList } from "../../../../api/idolsApi";
+import InputRadio from "../../../InputRadio/InputRadio";
 import Avatar from "../../../Avatar/Avatar";
+import votes from "../module.css/Votes.module.css";
+
 // 투표 모달 콘텐츠 : 프로필, 그룹명, 멤버명, 선택 버튼
 function ProfileListItem({ item }) {
   //const [items, setItems] = useState();
@@ -25,33 +26,38 @@ function ProfileListItem({ item }) {
     </>
   );
 }
-function VotesModal() {
-  const { refetchFunction, data, pending, error } = useAsync(getIdolList);
-  const items = data?.list || [];
-  const sortedItems = items.sort((a, b) => Number(b.totalVotes) - Number(a.totalVotes));
-  const cursor = data?.nextCursor;
 
-  /*useEffect(() => {
-    refetchFunction({ pageSize: 6 });
-    console.log(items);
-    console.log(sortedItems);
-  }, [refetchFunction]);*/
+function VotesModal({ gender }) {
+  const pageSize = 999;
+  const [pending, error, execute] = useAsync(getChartData);
+  const [items, setItems] = useState([]);
+  const [cursor, setCursor] = useState(null);
+
+  const getData = async ({ pageSize, gender, cursor }) => {
+    const params = { pageSize: 999, gender };
+    if (cursor) {
+      params.pageSize = pageSize;
+      params.cursor = cursor;
+    }
+
+    const result = await execute(params);
+    if (!result) return;
+    const { idols, nextCursor } = result;
+
+    setItems((prev) => {
+      if (cursor) {
+        return [...prev, ...idols];
+      } else {
+        return idols;
+      }
+    });
+    setCursor(nextCursor);
+  };
 
   useEffect(() => {
-    if (typeof refetchFunction !== "function") {
-      console.error("refetchFunction is not a function");
-      return;
-    }
-    refetchFunction({ pageSize: 6 })
-      .then(() => {
-        console.log("Data fetched successfully");
-        console.log(items);
-        console.log(sortedItems);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error.message);
-      });
-  }, [refetchFunction, items, sortedItems]);
+    getData({ pageSize, gender });
+    console.log(items);
+  }, []);
 
   return (
     <div className={votes.Contents}>

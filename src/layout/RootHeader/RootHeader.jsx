@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
 import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
-import Symbol from "../../assets/images/symbol/symbol-credit-white.svg";
+import Symbol from "../../assets/images/symbol/symbol-credit-large.svg";
 
 const Header = styled.header`
   position: fixed;
@@ -12,7 +12,7 @@ const Header = styled.header`
   bottom: auto;
   padding: 0 24px;
   backdrop-filter: blur(8px);
-  ${({ $visible }) => $visible && `top: -${$visible}px;`}
+  top: ${({ $visible }) => ($visible === true ? 0 : $visible * -1)}px;
   transition: top 1s;
 `;
 
@@ -64,7 +64,7 @@ function RootHeader({ headerHeight }) {
       <Inner className="inner" $headerHeight={headerHeight}>
         <Section>
           <Link to={"/"} draggable="false">
-            <img src={Symbol} alt={"Credit symbol"} height={32} draggable="false" />
+            <img src={Symbol} alt={"Credit symbol"} height={40} draggable="false" />
           </Link>
         </Section>
 
