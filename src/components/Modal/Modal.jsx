@@ -1,5 +1,3 @@
-// Modal.js
-import React from "react";
 import Button from "../Button/Button";
 import Xbutton from "../Button/Xbutton";
 import "./Modal.css";
@@ -11,7 +9,6 @@ function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, childr
 	} else {
 		document.body.style.setProperty("overflow", "hidden");
 	}
-
 	return (
 		<div className="modal-backdrop" onClick={onClose}>
 			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -31,5 +28,4 @@ function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, childr
 		</div>
 	);
 }
-
 export default Modal;
