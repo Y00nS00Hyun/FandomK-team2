@@ -1,3 +1,8 @@
+/* 스크롤 바 숨기기 */
+.screen-box::-webkit-scrollbar {
+  display: none; /* Chrome , Safari , Opera */
+}
+
 /* Modal.css */
 .modal-backdrop {
   position: fixed;
@@ -13,12 +18,15 @@
 }
 
 .modal-content {
+  display: flex;
+  flex-direction: column;
   background-color: #181026;
   padding: 24px 16px 32px;
   border-radius: 8px;
   position: relative;
   min-width: 300px;
   max-width: 100%;
+  gap: 24px;
 }
 
 .modal-close {
@@ -37,7 +45,8 @@
 }
 
 .modal-body {
-  padding: 24px 0;
+  overflow: auto;
+  scrollbar-width: none;
 }
 
 .modal-head {
