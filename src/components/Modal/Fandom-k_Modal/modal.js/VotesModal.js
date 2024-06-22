@@ -50,7 +50,6 @@ function VotesModal() {
       })
       .catch((error) => {
         console.error("Error fetching data:", error.message);
-        // Handle error: display message to the user or perform other actions
       });
   }, [refetchFunction, items, sortedItems]);
 
