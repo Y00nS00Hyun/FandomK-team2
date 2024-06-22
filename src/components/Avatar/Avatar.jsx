@@ -23,9 +23,9 @@ mobile : 98*98, 88*88
 /*
 const AVATAR_SIZE = {
   basic: "60px",
-	mobileAddIdol: "88px",
-	otherMyIdol: "85px",
-	otherAddIdol: "115px",
+  mobileAddIdol: "88px",
+  otherMyIdol: "85px",
+  otherAddIdol: "115px",
 };
 */
 
@@ -72,8 +72,8 @@ const Cover = styled.div`
       content: url(${ChekIcon});
       position: absolute;
       top: 50%;
-	    left: 50%;
-	    transform: translate(-50%, -50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 3;
     }
   `}
@@ -102,20 +102,19 @@ const XButton = styled.div`
   ${({ $cancled }) =>
     $cancled &&
     `
-		visibility: visible;
-		cursor: pointer;
+    visibility: visible;
+    cursor: pointer;
     &:before {
       content: '';
-			width: 100%;
-	    height: 100%;
-			background-image: url(${XBottun});
-			background-size: cover;
+      width: 100%;
+      height: 100%;
+      background-image: url(${XBottun});
+      background-size: cover;
       position: absolute;
-			top: 0;
-	    right: 0;
+      top: 0;
+      right: 0;
       z-index: 5;
     }
-
   `}
 `;
 
