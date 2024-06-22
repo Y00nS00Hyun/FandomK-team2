@@ -3,7 +3,7 @@ import InputRadio from "../../../InputRadio/InputRadio";
 import credit from "../../../../assets/images/icon/icon-credit.svg";
 import topup from "../module.css/Topup.module.css";
 
-const CREDIT_UNITS = [{ unit: 100 }, { unit: 500 }, { unit: 1000 }, { unit: 2000 }, { unit: 3000 }, { unit: 5000 }, { unit: 10000 }];
+const CREDIT_UNITS = [{ unit: 100 }, { unit: 500 }, { unit: 1000 }, { unit: 2000 }, { unit: 3000 }, { unit: 5000 }, { unit: 10000 }, { unit: 100000 }, { unit: 1000000 }];
 
 function TopupModal({ handleChange }) {
   return (
