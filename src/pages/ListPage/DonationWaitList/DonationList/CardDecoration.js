@@ -55,8 +55,6 @@ const INFOWRAPPER_HEIGHT = {
 
 // 😸 적용해보자 😸
 
-const SliderStyle = styled.div``;
-
 const Card = styled.div`
   width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
   height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
@@ -174,6 +172,6 @@ const StatusInfo = styled.div`
 
 // 😸 export 해보자 😸
 
-const style = { SliderStyle, Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block, SkeletonImg };
+const style = { Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block, SkeletonImg };
 
 export default style;

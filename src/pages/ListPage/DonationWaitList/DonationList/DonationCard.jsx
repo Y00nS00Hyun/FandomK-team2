@@ -64,7 +64,7 @@ function Card({ item, size, onClick, ...args }) {
     left: 0,
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.65)",
     zIndex: 1,
     display: isDonationComplete || isPastDeadline ? "block" : "none",
   };
