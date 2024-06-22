@@ -9,7 +9,6 @@ import votes from "../module.css/Votes.module.css";
 // 투표 모달 콘텐츠 : 프로필, 그룹명, 멤버명, 선택 버튼
 function ProfileListItem({ item }) {
   //const [items, setItems] = useState();
-
   return (
     <>
       <InputRadio className={votes.ProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id}>
@@ -64,9 +63,7 @@ function VotesModal({ gender }) {
     <div className={votes.Contents}>
       <ul className={votes.content}>
         {pending && <LodingImage />}
-
         {error && <p>ERROR! {error.message}</p>}
-
         {items &&
           items.map((item) => {
             return (
@@ -80,5 +77,4 @@ function VotesModal({ gender }) {
     </div>
   );
 }
-
 export default VotesModal;
