@@ -154,7 +154,7 @@ function DonationWaitList({ mode }) {
           </>
         )}
       </TitleSection>
-      <Modal title={"후원하기"} show={visibleModal} onClose={() => setVisibleModal(false)}>
+      <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"}>
         <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} idol={currentIdol} creditValueState={[creditValue, setCreditValue]} donationButtonDisabledState={[donationButtonDisabled, setDonationButtonDisabled]} disabled={donationButtonDisabled} buttonName={"후원하기"} />
       </Modal>
     </>
