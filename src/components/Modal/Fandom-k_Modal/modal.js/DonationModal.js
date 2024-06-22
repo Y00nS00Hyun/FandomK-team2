@@ -17,7 +17,7 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
 
   const handleChange = (e) => {
     const value = e.target.value;
-    if (value < 1000) {
+    if (value < 1000 || value > myCredit) {
       setDonationButtonDisabled(true);
     } else {
       setDonationButtonDisabled(false);
@@ -30,7 +30,10 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
 
   const donate = async (id, { amount }) => {
     const params = { amount };
-    if (amount > myCredit) setNotEnough(true);
+    if (amount > myCredit) {
+      setNotEnough(true);
+      return;
+    }
     const result = await execute(id, params);
     if (!result) return;
     console.log(result);
@@ -58,10 +61,7 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
             <span>{idol?.title}</span>
           </div>
           <form>
-            <div className={done.creditInputBox}>
-              <input className={done.creditInput} type="number" name="chargeCredit" placeholder="크레딧 입력" value={creditValue} onChange={handleChange} />
-              <img src={credit} alt="크레딧 사진" />
-            </div>
+            <input className={done.creditInput} type="number" name="chargeCredit" placeholder="크레딧 입력" value={creditValue} onChange={handleChange} />
             {message && <p>초과</p>}
             {buttonName && (
               <Button icon={icon} size={"wide"} onClick={handleCredit} disabled={pending || disabled}>

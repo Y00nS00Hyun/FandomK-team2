@@ -32,10 +32,10 @@ function VotesModal() {
   const cursor = data?.nextCursor;
 
   /*useEffect(() => {
-		refetchFunction({ pageSize: 6 });
-		console.log(items);
-		console.log(sortedItems);
-	}, [refetchFunction]);*/
+    refetchFunction({ pageSize: 6 });
+    console.log(items);
+    console.log(sortedItems);
+  }, [refetchFunction]);*/
 
   useEffect(() => {
     if (typeof refetchFunction !== "function") {
