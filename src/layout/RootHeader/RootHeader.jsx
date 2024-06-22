@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
-import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
 import Symbol from "../../assets/images/symbol/symbol-credit-large.svg";
+import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
 
 const Header = styled.header`
   position: fixed;
