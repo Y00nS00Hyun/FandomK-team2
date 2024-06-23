@@ -7,13 +7,17 @@ import Avatar from "../../../Avatar/Avatar";
 import votes from "../module.css/Votes.module.css";
 
 // 투표 모달 콘텐츠 : 프로필, 그룹명, 멤버명, 선택 버튼
-function ProfileListItem({ item }) {
-  //const [items, setItems] = useState();
+function ProfileListItem({ item, onCheck }) {
+  const [checked, setChecked] = useState(false);
+  const handleChecked = () => {
+    setChecked(!checked);
+    onCheck(item.id);
+  };
   return (
     <>
-      <InputRadio className={votes.ProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id}>
+      <InputRadio className={votes.ProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id} onClick={handleChecked}>
         <div className={votes.profileBox}>
-          <Avatar src={item.profilePicture} className={votes.profileImg} alt="프로필 사진" />
+          <Avatar src={item.profilePicture} className={votes.profileImg} alt="프로필 사진" checked={item.checked} />
           <div className={votes.lanking}>1</div>
           <div className={votes.profileInfo}>
             <span>
@@ -27,7 +31,7 @@ function ProfileListItem({ item }) {
   );
 }
 
-function VotesModal({ gender }) {
+function VotesModal({ gender, checked }) {
   const pageSize = 999;
   const [pending, error, execute] = useAsync(getChartData);
   const [items, setItems] = useState([]);
@@ -54,6 +58,10 @@ function VotesModal({ gender }) {
     setCursor(nextCursor);
   };
 
+  const handleCheck = (id) => {
+    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, checked: true } : { ...item, checked: false })));
+  };
+
   useEffect(() => {
     getData({ pageSize, gender });
     console.log(items);
@@ -68,7 +76,7 @@ function VotesModal({ gender }) {
           items.map((item) => {
             return (
               <li key={item.id}>
-                <ProfileListItem item={item} />
+                <ProfileListItem item={item} onCheck={handleCheck} />
                 <div className={votes.areaLine}></div>
               </li>
             );

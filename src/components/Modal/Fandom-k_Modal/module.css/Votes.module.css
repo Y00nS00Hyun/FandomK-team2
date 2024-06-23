@@ -45,12 +45,13 @@
 
 .content {
   width: 100%;
+  height: 516px;
 }
 
 .ProfileContainer {
   display: flex;
   justify-content: space-between;
-  width: 475px;
+  width: 493px;
   height: 70px;
   align-items: center;
 }
@@ -111,6 +112,7 @@
   font-size: 12px;
   text-align: center;
   margin: 12px 0 0;
+  line-height: 26px;
 }
 
 .credit {
@@ -129,4 +131,15 @@
 
 .display-none {
   display: none;
+}
+
+/* 모바일 사이즈 */
+@media (max-width: 768px) {
+  .ProfileContainer {
+    width: 100%;
+  }
+
+  .contents {
+    width: 100%;
+  }
 }
