@@ -13,14 +13,17 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
   const [donationButtonDisabled, setDonationButtonDisabled] = donationButtonDisabledState;
   const [message, setMessage] = useState(false);
   const [notEnough, setNotEnough] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isValid, setIsValid] = useState(true);
 
   const handleChange = (e) => {
     const value = e.target.value;
-    if (value < 1000 || value > myCredit) {
+    if (value <= 0 || value > myCredit) {
       setDonationButtonDisabled(true);
+      setIsValid(false);
     } else {
       setDonationButtonDisabled(false);
+      setIsValid(true);
     }
     setMessage(value > myCredit);
     setCreditValue(value);
@@ -69,10 +72,10 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
             <span>{idol?.title}</span>
           </div>
           <form>
-            <input className={done.creditInput} type="number" name="chargeCredit" placeholder="크레딧 입력" value={creditValue} onChange={handleChange} />
-            {message && <p>초과</p>}
+            <input className={`${done.creditInput} ${!isValid ? done.creditError : ""}`} type="number" name="chargeCredit" placeholder="크레딧 입력" value={creditValue} onChange={handleChange} />
+            {message && <p className={done.notification}>갖고 있는 크레딧 보다 더 많이 후원할 수 없어요!</p>}
             {buttonName && (
-              <Button icon={icon} size={"wide"} onClick={handleCredit} disabled={pending || disabled}>
+              <Button icon={icon} size={"wide"} onClick={handleCredit} disabled={pending || disabled} className={done.donationButton}>
                 {buttonName}
               </Button>
             )}
