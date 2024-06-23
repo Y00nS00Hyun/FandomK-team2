@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
 import Home from "../../assets/images/icon/homeButton.png";
-import { MoemaButton } from "./HeaderButton";
+import { MoemaButton } from "./MoemaButton";
 import SkeletonAvater from "../../assets/images/avatar/user-astronaut-solid.png";
 
 const Header = styled.header`
