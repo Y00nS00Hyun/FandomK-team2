@@ -20,7 +20,9 @@ const Article = styled.article`
       transform: translateX(-50%);
       display: block;
       width: ${DEFAULT_MAX_WIDTH}px;
+      max-width: 100%;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 100%;
     }
   `}
 `;

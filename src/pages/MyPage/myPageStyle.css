@@ -36,6 +36,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2px;
 }
 
 .mypage-myidol_minus {
@@ -58,11 +59,6 @@
   justify-content: center;
   align-items: center;
   margin: 24px auto;
-}
-
-.addidol {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  position: relative;
 }
 
 .mypage__title {
@@ -88,9 +84,11 @@
   align-items: center;
   width: 128px;
   height: 183px;
+  gap: 2px;
 }
 
 .mypage__items-name {
+  margin-top: 8px;
   font-size: 16px;
   font-weight: 700;
 }
