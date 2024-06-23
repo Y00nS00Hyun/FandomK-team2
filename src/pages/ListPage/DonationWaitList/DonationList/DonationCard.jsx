@@ -80,7 +80,7 @@ function Card({ item, size, onClick, ...args }) {
   };
 
   return (
-    <style.Card rd size={size} onClick={onClick} {...args}>
+    <style.Card rd size={size} {...args}>
       {item === "skeleton" ? (
         <>
           <style.SkeletonImg size={size} className="skeleton"></style.SkeletonImg>
