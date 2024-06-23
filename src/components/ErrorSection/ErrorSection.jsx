@@ -12,8 +12,12 @@ const Article = styled.section`
   gap: 16px;
   margin: 0 auto;
   padding: 40px 0;
-  max-width: 1200px;
+  width: 100%;
+  height: 100%;
+  min-width: 480px;
   min-height: 160px;
+  max-width: 1200px;
+  max-height: 50vh;
 `;
 
 const Message = styled.p`

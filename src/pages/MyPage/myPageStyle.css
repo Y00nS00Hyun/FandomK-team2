@@ -38,6 +38,7 @@
   align-items: center;
   width: 98px;
   height: 160px;
+  margin-right: 12px;
 }
 
 .mypage-myidol_minus {
@@ -156,5 +157,6 @@
     justify-content: center;
     align-items: center;
     width: 80px;
+    margin-right: 0;
   }
 }

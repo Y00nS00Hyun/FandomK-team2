@@ -47,11 +47,10 @@ input::-webkit-inner-spin-button {
 .donationContainer {
   background-color: #181026;
   width: 327px;
-  padding: 24px 16px 32px;
   border-radius: 8px;
   color: white;
   opacity: 0;
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.9s forwards;
 }
 
 .donationTop {
@@ -130,7 +129,7 @@ input::-webkit-inner-spin-button {
 
 .notification {
   color: rgba(255, 38, 38, 1);
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 6px;
 }
 

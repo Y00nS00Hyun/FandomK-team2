@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Mousewheel, Navigation, Pagination, Parallax } from "swiper/modules";
+import { EffectFade, Parallax } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import useAsync from "../../../hooks/useAsync";
-import { getChartData } from "../../../api/chartsApi";
 import { useMyCredit } from "../../../context/MyCreditContext";
+import { getChartData } from "../../../api/chartsApi";
+import { voteIdol } from "../../../api/voteApi";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import ErrorSection from "../../../components/ErrorSection/ErrorSection";
 import Avatar from "../../../components/Avatar/Avatar";
@@ -16,6 +17,7 @@ import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
 import style from "./ChartOfMonth.module.css";
 import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
+import PopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/PopupModal";
 
 /**
  * @JuhyeokC
@@ -28,137 +30,116 @@ const PAGE_SIZES = {
 };
 
 const Container = styled.div`
-  ${({ $mode }) => {
-    switch ($mode) {
-      case "desktop":
-        return `
-        `;
-      default:
-        return `
-        display:flex;
-        `;
-    }
-  }}
+  ${({ $mode }) => $mode !== "desktop" && `display: flex;`}
   background-color : var(--background-color-basic);
 `;
 
-const Message = styled.p`
-  margin-bottom: -16px;
-  padding: 12px 8px 0;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 400;
-
-  & b {
-    color: var(--color-brand-orange);
-  }
-`;
-
-// TODO : 내가 개발할 곳 (이대진) 2024.06.10 13:20
 function ChartOfMonth({ mode }) {
-  const pageSize = PAGE_SIZES[mode]; // 서버에 요청할 데이터 갯수
-  const [myCredit, setMyCredit] = useMyCredit();
-  const [reload, setReload] = useState(0); // 응답에러 시 컴포넌트 재 렌더링을 위한 스테이트
-
-  const [gender, setGender] = useState("female"); // 성별 선택
-  const [femaleIdols, setFemaleIdols] = useState([]); // 서버에서 응답받은 데이터
-  const [femaleCursor, setFemaleCursor] = useState(null); // 서버요청에 사용될 커서
-  const [maleIdols, setMaleIdols] = useState([]); // 서버에서 응답받은 데이터
-  const [maleCursor, setMaleCursor] = useState(null); // 서버요청에 사용될 커서
-  const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor }); // 더보기 버튼 비활성화 상태
-
   let swiperRef = useRef(null);
 
-  const [votes, setVotes] = useState(false); // 투표하기 모달 on, off 관리
-  const votesOpen = () => setVotes(true);
-  const votesClose = () => setVotes(false);
+  const pageSize = PAGE_SIZES[mode];
+  const [myCredit, setMyCredit] = useMyCredit();
+  const [reload, setReload] = useState(0);
 
-  /**
-   * @JuhyeokC
-   * useAsync 커스텀훅 사용
-   */
+  const [gender, setGender] = useState("female");
+  const [femaleIdols, setFemaleIdols] = useState([]);
+  const [femaleCursor, setFemaleCursor] = useState(null);
+  const [maleIdols, setMaleIdols] = useState([]);
+  const [maleCursor, setMaleCursor] = useState(null);
+  const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor });
+
+  const [votes, setVotes] = useState(false);
+  const [selectedIdol, setSelectedIdol] = useState(null);
+  const [creditNotEnough, setCreditNotEnough] = useState(false);
+
   const [pending, error, execute] = useAsync(getChartData);
+  const [pendingVote, errorVote, executeVote] = useAsync(voteIdol);
 
-  /**
-   * @JuhyeokC
-   * 데이터 호출 함수
-   */
   const getData = async ({ pageSize, gender, cursor }) => {
-    const params = { pageSize, gender }; // 필수 파라미터들
-    if (cursor) params.cursor = cursor; // 커서가 있을 때 커서 추가 (더보기)
+    const params = { pageSize, gender };
+    if (cursor) params.cursor = cursor;
 
-    const result = await execute(params); // 데이터 호출
-    if (!result) return; // 호출 실패 시 함수 종료
-    const { idols, nextCursor } = result; // 응답받은 API 데이터 구조분해 (팬덤케이 스웨거 API 참조)
+    const result = await execute(params);
+    if (!result) return;
+    const { idols, nextCursor } = result;
 
     if (gender === "female") {
       setFemaleIdols((prev) => {
-        // 데이터 담기 위해 이전 값 참조
         if (cursor) {
-          // 더보기 실행 시 커서가 있을 것이므로 커서가 참일 때
-          return [...prev, ...idols]; // 이전 데이터에 새로운 데이터 추가
+          return [...prev, ...idols];
         } else {
-          // 커서가 없을 때 (최초 실행 시 혹은 성별버튼 클릭 시)
-          return idols; // 새로운 데이터만 추가
+          return idols;
         }
       });
-      setFemaleCursor(nextCursor); // 서버요청에 사용될 커서 상태
+      setFemaleCursor(nextCursor);
     } else {
       setMaleIdols((prev) => {
-        // 데이터 담기 위해 이전 값 참조
         if (cursor) {
-          // 더보기 실행 시 커서가 있을 것이므로 커서가 참일 때
-          return [...prev, ...idols]; // 이전 데이터에 새로운 데이터 추가
+          return [...prev, ...idols];
         } else {
-          // 커서가 없을 때 (최초 실행 시 혹은 성별버튼 클릭 시)
-          return idols; // 새로운 데이터만 추가
+          return idols;
         }
       });
-      setMaleCursor(nextCursor); // 서버요청에 사용될 커서 상태
+      setMaleCursor(nextCursor);
     }
     setDisableButton((prev) => {
       return { ...prev, [gender]: !nextCursor };
-    }); // 더보기 버튼 비활성화 상태 (커서 값이 null일 때 ! 반전으로 참이 되므로 더보기 버튼의 disabled 프롭이 true 가 되어 더보기 조작을 막을 수 있다.)
+    });
   };
 
-  /**
-   * @JuhyeokC
-   * 더보기 데이터 호출 함수
-   */
   const moreData = async () => {
     await getData({ pageSize, gender, cursor: gender === "female" ? femaleCursor : maleCursor });
   };
 
-  const handleReload = () => {
+  const initializeData = () => {
     setFemaleIdols([]);
     setFemaleCursor(null);
     setMaleIdols([]);
     setMaleCursor(null);
+  };
+
+  const handleReload = () => {
+    initializeData();
     setReload((prev) => ++prev);
   };
 
   const handleGender = (gender) => {
     setGender(gender);
+    gender === "female" ? swiperRef.current.swiper.slideTo(0) : swiperRef.current.swiper.slideTo(1);
   };
 
-  /**
-   * @JuhyeokC
-   * 차트 투표하기 모달 출력
-   */
-  function handleClick() {
-    console.log("차트 투표하기 모달 출력");
-  }
+  const votesOpen = () => setVotes(true);
+  const votesClose = () => {
+    setVotes(false);
+    setCreditNotEnough(false);
+  };
 
-  /**
-   * @JuhyeokC
-   * 렌더링 된 후 데이터호출 함수 실행 이후
-   * pageSize, gender 스테이트가 변경될 때 마다 실행
-   */
+  const voteIdolChart = async ({ idolId }) => {
+    const params = { idolId };
+
+    const result = await executeVote(params);
+    if (!result) return;
+    const { idol } = result;
+
+    votesClose();
+    setMyCredit((prev) => (prev -= 1000));
+
+    if (gender === "female") {
+      setFemaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+    } else {
+      setMaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+    }
+  };
+
+  const votingIdolChart = (e) => {
+    if (myCredit < 1000) return setCreditNotEnough(true);
+    voteIdolChart({ idolId: selectedIdol });
+  };
 
   useEffect(() => {
     getData({ pageSize, gender: "female" });
     getData({ pageSize, gender: "male" });
-  }, [reload]);
+  }, [pageSize, reload]);
 
   return (
     <>
@@ -170,32 +151,15 @@ function ChartOfMonth({ mode }) {
           </Button>
         }
       >
-        {/**
-         * @JuhyeokC
-         * 데이터호출 함수 실행 이후
-         * error(에러), pending(응답대기), items(응답데이터) 의 상태에 따른 렌더링
-         */}
         {error ? (
           <ErrorSection error={error} onReload={handleReload}></ErrorSection>
         ) : (
           <>
             <section className={style["chartbar__gender"]}>
-              <button
-                onClick={() => {
-                  handleGender("female");
-                  swiperRef.current.swiper.slidePrev();
-                }}
-                className={`${style["chartbar__gender-button"]} ${gender === "female" && style["selected"]}`}
-              >
+              <button onClick={() => handleGender("female")} className={`${style["chartbar__gender-button"]} ${gender === "female" && style["selected"]}`}>
                 이달의 여자 아이돌
               </button>
-              <button
-                onClick={() => {
-                  handleGender("male");
-                  swiperRef.current.swiper.slideNext();
-                }}
-                className={`${style["chartbar__gender-button"]} ${gender === "male" && style["selected"]}`}
-              >
+              <button onClick={() => handleGender("male")} className={`${style["chartbar__gender-button"]} ${gender === "male" && style["selected"]}`}>
                 이달의 남자 아이돌
               </button>
             </section>
@@ -205,11 +169,12 @@ function ChartOfMonth({ mode }) {
                 swiperRef = swiperElm;
               }}
               parallax={true}
-              slidesPerView={1}
-              spaceBetween={1000}
               effect={"fade"}
+              slidesPerView={1}
+              spaceBetween={0}
               autoHeight={true}
-              modules={[EffectFade, Navigation, Parallax, Pagination]}
+              allowTouchMove={false}
+              modules={[EffectFade, Parallax]}
               className={`mySwiper ${style["mySwiper"]}`}
             >
               <SwiperSlide>
@@ -285,18 +250,8 @@ function ChartOfMonth({ mode }) {
             </Swiper>
           </>
         )}
-        <Modal
-          show={votes}
-          onClose={votesClose}
-          title={"투표하기"}
-          buttonName={"투표하기"}
-          message={
-            <Message>
-              투표에는 <b>1000 크레딧</b>이 소모됩니다.
-            </Message>
-          }
-        >
-          <VotesModal gender={gender} />
+        <Modal show={votes} modalOpen={true} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"} buttonAction={votingIdolChart} votes={true}>
+          {creditNotEnough ? <PopupModal onClose={votesClose} /> : <VotesModal gender={gender} setSelectedIdol={setSelectedIdol} errorVote={errorVote} />}
         </Modal>
 
         {!error && (
@@ -310,9 +265,3 @@ function ChartOfMonth({ mode }) {
 }
 
 export default ChartOfMonth;
-
-/**
- * @JuhyeokC
- * 확인 후 제 이름이 달린 주석은 삭제해주세요!
- * 이해가 어려운 부분은 질문해주세요!
- */
