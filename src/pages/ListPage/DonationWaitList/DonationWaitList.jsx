@@ -150,7 +150,7 @@ function DonationWaitList({ mode }) {
             {mode === "desktop" && (
               <>
                 {currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}
-                {currentSlide < idols.length - 3 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
+                {currentSlide < idols.length - 4 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
               </>
             )}
           </>
