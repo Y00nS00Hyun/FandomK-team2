@@ -44,7 +44,7 @@ input::-webkit-inner-spin-button {
 }
 
 .donationBody {
-  width: 100%;
+  width: 295px;
 }
 
 .donationImg {
@@ -78,33 +78,25 @@ input::-webkit-inner-spin-button {
   font-size: 12px;
 }
 
-.creditInputBox {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  margin-bottom: 24px;
-  background-color: #181026;
-  border-radius: 8px;
-  height: 58px;
-  border: 1px solid white;
-  box-sizing: border-box;
-}
-
 .creditInputBox > img {
   width: 24px;
   height: 24px;
 }
 
 .creditInput {
-  height: 20px;
+  height: 58px;
   width: 100%;
   font-size: 20px;
   color: white;
-  border: none;
+  border: 1px solid white;
   background-color: #181026;
   outline: none;
-
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  background-image: url("../../../../assets/images/icon/icon-credit.svg");
+  background-repeat: no-repeat;
+  background-position: right 20px top 50%;
   ::placeholder {
     color: #67666e;
   }

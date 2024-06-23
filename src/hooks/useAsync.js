@@ -4,13 +4,13 @@ import { useState } from "react";
  * @function useAsync
  *
  * @param {Function} asyncFunction - 비동기 함수
- * @returns {Array} [ pending, error, execute ]
+ * @returns {Array} [ pending, error, refetchFunction ]
  *
  * @description
- * 비동기 함수를 파라미터로 보내고 [ pending, error, execute ] 배열을 리턴받는다. *순서에 주의
+ * 비동기 함수를 파라미터로 보내고 [ pending, error, refetchFunction ] 배열을 리턴받는다. *순서에 주의
  * pending: 비동기 처리 진행 상태에 따라 Boolean 값
  * error: 응답에러 발생시 에러객체가 생성된다. 이외에는 null 상태.
- * execute: 파라미터로 받은 비동기 함수를 실행해주는 함수로 응답성공 시 데이터가 리턴된다.
+ * refetchFunction: 파라미터로 받은 비동기 함수를 실행해주는 함수로 응답성공 시 데이터가 리턴된다.
  *
  * @example
  * import React, { useEffect } from 'react';
@@ -18,11 +18,11 @@ import { useState } from "react";
  * import asyncFunction from 'path/asyncFunction';
  *
  * const MyComponent = () => {
- *   const [ pending, error, execute ] = useAsync(asyncFunction);
+ *   const [ pending, error, refetchFunction ] = useAsync(asyncFunction);
  *   const [ data, setData ] = useState(null);
  *
  *   const getData = ({ params }) => {
- *     const response = execute({ params });
+ *     const response = refetchFunction({ params });
  *     setData(response.list);
  *   };
  *
@@ -55,7 +55,7 @@ export default function useAsync(asyncFunction) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
 
-  async function execute(...args) {
+  async function refetchFunction(...args) {
     try {
       setPending(true);
       setError(null);
@@ -68,5 +68,5 @@ export default function useAsync(asyncFunction) {
     }
   }
 
-  return [pending, error, execute];
+  return [pending, error, refetchFunction];
 }
