@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Mousewheel, Parallax } from "swiper/modules";
@@ -20,7 +21,6 @@ import DeviceImage02 from "../../assets/images/landing/device-02.png";
 import DeviceImage03 from "../../assets/images/landing/device-03.png";
 import style from "./LandingPage.module.css";
 import styled from "styled-components";
-import { Helmet } from "react-helmet-async";
 
 const SECTION_LIST = [
   {
@@ -77,7 +77,7 @@ function LandingPage() {
         <meta property="og:image:height" content="630" />
       </Helmet>
       <article className={style["landing-page"]}>
-        {!!myCredit && (
+        {localStorage.length > 0 && (
           <FloatMenu>
             <Link to={"/mypage"} draggable="false">
               <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={40} draggable="false" />

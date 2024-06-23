@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { isEmpty } from "lodash";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import MyFavoriteIdols from "./MyFavoriteIdols/MyFavoriteIdols";
 import AddFavoriteIdols from "./AddFavoriteIdols/AddFavoriteIdols";
 import MyCredit from "../ListPage/MyCredit/MyCredit";
-import { Helmet } from "react-helmet-async";
 
 const MY_FAVORITE_NAME = "myFavoriteList";
 
