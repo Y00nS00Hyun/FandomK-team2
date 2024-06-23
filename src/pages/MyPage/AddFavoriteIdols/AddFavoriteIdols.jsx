@@ -246,7 +246,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
     <>
       <TitleSection
         title={"관심 있는 아이돌을 추가해보세요."}
-        carousel={true}
+        carousel
         action={
           <>
             <Button icon={"sort"} size={"small"} onClick={() => setSortName((prev) => (prev === "asc" ? "dsc" : "asc"))}>

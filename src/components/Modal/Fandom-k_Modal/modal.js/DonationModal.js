@@ -7,10 +7,9 @@ import Button from "./../../../Button/Button";
 import ErrorSection from "../../../ErrorSection/ErrorSection";
 import done from "../module.css/Donation.module.css";
 
-function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState, donationButtonDisabledState, disabled, buttonName }) {
+function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState, setDonationButtonDisabled, disabled, buttonName }) {
   const [myCredit, setMyCredit] = useMyCredit();
   const [creditValue, setCreditValue] = creditValueState;
-  const [donationButtonDisabled, setDonationButtonDisabled] = donationButtonDisabledState;
   const [message, setMessage] = useState(false);
   const [notEnough, setNotEnough] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -35,15 +34,14 @@ function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState,
     const params = { amount };
     if (amount > myCredit) return setNotEnough(true);
     const result = await execute(id, params);
-    if (!result) return setMyCredit((prev) => prev + Number(amount));
-
+    if (!result) return;
+    setMyCredit((prev) => prev - Number(creditValue));
     setIdols((prev) => prev.map((item) => (item.id === result.id ? { ...item, receivedDonations: result.receivedDonations } : item)));
     handleClose();
   };
 
   const handleCredit = (e) => {
     e.preventDefault();
-    setMyCredit((prev) => prev - creditValue);
     donate(currentIdol?.id, { amount: creditValue });
   };
 
@@ -74,6 +72,7 @@ function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState,
                 <span>{currentIdol?.title}</span>
               </div>
               <form>
+                <span className={done.remaningCredit}>잔여 크레딧 : {myCredit}</span>
                 <input className={`${done.creditInput} ${!isValid ? done.creditError : ""}`} type="number" name="chargeCredit" placeholder="크레딧 입력" step={100} value={creditValue} onChange={handleChange} />
                 {message && <p className={done.notification}>갖고 있는 크레딧 보다 더 많이 후원할 수 없어요!</p>}
                 {buttonName && (

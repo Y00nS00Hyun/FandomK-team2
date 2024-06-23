@@ -46,7 +46,7 @@ input::-webkit-inner-spin-button {
 /*연예인 후원하기 모달*/
 .donationContainer {
   background-color: #181026;
-  width: 327px;
+  width: 295px;
   border-radius: 8px;
   color: white;
   opacity: 0;
@@ -102,6 +102,13 @@ input::-webkit-inner-spin-button {
 .creditInputBox > img {
   width: 24px;
   height: 24px;
+}
+
+.remaningCredit {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 16px;
+  color: #f86f65;
 }
 
 .creditInput {
