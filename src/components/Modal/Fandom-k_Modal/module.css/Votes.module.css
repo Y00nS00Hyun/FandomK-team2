@@ -51,7 +51,7 @@
 .ProfileContainer {
   display: flex;
   justify-content: space-between;
-  width: 475px;
+  width: 493px;
   height: 70px;
   align-items: center;
 }
@@ -131,4 +131,15 @@
 
 .display-none {
   display: none;
+}
+
+/* 모바일 사이즈 */
+@media (max-width: 768px) {
+  .ProfileContainer {
+    width: 100%;
+  }
+
+  .contents {
+    width: 100%;
+  }
 }
