@@ -66,6 +66,7 @@ function ChartOfMonth({ mode }) {
   const [maleIdols, setMaleIdols] = useState([]); // 서버에서 응답받은 데이터
   const [maleCursor, setMaleCursor] = useState(null); // 서버요청에 사용될 커서
   const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor }); // 더보기 버튼 비활성화 상태
+  const [modalOpen, setModalOpen] = useState(true); //true : 모달 열기, false : 모달 닫기
 
   let swiperRef = useRef(null);
 
@@ -287,6 +288,7 @@ function ChartOfMonth({ mode }) {
         )}
         <Modal
           show={votes}
+          modalOpen={modalOpen}
           onClose={votesClose}
           title={"투표하기"}
           buttonName={"투표하기"}

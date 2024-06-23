@@ -29,6 +29,7 @@ function DonationWaitList({ mode }) {
   const [currentIdol, setCurrentIdol] = useState({});
   const [creditValue, setCreditValue] = useState("");
   const [donationButtonDisabled, setDonationButtonDisabled] = useState(true);
+  const [donation, setDonation] = useState(true);
 
   const [pending, error, execute] = useAsync(getDonationList);
 
@@ -77,6 +78,7 @@ function DonationWaitList({ mode }) {
     arrows: false,
     speed: 500,
     slidesToScroll: 2,
+    centerPadding: "0px",
     infinite: false,
     variableWidth: true,
     beforeChange: (oldIndex, newIndex) => {
@@ -93,7 +95,7 @@ function DonationWaitList({ mode }) {
         settings: {
           arrows: false,
           draggable: true,
-          slidesToScroll: 2,
+          slidesToScroll: 1,
           dots: true,
           infinite: false,
         },
@@ -126,22 +128,24 @@ function DonationWaitList({ mode }) {
             {!pending && idols.length === 0 ? (
               <p>진행중인 후원이 없습니다.</p>
             ) : (
-              <Slider ref={sliderRef} {...settings}>
-                {idols.map((item) => (
-                  <div key={item.id}>
-                    <Card
-                      key={item.id}
-                      item={item}
-                      size={mode === "mobile" ? "small" : "medium"}
-                      onClick={() => {
-                        setCreditValue("");
-                        setCurrentIdol(item);
-                        setVisibleModal(true);
-                      }}
-                    />
-                  </div>
-                ))}
-              </Slider>
+              <div style={{ padding: "0 -100px" }}>
+                <Slider ref={sliderRef} {...settings}>
+                  {idols.map((item) => (
+                    <div key={item.id}>
+                      <Card
+                        key={item.id}
+                        item={item}
+                        size={mode === "mobile" ? "small" : "medium"}
+                        onClick={() => {
+                          setCreditValue("");
+                          setCurrentIdol(item);
+                          setVisibleModal(true);
+                        }}
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              </div>
             )}
             {mode === "desktop" && (
               <>
@@ -152,7 +156,7 @@ function DonationWaitList({ mode }) {
           </>
         )}
       </TitleSection>
-      <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"}>
+      <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"} modalOpen={modalOpen} donation={donation}>
         <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} idol={currentIdol} creditValueState={[creditValue, setCreditValue]} donationButtonDisabledState={[donationButtonDisabled, setDonationButtonDisabled]} disabled={donationButtonDisabled} buttonName={"후원하기"} />
       </Modal>
     </>
