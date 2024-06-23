@@ -51,7 +51,7 @@ input::-webkit-inner-spin-button {
   border-radius: 8px;
   color: white;
   opacity: 0;
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.9s forwards;
 }
 
 .donationTop {
