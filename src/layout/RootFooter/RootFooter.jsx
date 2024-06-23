@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // Styled Components for the Footer
 
 const FooterContainer = styled.footer`
-  background-color: var(--color-black-800);
+  background-color: #1a1a1a;
   color: var(--color-white-50);
   padding: 40px 20px;
   font-family: Arial, sans-serif;
