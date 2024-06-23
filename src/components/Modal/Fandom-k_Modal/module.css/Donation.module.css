@@ -19,10 +19,6 @@ input::-webkit-inner-spin-button {
   z-index: 100;
 }
 
-#modalBackground.hidden {
-  display: none;
-}
-
 /*연예인 후원하기 모달*/
 .donationContainer {
   background-color: #181026;
@@ -92,7 +88,7 @@ input::-webkit-inner-spin-button {
   background-color: #181026;
   outline: none;
   padding: 16px;
-  margin-bottom: 24px;
+
   border-radius: 8px;
   background-image: url("../../../../assets/images/icon/icon-credit.svg");
   background-repeat: no-repeat;
@@ -100,6 +96,16 @@ input::-webkit-inner-spin-button {
   ::placeholder {
     color: #67666e;
   }
+}
+
+.creditError {
+  border: 1px solid rgba(255, 59, 59, 1);
+}
+
+.notification {
+  color: rgba(255, 38, 38, 1);
+  font-size: 12px;
+  margin-top: 6px;
 }
 
 .donationButton {
