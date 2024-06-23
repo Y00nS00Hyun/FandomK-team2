@@ -27,6 +27,15 @@ const Carousel = styled.article`
   overflow-x: auto;
   width: 100%;
   height: auto;
+  &::-webkit-scrollbar {
+    height: 10px;
+    background-color: var(--color-black-800);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-brand-orange);
+    border-radius: 10px;
+  }
 `;
 
 const CarouselInner = styled.section`
@@ -191,7 +200,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
         ) : (
           <>
             <Container>
-              <Carousel ref={carouselRef} onLoad={checkCarousel} onScroll={handleScroll}>
+              <Carousel className="mypage-addidol_carousel" ref={carouselRef} onLoad={checkCarousel} onScroll={handleScroll}>
                 <CarouselInner $rows={isEmpty(idols) ? 2 : carouselRows} $size={pageSize < idols.length}>
                   {!pending && isEmpty(idols) ? (
                     <p>등록된 아이돌이 없습니다...</p>

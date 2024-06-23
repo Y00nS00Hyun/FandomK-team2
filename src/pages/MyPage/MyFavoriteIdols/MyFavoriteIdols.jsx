@@ -7,7 +7,7 @@ import Avatar from "../../../components/Avatar/Avatar";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import Button from "../../../components/Button/Button.jsx";
 import Modal from "../../../components/Modal/Modal";
-import IdolDeleteModal from "../../../components/Modal/Fandom-k_Modal/modal.js/idolDeleteModal.js";
+import EmptyIcon from "../../../assets/images/icon/icon-empty.svg";
 import "../../MyPage/myPageStyle.css";
 
 // 기종별 불러올 아이돌 데이터 크기(갯수)
@@ -148,7 +148,10 @@ function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
   return (
     <TitleSection title={`내가 관심있는 아이돌 (${myFavoriteIdols.length}명)`} bottomLine>
       {isEmpty(myFavoriteIdols) ? (
-        <p className="mypage-myidol__empty">좋아하는 아이돌을 추가해주세요</p>
+        <section className="mypage-myidol__empty">
+          <img src={EmptyIcon} alt={"비어 있음 아이콘"} height={160} draggable="false" />
+          <p>좋아하는 아이돌을 추가해주세요.</p>
+        </section>
       ) : (
         <Container>
           <Carousel ref={carouselRef} onLoad={checkCarousel} onScroll={handleScroll}>
