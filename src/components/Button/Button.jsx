@@ -6,6 +6,8 @@ import ChartIcon from "../../assets/images/icon/icon-chart.svg";
 import PlusIcon from "../../assets/images/icon/icon-plus.svg";
 import MinusIcon from "../../assets/images/icon/icon-minus.svg";
 import RepostIcon from "../../assets/images/icon/icon-repost.svg";
+import SortIcon from "../../assets/images/icon/icon-sort-arrow.svg";
+import { size } from "lodash";
 
 const ICON_IMAGES = {
   credit: { src: CreditIcon, size: 24 },
@@ -13,6 +15,7 @@ const ICON_IMAGES = {
   plus: { src: PlusIcon, size: 20 },
   minus: { src: MinusIcon, size: 20 },
   repost: { src: RepostIcon, size: 20 },
+  sort: { src: SortIcon, size: 20 },
 };
 
 const BUTTON_WIDTHS = {
@@ -77,8 +80,7 @@ const StyledButton = styled.button`
     opacity: 0;
   }
 
-  &:hover:before,
-  &:focus:before {
+  &:hover:before {
     inset: 0;
     opacity: 0.32;
   }

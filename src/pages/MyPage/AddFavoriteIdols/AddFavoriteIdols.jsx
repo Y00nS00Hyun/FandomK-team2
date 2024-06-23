@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import { isEmpty } from "lodash";
+import { isDate, isEmpty } from "lodash";
 import useAsync from "../../../hooks/useAsync";
 import { getIdolList } from "../../../api/idolsApi";
 import animateFunction from "../../../func/animateFunction.js";
@@ -9,6 +9,7 @@ import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Avatar from "../../../components/Avatar/Avatar";
 import Button from "../../../components/Button/Button";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
+import SortIcon from "../../../assets/images/icon/icon-sort-arrow.svg";
 import "../../MyPage/myPageStyle.css";
 
 //기종별 불러올 아이돌 데이터 크기(갯수)
@@ -81,6 +82,35 @@ const CarouselItem = styled.article`
   height: 50%;
 `;
 
+// 정렬
+const sortDataList = (list, { sortGroup = "asc", sortName = "asc" }) => {
+  /**
+   * asc 오름차순
+   * dsc 내림차순
+   */
+
+  const compareFunction = (a, b, type, by) => {
+    const typeA = a[type];
+    const typeB = b[type];
+
+    switch (by) {
+      case "asc":
+        if (typeA < typeB) return -1;
+        if (typeA > typeB) return 1;
+        break;
+      default:
+        if (typeB < typeA) return -1;
+        if (typeB > typeA) return 1;
+        break;
+    }
+
+    // 이름이 같을 경우
+    return 0;
+  };
+
+  return [...list.sort((a, b) => compareFunction(a, b, "group", sortGroup) || compareFunction(a, b, "name", sortName))];
+};
+
 function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
   const pageSize = PAGE_SIZES[mode];
   const profilSize = useMemo(() => {
@@ -92,6 +122,11 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
   const [idols, setIdols] = useState([]);
   const [cursor, setCursor] = useState(null);
   const [selectedIdolIds, setSelectedIdolIds] = useState([]);
+  const [sortGroup, setSortGroup] = useState("asc");
+  const [sortName, setSortName] = useState("asc");
+
+  // const [searchKeyword, setSearchKeyword] = useState("");
+  // const [filteredIdol, setFilteredIdol] = useState([]);
 
   const carouselRef = useRef(null);
   const [carouselButtonDisabled, setCarouselButtonDisabled] = useState(false);
@@ -118,11 +153,15 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
     if (!result) return;
     const { list, nextCursor } = result;
 
+    const sortedList = sortDataList(list, { sortGroup, sortName });
+
+    console.log({ list });
+    console.log({ sortedList });
     setIdols((prev) => {
       if (cursor) {
-        return [...prev, ...list];
+        return [...prev, ...sortedList];
       } else {
-        return list;
+        return sortedList;
       }
     });
     setCursor(nextCursor);
@@ -184,21 +223,47 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
     });
   };
 
-  /**
-   * @JuhyeokC
-   * 렌더링 된 후 fetch 함수 실행
-   */
+  //const filteredIdol = idols.filter((item) => item.name.includes(searchKeyword));
+
+  // const onChange = (e) => {
+  //   setSearchKeyword(e.target.value);
+  //   console.log(searchKeyword);
+  // };
+  // useEffect(() => {
+  //   fetch("https://jsonplaceholder.typicode.com/users")
+  //     .then((res) => res.json())
+  //     .then((data) => setSearchIdol(data));
+  // }, []);
+
   useEffect(() => {
     getData({ pageSize });
   }, [reload]);
 
+  useEffect(() => {
+    setIdols((prev) => sortDataList(prev, { sortGroup, sortName }));
+  }, [sortGroup, sortName]);
+
   return (
     <>
-      <TitleSection title={"관심 있는 아이돌을 추가해보세요."} carousel={true}>
+      <TitleSection
+        title={"관심 있는 아이돌을 추가해보세요."}
+        carousel={true}
+        action={
+          <>
+            <Button icon={"sort"} size={"small"} onClick={() => setSortName((prev) => (prev === "asc" ? "dsc" : "asc"))}>
+              이름
+            </Button>
+            <Button icon={"sort"} size={"small"} onClick={() => setSortName((prev) => (prev === "asc" ? "dsc" : "asc"))}>
+              그룹
+            </Button>
+          </>
+        }
+      >
         {error ? (
           <ErrorSection error={error} onReload={handleReload}></ErrorSection>
         ) : (
           <>
+            {/* 검색 <input className="search" placeholder="검색하기" onChange={onChange} value={searchKeyword} /> */}
             <Container>
               <Carousel className="mypage-addidol_carousel" ref={carouselRef} onLoad={checkCarousel} onScroll={handleScroll}>
                 <CarouselInner $rows={isEmpty(idols) ? 2 : carouselRows} $size={pageSize < idols.length}>
@@ -207,6 +272,10 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
                   ) : (
                     idols.map(({ id, profilePicture, group, name }) => {
                       if (myFavoriteIdols.some((idol) => idol.id === id)) return false;
+                      // 검색
+                      //  if (filteredIdol !== 0) {
+                      //   if (filteredIdol.some((idol) => idol.id !== id)) return false;
+                      // }
                       return (
                         <CarouselItem key={`idol-id-${id}`} $pageSize={pageSize / 2}>
                           <article className="mypage-addidol__items">
