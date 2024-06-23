@@ -88,36 +88,6 @@ const Photo = styled.img`
   cursor: pointer;
 `;
 
-const XButton = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-radius: 9999px;
-  z-index: 5;
-  width: 30%;
-  height: 30%;
-  border: none;
-  visibility: hidden;
-
-  ${({ $cancled }) =>
-    $cancled &&
-    `
-    visibility: visible;
-    cursor: pointer;
-    &:before {
-      content: '';
-      width: 100%;
-      height: 100%;
-      background-image: url(${XBottun});
-      background-size: cover;
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 5;
-    }
-  `}
-`;
-
 /**
  * @param {string} src - 아이돌 이미지 주소
  * @param {string} size - 아바타 크기 = [ 'basic', 'mobileAddIdol', 'otherMyIdol', 'otherAddIdol']
@@ -131,21 +101,11 @@ const XButton = styled.div`
 function Avatar({ onClick, src, size, alt, checked, cancled, ...args }) {
   return (
     <Article $size={size} {...args}>
-      <XButton $cancled={cancled} onClick={onClick}></XButton>
       <Cover $checked={checked} onClick={onClick}>
         <Photo src={src} alt={alt} draggable="false" />
       </Cover>
     </Article>
   );
 }
-/**
- * <큰 틀>
- *         <x버튼>
- *  <내부 요소>
- *     <이미지+체크>
- *  <내부>
- * <큰 틀>
- *
- *
- */
+
 export default Avatar;

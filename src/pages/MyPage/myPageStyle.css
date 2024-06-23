@@ -12,6 +12,13 @@
   margin-bottom: 42px;
 }
 
+.mypage-myidol__empty {
+  display: block;
+  height: 200px;
+  padding: auto;
+  text-align: center;
+}
+
 .mypage-myidol__container {
   display: flex;
   gap: 24px;
@@ -24,6 +31,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.mypage-myidol_minus {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.mypage-myidol_minus-button {
+  margin: 0 auto;
+}
+
+.mypage-addidol_minus {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px auto;
 }
 
 .addidol {
@@ -73,11 +102,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 48px auto;
-}
-
-.mypage-addidol_add-button {
-  margin: 0 auto;
+  margin: 24px auto;
 }
 
 .mypage__caretButton {

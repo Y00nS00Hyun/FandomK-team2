@@ -92,13 +92,13 @@ function MyCredit({ mode }) {
   // CountUp JS
   // const [startValue, setStartValue] = useState(0);
   const [creditValue, setCreditValue] = useState(0);
-  const [visibleModal, setVisibelModal] = useState(false);
+  const [visibleModal, setVisibleModal] = useState(false);
 
   const handleChange = (e) => setCreditValue(Number(e.target.value));
 
   const handleClick = () => {
     setMyCredit((prev) => _.add(Number(prev), Number(creditValue)));
-    setVisibelModal(false);
+    setVisibleModal(false);
   };
 
   // CountUp JS
@@ -134,12 +134,12 @@ function MyCredit({ mode }) {
           </CreditSection>
         </LeftSection>
         <RightSection>
-          <TextButton type={"button"} onClick={() => setVisibelModal(true)}>
+          <TextButton type={"button"} onClick={() => setVisibleModal(true)}>
             충전하기
           </TextButton>
         </RightSection>
 
-        <Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibelModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} disabled={creditValue === 0}>
+        <Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibleModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} disabled={creditValue === 0}>
           <TopupModal handleChange={handleChange} />
         </Modal>
       </Article>

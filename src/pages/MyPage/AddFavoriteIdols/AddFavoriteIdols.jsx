@@ -9,7 +9,7 @@ import ErrorSection from "../../../components/ErrorSection/ErrorSection.jsx";
 import Avatar from "../../../components/Avatar/Avatar";
 import Button from "../../../components/Button/Button";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
-import "../AddFavoriteIdols/myPageStyle.css";
+import "../../MyPage/myPageStyle.css";
 
 //기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
@@ -257,7 +257,6 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
 								FIRST
 							</Button> */}
               <Button
-                className="mypage-addidol_add-button"
                 icon={"plus"}
                 size={"large"}
                 round
