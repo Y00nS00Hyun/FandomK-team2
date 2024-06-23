@@ -40,10 +40,19 @@ const IMAGE_SZIE = {
 
 const Article = styled.article`
   position: relative;
-  border-radius: 9999px;
+  border-radius: 50%;
   width: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
   height: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
   border: 2px solid var(--color-brand-orange);
+  ${({ $checked }) =>
+    $checked &&
+    `
+    border: double 2px transparent;
+  border-radius: 80px;
+  background-image: linear-gradient(black, black), linear-gradient(-45deg, #fe5493, #ffffff, #f96d69);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  `}
 `;
 
 const Cover = styled.div`
@@ -52,7 +61,7 @@ const Cover = styled.div`
   height: 90%;
   top: 5%;
   left: 5%;
-  border-radius: 9999px;
+  border-radius: 50%;
   z-index: 1;
 
   ${({ $checked }) =>
@@ -65,7 +74,7 @@ const Cover = styled.div`
       background-color: var(--color-brand-pink);
       opacity: 0.5;
       z-index: 2;
-      border-radius: 9999px;
+      border-radius: 50%;
     }
 
     &:after {
@@ -83,7 +92,7 @@ const Photo = styled.img`
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 9999px;
+  border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
 `;
@@ -100,7 +109,7 @@ const Photo = styled.img`
 
 function Avatar({ onClick, src, size, alt, checked, cancled, ...args }) {
   return (
-    <Article $size={size} {...args}>
+    <Article $size={size} {...args} $checked={checked}>
       <Cover $checked={checked} onClick={onClick}>
         <Photo src={src} alt={alt} draggable="false" />
       </Cover>
