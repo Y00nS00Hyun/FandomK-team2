@@ -20,6 +20,7 @@
   --color-brand-pink: #fe5493;
 
   --gradient-style-01: linear-gradient(90deg, var(--color-brand-orange), var(--color-brand-pink));
+  --gradient-style-02: linear-gradient(90deg, var(--color-brand-pink), var(--color-brand-orange));
 
   --background-color-basic: var(--color-black-900);
   --text-color-basic: var(--color-white-50);
@@ -57,6 +58,10 @@ body {
 .inner {
   margin: 0 auto;
   max-width: 1200px;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 #rootContainer {
