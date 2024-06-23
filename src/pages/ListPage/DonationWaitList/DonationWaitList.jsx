@@ -77,7 +77,6 @@ function DonationWaitList({ mode }) {
     arrows: false,
     speed: 500,
     slidesToScroll: 2,
-    centerPadding: "0px",
     infinite: false,
     variableWidth: true,
     beforeChange: (oldIndex, newIndex) => {
@@ -127,24 +126,22 @@ function DonationWaitList({ mode }) {
             {!pending && idols.length === 0 ? (
               <p>진행중인 후원이 없습니다.</p>
             ) : (
-              <div style={{ padding: "0 -100px" }}>
-                <Slider ref={sliderRef} {...settings}>
-                  {idols.map((item) => (
-                    <div key={item.id}>
-                      <Card
-                        key={item.id}
-                        item={item}
-                        size={mode === "mobile" ? "small" : "medium"}
-                        onClick={() => {
-                          setCreditValue("");
-                          setCurrentIdol(item);
-                          setVisibleModal(true);
-                        }}
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              </div>
+              <Slider ref={sliderRef} {...settings}>
+                {idols.map((item) => (
+                  <div key={item.id}>
+                    <Card
+                      key={item.id}
+                      item={item}
+                      size={mode === "mobile" ? "small" : "medium"}
+                      onClick={() => {
+                        setCreditValue("");
+                        setCurrentIdol(item);
+                        setVisibleModal(true);
+                      }}
+                    />
+                  </div>
+                ))}
+              </Slider>
             )}
             {mode === "desktop" && (
               <>
