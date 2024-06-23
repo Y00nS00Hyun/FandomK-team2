@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
+import { isEmpty } from "lodash";
 import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
 import { useMyCredit } from "../../../context/MyCreditContext.jsx";
@@ -14,24 +15,37 @@ import "slick-carousel/slick/slick-theme.css";
 import Modal from "../../../components/Modal/Modal.jsx";
 
 const PAGE_SIZES = 999;
+const MY_FAVORITE_NAME = "myFavoriteList";
 
 function DonationWaitList({ mode }) {
-  const [myCredit, setMyCredit] = useMyCredit();
   const sliderRef = useRef(null);
   const [reload, setReload] = useState(0);
   const [idols, setIdols] = useState([]);
   const [cursor, setCursor] = useState(null);
   const [disableButton, setDisableButton] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [visibleModal, setVisibleModal] = useState(false);
   const [currentIdol, setCurrentIdol] = useState({});
   const [creditValue, setCreditValue] = useState("");
   const [donationButtonDisabled, setDonationButtonDisabled] = useState(true);
-  const [donation, setDonation] = useState(true);
 
   const [pending, error, execute] = useAsync(getDonationList);
+
+  const [myFavoriteIdols, setMyFavoriteIdols] = useState(() => {
+    if (isEmpty(localStorage?.getItem(MY_FAVORITE_NAME))) {
+      return [];
+    } else {
+      return JSON.parse(localStorage.getItem(MY_FAVORITE_NAME));
+    }
+  });
+
+  const myFavoriteIdolsIds = myFavoriteIdols.map((p) => p.id);
+
+  const sortDataList = (list) => {
+    const firstIdols = list.filter((item) => myFavoriteIdolsIds.includes(item.idolId));
+    const otherIdols = list.filter((item) => !myFavoriteIdolsIds.includes(item.idolId));
+    return [...firstIdols, ...otherIdols];
+  };
 
   const getData = async (cursor) => {
     const params = { pageSize: PAGE_SIZES * 2 };
@@ -42,15 +56,20 @@ function DonationWaitList({ mode }) {
     const { list, nextCursor } = result;
 
     // 종료된 카드들은 맨 뒤로 이동
-    const sortedIdols = [...list].sort((a, b) => {
-      const aIsEnded = a.receivedDonations >= a.targetDonation || new Date(a.deadline) < new Date();
-      const bIsEnded = b.receivedDonations >= b.targetDonation || new Date(b.deadline) < new Date();
-      if (aIsEnded && !bIsEnded) return 1;
-      if (!aIsEnded && bIsEnded) return -1;
+    const idolsByReceived = [...list].sort((a, b) => {
       return b.receivedDonations - a.receivedDonations;
     });
 
-    setIdols((prev) => (cursor ? [...prev, ...sortedIdols] : sortedIdols));
+    const firstList = sortDataList(idolsByReceived);
+
+    const sortedList = [...firstList].sort((a, b) => {
+      const aIsEnded = new Date(a.deadline) < new Date();
+      const bIsEnded = new Date(b.deadline) < new Date();
+      if (aIsEnded && !bIsEnded) return 1;
+      if (!aIsEnded && bIsEnded) return -1;
+    });
+
+    setIdols((prev) => (cursor ? [...prev, ...sortedList] : sortedList));
     setCursor(nextCursor);
     setDisableButton(false);
   };
@@ -70,7 +89,7 @@ function DonationWaitList({ mode }) {
 
   useEffect(() => {
     getData();
-  }, [reload]);
+  }, [reload, myFavoriteIdols]);
 
   const settings = {
     rows: 1,
@@ -102,20 +121,25 @@ function DonationWaitList({ mode }) {
       },
     ],
   };
+
   return (
     <>
       <TitleSection
         title={"후원을 기다리는 조공"}
-        carousel={true}
+        carousel
         size={"normal"}
         action={
-          <Button size={"small"} onClick={slickFirst} disabled={currentSlide === 0}>
-            처음으로
-          </Button>
-        }
+          !error && (
+            <Button size={"small"} onClick={slickFirst} disabled={currentSlide === 0}>
+              처음으로
+            </Button>
+          )
+        } //에러인 경우엔 작동 X
       >
         {error ? (
-          <ErrorSection error={error} onReload={handleReload}></ErrorSection>
+          <>
+            <ErrorSection error={error} onReload={handleReload}></ErrorSection>
+          </>
         ) : (
           <>
             {pending && idols.length === 0 && (
@@ -150,14 +174,14 @@ function DonationWaitList({ mode }) {
             {mode === "desktop" && (
               <>
                 {currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}
-                {currentSlide < idols.length - 3 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
+                {currentSlide < idols.length - 4 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
               </>
             )}
           </>
         )}
       </TitleSection>
-      <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"} modalOpen={modalOpen} donation={donation}>
-        <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} idol={currentIdol} creditValueState={[creditValue, setCreditValue]} donationButtonDisabledState={[donationButtonDisabled, setDonationButtonDisabled]} disabled={donationButtonDisabled} buttonName={"후원하기"} />
+      <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"} modalOpen={false} donation>
+        <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} setIdols={setIdols} currentIdol={currentIdol} creditValueState={[creditValue, setCreditValue]} setDonationButtonDisabled={setDonationButtonDisabled} disabled={donationButtonDisabled} buttonName={"후원하기"} />
       </Modal>
     </>
   );

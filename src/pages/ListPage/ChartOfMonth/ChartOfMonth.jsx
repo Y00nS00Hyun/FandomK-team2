@@ -29,6 +29,8 @@ const PAGE_SIZES = {
   mobile: 5,
 };
 
+const IS_VOTED = "isVoted";
+
 const Container = styled.div`
   ${({ $mode }) => $mode !== "desktop" && `display: flex;`}
   background-color : var(--background-color-basic);
@@ -36,6 +38,8 @@ const Container = styled.div`
 
 function ChartOfMonth({ mode }) {
   let swiperRef = useRef(null);
+
+  const [isVoted, setIsVoted] = useState(() => (localStorage?.getItem(IS_VOTED) === null ? false : Boolean(localStorage.getItem(IS_VOTED))));
 
   const pageSize = PAGE_SIZES[mode];
   const [myCredit, setMyCredit] = useMyCredit();
@@ -123,6 +127,7 @@ function ChartOfMonth({ mode }) {
 
     votesClose();
     setMyCredit((prev) => (prev -= 1000));
+    setIsVoted(true);
 
     if (gender === "female") {
       setFemaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
@@ -132,7 +137,6 @@ function ChartOfMonth({ mode }) {
   };
 
   const votingIdolChart = (e) => {
-    console.log(selectedIdol, e);
     if (myCredit < 1000) return setCreditNotEnough(true);
     voteIdolChart({ idolId: selectedIdol });
   };
@@ -141,6 +145,10 @@ function ChartOfMonth({ mode }) {
     getData({ pageSize, gender: "female" });
     getData({ pageSize, gender: "male" });
   }, [pageSize, reload]);
+
+  useEffect(() => {
+    localStorage.setItem(IS_VOTED, JSON.stringify(isVoted));
+  }, [isVoted]);
 
   return (
     <>
@@ -168,7 +176,6 @@ function ChartOfMonth({ mode }) {
               ref={swiperRef}
               onSwiper={(swiperElm) => {
                 swiperRef = swiperElm;
-                console.log(swiperElm);
               }}
               parallax={true}
               effect={"fade"}
@@ -252,7 +259,7 @@ function ChartOfMonth({ mode }) {
             </Swiper>
           </>
         )}
-        <Modal show={votes} modalOpen={true} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"} buttonAction={votingIdolChart} votes={true}>
+        <Modal show={votes} modalOpen onClose={votesClose} title={"투표하기"} buttonName={isVoted ? "이미 차트에 투표했어요" : "투표하기"} buttonAction={votingIdolChart} votes disabled={isVoted}>
           {creditNotEnough ? <PopupModal onClose={votesClose} /> : <VotesModal gender={gender} setSelectedIdol={setSelectedIdol} errorVote={errorVote} />}
         </Modal>
 
