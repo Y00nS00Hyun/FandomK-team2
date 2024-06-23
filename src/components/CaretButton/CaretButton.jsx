@@ -65,11 +65,12 @@ function CaretButton({ direction = "left", size = "normal", ...args }) {
 
   useEffect(() => {
     const handleResize = () => {
-      const vw = window.innerWidth;
+      const vw = document.body.clientWidth;
       const cw = DEFAULT_MAX_WIDTH + gap * 2;
       setVisible(vw < cw ? false : true);
     };
 
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [gap]);
