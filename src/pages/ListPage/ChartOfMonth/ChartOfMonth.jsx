@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Mousewheel, Navigation, Pagination, Parallax } from "swiper/modules";
+import { EffectFade, Parallax } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import useAsync from "../../../hooks/useAsync";
-import { getChartData } from "../../../api/chartsApi";
 import { useMyCredit } from "../../../context/MyCreditContext";
+import { getChartData } from "../../../api/chartsApi";
+import { voteIdol } from "../../../api/voteApi";
 import TitleSection from "../../../components/TitleSection/TitleSection";
 import ErrorSection from "../../../components/ErrorSection/ErrorSection";
 import Avatar from "../../../components/Avatar/Avatar";
@@ -16,6 +17,7 @@ import Button from "../../../components/Button/Button";
 import Modal from "../../../components/Modal/Modal";
 import style from "./ChartOfMonth.module.css";
 import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
+import PopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/PopupModal";
 
 /**
  * @JuhyeokC
@@ -32,38 +34,26 @@ const Container = styled.div`
   background-color : var(--background-color-basic);
 `;
 
-const Message = styled.p`
-  margin-bottom: -16px;
-  padding: 12px 8px 0;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 400;
-
-  & b {
-    color: var(--color-brand-orange);
-  }
-`;
-
 function ChartOfMonth({ mode }) {
+  let swiperRef = useRef(null);
+
   const pageSize = PAGE_SIZES[mode];
   const [myCredit, setMyCredit] = useMyCredit();
   const [reload, setReload] = useState(0);
 
-  const [gender, setGender] = useState("female"); // 성별 선택
-  const [femaleIdols, setFemaleIdols] = useState([]); // 서버에서 응답받은 데이터
-  const [femaleCursor, setFemaleCursor] = useState(null); // 서버요청에 사용될 커서
-  const [maleIdols, setMaleIdols] = useState([]); // 서버에서 응답받은 데이터
-  const [maleCursor, setMaleCursor] = useState(null); // 서버요청에 사용될 커서
-  const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor }); // 더보기 버튼 비활성화 상태
-  const [modalOpen, setModalOpen] = useState(true); //true : 모달 열기, false : 모달 닫기
-
-  let swiperRef = useRef(null);
+  const [gender, setGender] = useState("female");
+  const [femaleIdols, setFemaleIdols] = useState([]);
+  const [femaleCursor, setFemaleCursor] = useState(null);
+  const [maleIdols, setMaleIdols] = useState([]);
+  const [maleCursor, setMaleCursor] = useState(null);
+  const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor });
 
   const [votes, setVotes] = useState(false);
-  const votesOpen = () => setVotes(true);
-  const votesClose = () => setVotes(false);
+  const [selectedIdol, setSelectedIdol] = useState(null);
+  const [creditNotEnough, setCreditNotEnough] = useState(false);
 
   const [pending, error, execute] = useAsync(getChartData);
+  const [pendingVote, errorVote, executeVote] = useAsync(voteIdol);
 
   const getData = async ({ pageSize, gender, cursor }) => {
     const params = { pageSize, gender };
@@ -118,13 +108,34 @@ function ChartOfMonth({ mode }) {
     gender === "female" ? swiperRef.current.swiper.slideTo(0) : swiperRef.current.swiper.slideTo(1);
   };
 
-  /**
-   * @JuhyeokC
-   * 차트 투표하기 모달 출력
-   */
-  function handleClick() {
-    console.log("차트 투표하기 모달 출력");
-  }
+  const votesOpen = () => setVotes(true);
+  const votesClose = () => {
+    setVotes(false);
+    setCreditNotEnough(false);
+  };
+
+  const voteIdolChart = async ({ idolId }) => {
+    const params = { idolId };
+
+    const result = await executeVote(params);
+    if (!result) return;
+    const { idol } = result;
+
+    votesClose();
+    setMyCredit((prev) => (prev -= 1000));
+
+    if (gender === "female") {
+      setFemaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+    } else {
+      setMaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+    }
+  };
+
+  const votingIdolChart = (e) => {
+    console.log(selectedIdol, e);
+    if (myCredit < 1000) return setCreditNotEnough(true);
+    voteIdolChart({ idolId: selectedIdol });
+  };
 
   useEffect(() => {
     getData({ pageSize, gender: "female" });
@@ -241,19 +252,8 @@ function ChartOfMonth({ mode }) {
             </Swiper>
           </>
         )}
-        <Modal
-          show={votes}
-          modalOpen={modalOpen}
-          onClose={votesClose}
-          title={"투표하기"}
-          buttonName={"투표하기"}
-          message={
-            <Message>
-              투표에는 <b>1000 크레딧</b>이 소모됩니다.
-            </Message>
-          }
-        >
-          <VotesModal gender={gender} />
+        <Modal show={votes} modalOpen={true} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"} buttonAction={votingIdolChart} votes={true}>
+          {creditNotEnough ? <PopupModal onClose={votesClose} /> : <VotesModal gender={gender} setSelectedIdol={setSelectedIdol} errorVote={errorVote} />}
         </Modal>
 
         {!error && (
