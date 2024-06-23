@@ -6,6 +6,7 @@ import PopupModal from "./PopupModal";
 import Button from "./../../../Button/Button";
 import ErrorSection from "../../../ErrorSection/ErrorSection";
 import done from "../module.css/Donation.module.css";
+import confetti from "canvas-confetti";
 
 function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState, setDonationButtonDisabled, disabled, buttonName }) {
   const [myCredit, setMyCredit] = useMyCredit();
@@ -43,6 +44,7 @@ function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState,
   const handleCredit = (e) => {
     e.preventDefault();
     donate(currentIdol?.id, { amount: creditValue });
+    confetti({ particleCount: 130, spread: 50 }); // 빵빠레 (조각 개수, 뿌리는 각도)
   };
 
   const handleClose = () => {
