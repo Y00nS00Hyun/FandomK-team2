@@ -16,7 +16,6 @@ import Modal from "../../../components/Modal/Modal.jsx";
 const PAGE_SIZES = 999;
 
 function DonationWaitList({ mode }) {
-  const [myCredit, setMyCredit] = useMyCredit();
   const sliderRef = useRef(null);
   const [reload, setReload] = useState(0);
   const [idols, setIdols] = useState([]);
@@ -24,7 +23,6 @@ function DonationWaitList({ mode }) {
   const [disableButton, setDisableButton] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [visibleModal, setVisibleModal] = useState(false);
   const [currentIdol, setCurrentIdol] = useState({});
   const [creditValue, setCreditValue] = useState("");
@@ -102,6 +100,7 @@ function DonationWaitList({ mode }) {
       },
     ],
   };
+
   return (
     <>
       <TitleSection
@@ -157,7 +156,7 @@ function DonationWaitList({ mode }) {
         )}
       </TitleSection>
       <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"} modalOpen={modalOpen} donation={donation}>
-        <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} idol={currentIdol} creditValueState={[creditValue, setCreditValue]} donationButtonDisabledState={[donationButtonDisabled, setDonationButtonDisabled]} disabled={donationButtonDisabled} buttonName={"후원하기"} />
+        <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} setIdols={setIdols} currentIdol={currentIdol} creditValueState={[creditValue, setCreditValue]} donationButtonDisabledState={[donationButtonDisabled, setDonationButtonDisabled]} disabled={donationButtonDisabled} buttonName={"후원하기"} />
       </Modal>
     </>
   );
