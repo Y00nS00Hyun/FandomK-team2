@@ -15,10 +15,11 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
   const [notEnough, setNotEnough] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isValid, setIsValid] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleChange = (e) => {
     const value = e.target.value;
-    if (value <= 0 || value > myCredit) {
+    if (value < 1000 || value > myCredit) {
       setDonationButtonDisabled(true);
       setIsValid(false);
     } else {

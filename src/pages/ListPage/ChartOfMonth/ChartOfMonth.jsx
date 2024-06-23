@@ -49,12 +49,13 @@ function ChartOfMonth({ mode }) {
   const [myCredit, setMyCredit] = useMyCredit();
   const [reload, setReload] = useState(0);
 
-  const [gender, setGender] = useState("female");
-  const [femaleIdols, setFemaleIdols] = useState([]);
-  const [femaleCursor, setFemaleCursor] = useState(null);
-  const [maleIdols, setMaleIdols] = useState([]);
-  const [maleCursor, setMaleCursor] = useState(null);
-  const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor });
+  const [gender, setGender] = useState("female"); // 성별 선택
+  const [femaleIdols, setFemaleIdols] = useState([]); // 서버에서 응답받은 데이터
+  const [femaleCursor, setFemaleCursor] = useState(null); // 서버요청에 사용될 커서
+  const [maleIdols, setMaleIdols] = useState([]); // 서버에서 응답받은 데이터
+  const [maleCursor, setMaleCursor] = useState(null); // 서버요청에 사용될 커서
+  const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor }); // 더보기 버튼 비활성화 상태
+  const [modalOpen, setModalOpen] = useState(true); //true : 모달 열기, false : 모달 닫기
 
   let swiperRef = useRef(null);
 
@@ -242,6 +243,7 @@ function ChartOfMonth({ mode }) {
         )}
         <Modal
           show={votes}
+          modalOpen={modalOpen}
           onClose={votesClose}
           title={"투표하기"}
           buttonName={"투표하기"}

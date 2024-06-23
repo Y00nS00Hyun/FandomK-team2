@@ -92,6 +92,7 @@ function MyCredit({ mode }) {
   const [myCredit, setMyCredit] = useMyCredit();
   const [creditValue, setCreditValue] = useState(0);
   const [visibleModal, setVisibleModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   const handleChange = (e) => setCreditValue(Number(e.target.value));
 
@@ -118,7 +119,7 @@ function MyCredit({ mode }) {
           </TextButton>
         </RightSection>
 
-        <Modal show={visibleModal} title={"크레딧 충전하기"} onClose={() => setVisibleModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} disabled={creditValue === 0}>
+        <Modal show={visibleModal} modalOpen={modalOpen} title={"크레딧 충전하기"} onClose={() => setVisibleModal(false)} icon={"credit"} buttonAction={handleClick} buttonName={"충전하기"} disabled={creditValue === 0}>
           <TopupModal handleChange={handleChange} />
         </Modal>
       </Article>
