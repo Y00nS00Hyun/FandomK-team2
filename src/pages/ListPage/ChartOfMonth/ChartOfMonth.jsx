@@ -184,7 +184,7 @@ function ChartOfMonth({ mode }) {
             </Container>
           </>
         )}
-        <Modal show={votes} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"}>
+        <Modal show={votes} onClose={votesClose} title={"투표하기"} buttonName={"투표하기"} votes={votes}>
           <VotesModal gender={gender} />
         </Modal>
 

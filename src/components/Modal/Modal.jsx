@@ -1,8 +1,9 @@
 import Button from "../Button/Button";
 import Xbutton from "../Button/Xbutton";
+import votesCss from "../../components/Modal/Fandom-k_Modal/module.css/Votes.module.css";
 import "./Modal.css";
 
-function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, children, title }) {
+function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, children, title, votes }) {
   if (!show) {
     document.body.style.removeProperty("overflow");
     return null;
@@ -22,6 +23,11 @@ function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, childr
             <Button icon={icon} size={"wide"} onClick={buttonAction} disabled={disabled}>
               {buttonName}
             </Button>
+          </div>
+        )}
+        {votes && (
+          <div className={votesCss.notification}>
+            투표에는 <span className={votesCss.credit}>1000</span> 크레딧이 소모됩니다.
           </div>
         )}
       </div>

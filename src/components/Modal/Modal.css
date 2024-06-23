@@ -26,7 +26,6 @@
   position: relative;
   min-width: 300px;
   max-width: 100%;
-  gap: 24px;
 }
 
 .modal-close {
@@ -47,6 +46,7 @@
 .modal-body {
   overflow: auto;
   scrollbar-width: none;
+  margin: 20px 0;
 }
 
 .modal-head {
