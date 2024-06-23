@@ -77,7 +77,6 @@ function DonationWaitList({ mode }) {
     arrows: false,
     speed: 500,
     slidesToScroll: 2,
-    centerPadding: "0px",
     infinite: false,
     variableWidth: true,
     beforeChange: (oldIndex, newIndex) => {
@@ -94,7 +93,7 @@ function DonationWaitList({ mode }) {
         settings: {
           arrows: false,
           draggable: true,
-          slidesToScroll: 1,
+          slidesToScroll: 2,
           dots: true,
           infinite: false,
         },

@@ -2,13 +2,13 @@ import styled from "styled-components";
 import Button from "../../../../components/Button/Button";
 
 const CARD_MARGIN = {
-  small: "6px",
-  medium: "12px",
+  small: "8px",
+  medium: "21px",
 };
 
 const CARD_WIDTHS = {
   small: "158px",
-  medium: "280px",
+  medium: "282px",
 };
 
 const CARD_HEIGHTS = {
@@ -58,7 +58,6 @@ const INFOWRAPPER_HEIGHT = {
 const Card = styled.div`
   width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
   height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
-  margin-left: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
   margin-right: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
   position: relative;
   transition: transform 0.5s;
