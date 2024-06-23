@@ -3,7 +3,7 @@ import Button from "../../../../components/Button/Button";
 
 const CARD_MARGIN = {
   small: "8px",
-  medium: "20px",
+  medium: "21px",
 };
 
 const CARD_WIDTHS = {
