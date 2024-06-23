@@ -58,7 +58,7 @@ function Card({ item, size, onClick, ...args }) {
   }, [item.receivedDonations, item.targetDonation]);
 
   // 버튼 텍스트 설정
-  const buttonText = isDonationComplete ? "목표 금액 달성" : isPastDeadline ? "기간 마감" : "후원하기";
+  const buttonText = isPastDeadline ? "기간 마감" : "후원하기";
 
   const overlayStyle = {
     position: "absolute",
@@ -104,7 +104,7 @@ function Card({ item, size, onClick, ...args }) {
                   e.stopPropagation(); // 이벤트 버블링을 막아 이미지 클릭 시 모달창 안 띄움
                   onClick(e);
                 }}
-                disabled={isDonationComplete || isPastDeadline} // 버튼 비활성화
+                disabled={isPastDeadline} // 버튼 비활성화
               >
                 {buttonText}
               </style.SubmitButton>
