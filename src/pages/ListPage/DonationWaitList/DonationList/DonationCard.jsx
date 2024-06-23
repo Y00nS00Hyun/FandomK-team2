@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
 import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
-import success from "../../../../assets/images/donation/success.png";
+import successImg from "../../../../assets/images/donation/success.png";
 import blackgradation from "../../../../assets/images/decoration/decoration-donation-cover.svg";
 import CreditImg from "../../../../assets/images/symbol/symbol-credit.svg";
 
@@ -58,7 +58,7 @@ function Card({ item, size, onClick, ...args }) {
   }, [item.receivedDonations, item.targetDonation]);
 
   // 버튼 텍스트 설정
-  const buttonText = isDonationComplete ? "목표 금액 달성" : isPastDeadline ? "기간 마감" : "후원하기";
+  const buttonText = isPastDeadline ? "기간 마감" : "후원하기";
 
   const overlayStyle = {
     position: "absolute",
@@ -68,21 +68,20 @@ function Card({ item, size, onClick, ...args }) {
     height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.65)",
     zIndex: 1,
-    display: isDonationComplete || isPastDeadline ? "block" : "none",
+    visibility: isPastDeadline ? "visible" : "hidden",
   };
 
   const successStamp = {
     position: "absolute",
-    top: "60%",
-    left: "50%",
-    transform: "translateX(-50%)",
-    width: "58%",
+    top: "2%",
+    left: "2%",
+    width: "40%",
     zIndex: 2,
-    display: isDonationComplete ? "block" : "none",
+    visibility: isDonationComplete ? "visible" : "hidden",
   };
 
   return (
-    <style.Card size={size} onClick={onClick} {...args}>
+    <style.Card rd size={size} onClick={onClick} {...args}>
       {item === "skeleton" ? (
         <>
           <style.SkeletonImg size={size} className="skeleton"></style.SkeletonImg>
@@ -97,7 +96,7 @@ function Card({ item, size, onClick, ...args }) {
             <style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
             <div style={overlayStyle}></div>
             <style.BlackGradation src={blackgradation} size={size} />
-            <img src={success} style={successStamp}></img>
+            <img src={successImg} style={successStamp}></img>
             <style.Block>
               <style.SubmitButton
                 size={size}
@@ -105,7 +104,7 @@ function Card({ item, size, onClick, ...args }) {
                   e.stopPropagation(); // 이벤트 버블링을 막아 이미지 클릭 시 모달창 안 띄움
                   onClick(e);
                 }}
-                disabled={isDonationComplete || isPastDeadline} // 버튼 비활성화
+                disabled={isPastDeadline} // 버튼 비활성화
               >
                 {buttonText}
               </style.SubmitButton>
