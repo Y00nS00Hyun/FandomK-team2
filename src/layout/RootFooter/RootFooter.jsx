@@ -9,7 +9,7 @@ const FooterContainer = styled.footer`
   color: var(--color-white-50);
   padding: 40px 20px;
   font-family: Arial, sans-serif;
-  margin-top: 10%;
+  margin-top: 13%;
 `;
 
 const FooterInner = styled.div`
