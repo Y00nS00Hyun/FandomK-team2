@@ -55,6 +55,11 @@ const Title = styled.p`
 
 const Buttons = styled.section`
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 `;
 
 /**
