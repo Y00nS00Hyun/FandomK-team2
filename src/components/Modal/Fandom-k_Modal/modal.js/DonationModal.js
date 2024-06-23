@@ -44,7 +44,7 @@ function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState,
   const handleCredit = (e) => {
     e.preventDefault();
     donate(currentIdol?.id, { amount: creditValue });
-    confetti({ particleCount: 130, spread: 50 }); // 빵빠레 (조각 개수, 뿌리는 각도)
+    confetti({ particleCount: 130, spread: 160 }); // 빵빠레 (조각 개수, 뿌리는 각도)
   };
 
   const handleClose = () => {
