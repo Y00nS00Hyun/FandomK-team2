@@ -28,3 +28,25 @@ export const getChartData = async ({ pageSize = 10, gender = "male", cursor }) =
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };
+
+/**
+ * 선택된 투표를 업데이트합니다.
+ *
+ * @function updateSelectedVote
+ * @param {number} teamId - (필수) 투표할 팀의 ID
+ * @returns {Promise<Object>} The response data parsed as JSON.
+ * @example
+ * // 선택된 투표 업데이트
+ * const result = await updateSelectedVote(teamId);
+ */
+export const updateSelectedVote = async (teamId) => {
+  console.log(`Sending vote update request for team ID: ${teamId}`);
+  try {
+    const response = await httpClient.put(`${API_URL}/votes`, { teamId });
+    console.log("Vote update response:", response);
+    return response;
+  } catch (e) {
+    console.error("Vote update failed:", e);
+    throw new Error("Failed to update vote.", e);
+  }
+};

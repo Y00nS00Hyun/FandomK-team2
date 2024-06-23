@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import ChekIcon from "../../assets/images/icon/icon-check.svg";
-import XBottun from "../../assets/images/icon/icon-X-circle.svg";
 
 /*
 목록 페이지

@@ -52,3 +52,14 @@
 .modal-head {
   position: relative;
 }
+
+/** 모바일 사이즈 */
+@media (max-width: 768px) {
+  .modal-body {
+    height: 100%;
+  }
+
+  .modal-content {
+    height: 100%;
+  }
+}
