@@ -62,7 +62,7 @@ const updateIdolData = async (id, body) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
   if (!body.profilePicture) throw new Error(ERROR_MESSAGES.profile);
   return await httpClient.put(`${API_URL}/idols/${id}`, body).catch((e) => {
-    throw new Error(ERROR_MESSAGES, e);
+    throw new Error(ERROR_MESSAGES.response, e);
   });
 };
 
@@ -79,6 +79,6 @@ const updateIdolData = async (id, body) => {
 const deleteIdolData = async (id) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
   return await httpClient.delete(`${API_URL}/idols/${id}`).catch((e) => {
-    throw new Error(ERROR_MESSAGES, e);
+    throw new Error(ERROR_MESSAGES.response, e);
   });
 };

@@ -132,7 +132,6 @@ function ChartOfMonth({ mode }) {
   };
 
   const votingIdolChart = (e) => {
-    console.log(selectedIdol, e);
     if (myCredit < 1000) return setCreditNotEnough(true);
     voteIdolChart({ idolId: selectedIdol });
   };
@@ -168,7 +167,6 @@ function ChartOfMonth({ mode }) {
               ref={swiperRef}
               onSwiper={(swiperElm) => {
                 swiperRef = swiperElm;
-                console.log(swiperElm);
               }}
               parallax={true}
               effect={"fade"}

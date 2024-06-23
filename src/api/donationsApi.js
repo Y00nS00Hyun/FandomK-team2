@@ -53,7 +53,7 @@ export const getDonationList = async ({ pageSize = 10, cursor, priorityIdolIds }
 const updateDonationData = async (id, body) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
   return await httpClient.put(`${API_URL}/donations/${id}`, body).catch((e) => {
-    throw new Error(ERROR_MESSAGES, e);
+    throw new Error(ERROR_MESSAGES.response, e);
   });
 };
 
@@ -67,7 +67,7 @@ const updateDonationData = async (id, body) => {
 const deleteDonationData = async (id) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
   return await httpClient.delete(`${API_URL}/donations/${id}`).catch((e) => {
-    throw new Error(ERROR_MESSAGES, e);
+    throw new Error(ERROR_MESSAGES.response, e);
   });
 };
 
@@ -87,6 +87,6 @@ export const donateCredit = async (id, { amount }) => {
   const body = { amount };
   if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
   return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {
-    throw new Error(ERROR_MESSAGES, e);
+    throw new Error(ERROR_MESSAGES.response, e);
   });
 };
