@@ -16,6 +16,7 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
   const [isVisible, setIsVisible] = useState(true);
   const [isValid, setIsValid] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -38,15 +39,20 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
       setNotEnough(true);
       return;
     }
-    const result = await execute(id, params);
-    if (!result) return;
-    console.log(result);
-    handleClose();
+    try {
+      const result = await execute(id, params);
+      if (!result) throw new Error("후원 실패");
+      setMyCredit((prev) => prev - creditValue);
+      console.log(result);
+      handleClose();
+    } catch (error) {
+      setErrorMessage("후원에 실패했습니다. 다시 시도해 주세요.");
+      console.error(error);
+    }
   };
 
   const handleCredit = (e) => {
     e.preventDefault();
-    setMyCredit((prev) => prev - creditValue);
     donate(idol?.id, { amount: creditValue });
   };
 
@@ -75,6 +81,7 @@ function DonationModal({ onClose, icon, idol, creditValueState, donationButtonDi
           <form>
             <input className={`${done.creditInput} ${!isValid ? done.creditError : ""}`} type="number" name="chargeCredit" placeholder="크레딧 입력" value={creditValue} onChange={handleChange} />
             {message && <p className={done.notification}>갖고 있는 크레딧 보다 더 많이 후원할 수 없어요!</p>}
+            {errorMessage && <p className={done.notification}>후원에 실패했습니다. 다시 시도해 주세요.</p>}
             {buttonName && (
               <Button icon={icon} size={"wide"} onClick={handleCredit} disabled={pending || disabled} className={done.donationButton}>
                 {buttonName}
