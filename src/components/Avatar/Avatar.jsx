@@ -39,7 +39,7 @@ const IMAGE_SZIE = {
 
 const Article = styled.article`
   position: relative;
-  border-radius: 50%;
+  border-radius: 9999px;
   width: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
   height: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
   border: 2px solid var(--color-brand-orange);
@@ -60,7 +60,7 @@ const Cover = styled.div`
   height: 90%;
   top: 5%;
   left: 5%;
-  border-radius: 50%;
+  border-radius: 9999px;
   z-index: 1;
 
   ${({ $checked }) =>
@@ -73,7 +73,7 @@ const Cover = styled.div`
       background-color: var(--color-brand-pink);
       opacity: 0.5;
       z-index: 2;
-      border-radius: 50%;
+      border-radius: 9999px;
     }
 
     &:after {
@@ -91,7 +91,7 @@ const Photo = styled.img`
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 999px;
   object-fit: cover;
   cursor: pointer;
 `;

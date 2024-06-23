@@ -14,8 +14,8 @@ import "../../MyPage/myPageStyle.css";
 
 //기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
-  mobile: 6,
-  tablet: 8,
+  mobile: 8,
+  tablet: 10,
   desktop: 16,
 };
 
@@ -78,7 +78,6 @@ const CarouselItem = styled.article`
   justify-content: center;
   align-items: center;
   padding: 8px;
-  ${({ $pageSize }) => $pageSize && `width: calc(100% / ${$pageSize})`};
   height: 50%;
 `;
 
