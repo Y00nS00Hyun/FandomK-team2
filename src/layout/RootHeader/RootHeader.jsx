@@ -23,7 +23,7 @@ const Inner = styled.section`
   justify-content: space-between;
   align-items: center;
   height: ${({ $headerHeight }) => ($headerHeight ? $headerHeight : 80)}px;
-  filter: drop-shadow(0 0 2px var(--background-color-basic));
+  filter: drop-shadow(2px 2px 2px var(--background-color-basic));
 `;
 
 const Section = styled.section`
