@@ -24,12 +24,10 @@ function DonationWaitList({ mode }) {
   const [cursor, setCursor] = useState(null);
   const [disableButton, setDisableButton] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
   const [visibleModal, setVisibleModal] = useState(false);
   const [currentIdol, setCurrentIdol] = useState({});
   const [creditValue, setCreditValue] = useState("");
   const [donationButtonDisabled, setDonationButtonDisabled] = useState(true);
-  const [donation, setDonation] = useState(true);
 
   const [pending, error, execute] = useAsync(getDonationList);
 
@@ -128,7 +126,7 @@ function DonationWaitList({ mode }) {
     <>
       <TitleSection
         title={"후원을 기다리는 조공"}
-        carousel={true}
+        carousel
         size={"normal"}
         action={
           !error && (
@@ -182,8 +180,8 @@ function DonationWaitList({ mode }) {
           </>
         )}
       </TitleSection>
-      <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"} modalOpen={modalOpen} donation={donation}>
-        <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} setIdols={setIdols} currentIdol={currentIdol} creditValueState={[creditValue, setCreditValue]} donationButtonDisabledState={[donationButtonDisabled, setDonationButtonDisabled]} disabled={donationButtonDisabled} buttonName={"후원하기"} />
+      <Modal show={visibleModal} onClose={() => setVisibleModal(false)} title={"후원하기"} buttonName={"후원하기"} modalOpen={false} donation>
+        <DonationModal onClose={() => setVisibleModal(false)} icon={"credit"} setIdols={setIdols} currentIdol={currentIdol} creditValueState={[creditValue, setCreditValue]} setDonationButtonDisabled={setDonationButtonDisabled} disabled={donationButtonDisabled} buttonName={"후원하기"} />
       </Modal>
     </>
   );

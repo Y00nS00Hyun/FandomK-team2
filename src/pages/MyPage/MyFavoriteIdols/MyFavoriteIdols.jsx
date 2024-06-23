@@ -210,7 +210,7 @@ function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
           <Button size={"large"} round icon={"minus"} onClick={() => setVisibleModal(true)} disabled={selectedIdolIds.length === 0}>
             삭제하기
           </Button>
-          <Modal show={visibleModal} title={"선택한 아이돌을 삭제하시겠습니까?"} onClose={() => setVisibleModal(false)} icon={"minus"} buttonAction={handleClick} buttonName={"삭제하기"} modalOpen={true}>
+          <Modal show={visibleModal} title={"선택한 아이돌을 삭제하시겠습니까?"} onClose={() => setVisibleModal(false)} icon={"minus"} buttonAction={handleClick} buttonName={"삭제하기"} modalOpen>
             <p style={{ fontSize: "100px", textAlign: "center" }}>🥺</p>
           </Modal>
         </section>
