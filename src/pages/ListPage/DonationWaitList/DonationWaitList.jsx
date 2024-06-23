@@ -131,13 +131,17 @@ function DonationWaitList({ mode }) {
         carousel={true}
         size={"normal"}
         action={
-          <Button size={"small"} onClick={slickFirst} disabled={currentSlide === 0}>
-            처음으로
-          </Button>
-        }
+          !error && (
+            <Button size={"small"} onClick={slickFirst} disabled={currentSlide === 0}>
+              처음으로
+            </Button>
+          )
+        } //에러인 경우엔 작동 X
       >
         {error ? (
-          <ErrorSection error={error} onReload={handleReload}></ErrorSection>
+          <>
+            <ErrorSection error={error} onReload={handleReload}></ErrorSection>
+          </>
         ) : (
           <>
             {pending && idols.length === 0 && (
@@ -172,7 +176,7 @@ function DonationWaitList({ mode }) {
             {mode === "desktop" && (
               <>
                 {currentSlide !== 0 && <CaretButton direction="left" onClick={slickPrev} disabled={disableButton} />}
-                {currentSlide < idols.length - 3 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
+                {currentSlide < idols.length - 4 && <CaretButton direction="right" onClick={slickNext} disabled={disableButton} />}
               </>
             )}
           </>
