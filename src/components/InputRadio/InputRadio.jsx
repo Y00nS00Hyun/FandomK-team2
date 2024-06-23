@@ -31,9 +31,9 @@ const Input = styled.input`
   }
 `;
 
-function InputRadio({ className, id, name, value, onChange, children }) {
+function InputRadio({ className, id, name, value, onChange, children, onClick }) {
   return (
-    <Label htmlFor={id} className={className}>
+    <Label htmlFor={id} className={className} onClick={onClick}>
       {children}
       <Section>
         <Input type="radio" id={id} name={name} value={value} onChange={onChange} hidden />
