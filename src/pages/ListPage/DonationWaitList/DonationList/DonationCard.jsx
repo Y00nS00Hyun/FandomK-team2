@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import style from "./CardDecoration.js";
+import React, { useEffect, useRef } from "react";
+import SlotCounter from "react-slot-counter";
 import ProgressBar from "progressbar.js";
-import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
-import successImg from "../../../../assets/images/donation/success.png";
+import style from "./CardDecoration.js";
 import blackgradation from "../../../../assets/images/decoration/decoration-donation-cover.svg";
+import successImg from "../../../../assets/images/donation/success.png";
 import CreditImg from "../../../../assets/images/symbol/symbol-credit.svg";
 
 function Card({ item, size, onClick, ...args }) {
-  const [myCredit, setMyCredit] = useMyCredit();
   const today = new Date();
   const deadline = new Date(item !== "skeleton" && item.deadline);
   const dDay = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
@@ -96,7 +95,7 @@ function Card({ item, size, onClick, ...args }) {
             <style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
             <div style={overlayStyle}></div>
             <style.BlackGradation src={blackgradation} size={size} />
-            <img src={successImg} style={successStamp}></img>
+            <img src={successImg} style={successStamp} alt={"목표 금액 달성 아이콘"} />
             <style.Block>
               <style.SubmitButton
                 size={size}
@@ -119,7 +118,9 @@ function Card({ item, size, onClick, ...args }) {
               <style.Status>
                 <style.Credit>
                   <img src={CreditImg} alt="크레딧 이미지" />
-                  {item.receivedDonations.toLocaleString()} / {item.targetDonation.toLocaleString()}
+                  <SlotCounter value={item.receivedDonations.toLocaleString()} useMonospaceWidth />
+                  &nbsp;/&nbsp;
+                  <SlotCounter value={item.targetDonation.toLocaleString()} useMonospaceWidth />
                 </style.Credit>
                 <style.Countdown>{displaysDay}일 남음</style.Countdown>
               </style.Status>

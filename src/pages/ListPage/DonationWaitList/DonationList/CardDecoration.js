@@ -175,12 +175,16 @@ const Title = styled.div`
 
 const Credit = styled.div`
   font-size: 12px;
-  color: #f96d69;
+  color: var(--color-gray-100);
   display: flex;
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  & > span:not(:last-child) {
+    color: var(--color-brand-orange);
+  }
 `;
 
 const Countdown = styled.div`
