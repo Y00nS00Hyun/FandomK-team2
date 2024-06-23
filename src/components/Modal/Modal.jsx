@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "../Button/Button";
 import Xbutton from "../Button/Xbutton";
 import votesCss from "../../components/Modal/Fandom-k_Modal/module.css/Votes.module.css";
