@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-// CountUp JS
-// import { CountUp } from "countup.js";
-import SlotCounter from "react-slot-counter";
 import _ from "lodash";
+import SlotCounter from "react-slot-counter";
+import { useMyCredit } from "../../../context/MyCreditContext";
 import Modal from "../../../components/Modal/Modal";
 import TopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/TopupModal";
 import CreditIcon from "../../../assets/images/symbol/symbol-credit.svg";
-import { useMyCredit } from "../../../context/MyCreditContext";
 
 const PADDING_SIZES = {
   desktop: "32px 80px",
@@ -69,6 +67,9 @@ const CreditText = styled.b`
   font-size: 24px;
   font-weight: 700;
   line-height: 1;
+  & span {
+    font-size: inherit;
+  }
 `;
 
 const TextButton = styled.button`
@@ -89,8 +90,6 @@ const TextButton = styled.button`
 
 function MyCredit({ mode }) {
   const [myCredit, setMyCredit] = useMyCredit();
-  // CountUp JS
-  // const [startValue, setStartValue] = useState(0);
   const [creditValue, setCreditValue] = useState(0);
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -101,24 +100,6 @@ function MyCredit({ mode }) {
     setVisibleModal(false);
   };
 
-  // CountUp JS
-  // useEffect(() => {
-  //   const count = new CountUp("myCredit", myCredit, {
-  //     startVal: startValue,
-  //     duration: 0.48,
-  //   });
-  //   if (!count.error) {
-  //     count.start();
-  //     setStartValue(myCredit);
-  //   } else {
-  //     console.error(count.error);
-  //   }
-  // }, [myCredit]);
-
-  useEffect(() => {
-    if (!visibleModal) setCreditValue(0);
-  }, [visibleModal]);
-
   return (
     <>
       <Article $mode={mode}>
@@ -126,10 +107,8 @@ function MyCredit({ mode }) {
           <SummaryText>내 크레딧</SummaryText>
           <CreditSection>
             <Icon src={CreditIcon} alt={"크레딧 아이콘"} height={32} />
-            {/* CountUp JS */}
-            {/* <CreditText id={"myCredit"}>{myCredit.toLocaleString()}</CreditText> */}
             <CreditText>
-              <SlotCounter value={myCredit.toLocaleString()} sequentialAnimationMode useMonospaceWidth />
+              <SlotCounter value={myCredit.toLocaleString()} useMonospaceWidth />
             </CreditText>
           </CreditSection>
         </LeftSection>
