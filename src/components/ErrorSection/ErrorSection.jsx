@@ -14,8 +14,10 @@ const Article = styled.section`
   padding: 40px 0;
   width: 100%;
   height: 100%;
-  max-width: 1200px;
+  min-width: 480px;
   min-height: 160px;
+  max-width: 1200px;
+  max-height: 50vh;
 `;
 
 const Message = styled.p`
