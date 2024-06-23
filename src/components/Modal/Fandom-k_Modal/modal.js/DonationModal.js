@@ -7,6 +7,8 @@ import Button from "./../../../Button/Button";
 import ErrorSection from "../../../ErrorSection/ErrorSection";
 import done from "../module.css/Donation.module.css";
 import confetti from "canvas-confetti";
+import SlotCounter from "react-slot-counter";
+
 
 function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState, setDonationButtonDisabled, disabled, buttonName }) {
   const [myCredit, setMyCredit] = useMyCredit();
@@ -74,7 +76,9 @@ function DonationModal({ onClose, icon, setIdols, currentIdol, creditValueState,
                 <span>{currentIdol?.title}</span>
               </div>
               <form>
-                <span className={done.remaningCredit}>잔여 크레딧 : {myCredit}</span>
+                <span className={done.remaningCredit}>
+                  잔여 크레딧 : <SlotCounter value={myCredit} useMonospaceWidth />
+                </span>
                 <input className={`${done.creditInput} ${!isValid ? done.creditError : ""}`} type="number" name="chargeCredit" placeholder="크레딧 입력" step={100} value={creditValue} onChange={handleChange} />
                 {message && <p className={done.notification}>갖고 있는 크레딧 보다 더 많이 후원할 수 없어요!</p>}
                 {buttonName && (
