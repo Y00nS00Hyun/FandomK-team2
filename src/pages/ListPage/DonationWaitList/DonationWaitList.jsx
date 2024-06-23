@@ -67,16 +67,6 @@ function DonationWaitList({ mode }) {
   const slickPrev = () => sliderRef.current.slickPrev();
   const slickNext = async () => sliderRef.current.slickNext();
 
-  const openModal = (item) => {
-    setSelectedItem(item);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
-    setModalOpen(false);
-  };
-
   useEffect(() => {
     getData();
   }, [reload]);
@@ -106,7 +96,6 @@ function DonationWaitList({ mode }) {
           draggable: true,
           slidesToScroll: 1,
           dots: true,
-          centerMode: true,
           infinite: false,
         },
       },
@@ -138,22 +127,24 @@ function DonationWaitList({ mode }) {
             {!pending && idols.length === 0 ? (
               <p>진행중인 후원이 없습니다.</p>
             ) : (
-              <Slider ref={sliderRef} {...settings}>
-                {idols.map((item) => (
-                  <div key={item.id} style={{ padding: "0 10px" }}>
-                    <Card
-                      key={item.id}
-                      item={item}
-                      size={mode === "mobile" ? "small" : "medium"}
-                      onClick={() => {
-                        setCreditValue("");
-                        setCurrentIdol(item);
-                        setVisibleModal(true);
-                      }}
-                    />
-                  </div>
-                ))}
-              </Slider>
+              <div style={{ padding: "0 -100px" }}>
+                <Slider ref={sliderRef} {...settings}>
+                  {idols.map((item) => (
+                    <div key={item.id}>
+                      <Card
+                        key={item.id}
+                        item={item}
+                        size={mode === "mobile" ? "small" : "medium"}
+                        onClick={() => {
+                          setCreditValue("");
+                          setCurrentIdol(item);
+                          setVisibleModal(true);
+                        }}
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              </div>
             )}
             {mode === "desktop" && (
               <>
