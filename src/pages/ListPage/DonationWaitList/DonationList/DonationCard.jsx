@@ -3,6 +3,8 @@ import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
 import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
 import success from "../../../../assets/images/donation/success.png";
+import blackgradation from "../../../../assets/images/decoration/decoration-donation-cover.svg";
+import CreditImg from "../../../../assets/images/symbol/symbol-credit.svg";
 
 function Card({ item, size, onClick, ...args }) {
   const [myCredit, setMyCredit] = useMyCredit();
@@ -94,7 +96,7 @@ function Card({ item, size, onClick, ...args }) {
           <style.ImgButton onClick={(e) => e.stopPropagation()}>
             <style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
             <div style={overlayStyle}></div>
-            <style.BlackGradation src="donationImg/blackgradation.png" size={size} />
+            <style.BlackGradation src={blackgradation} size={size} />
             <img src={success} style={successStamp}></img>
             <style.Block>
               <style.SubmitButton
@@ -117,7 +119,7 @@ function Card({ item, size, onClick, ...args }) {
             <style.StatusInfo>
               <style.Status>
                 <style.Credit>
-                  <img src="donationImg/CreditImg.png" alt="크레딧 이미지" />
+                  <img src={CreditImg} alt="크레딧 이미지" />
                   {item.receivedDonations.toLocaleString()} / {item.targetDonation.toLocaleString()}
                 </style.Credit>
                 <style.Countdown>{displaysDay}일 남음</style.Countdown>
