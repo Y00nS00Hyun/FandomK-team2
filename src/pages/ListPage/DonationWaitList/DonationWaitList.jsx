@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
+import { isEmpty } from "lodash";
 import useAsync from "../../../hooks/useAsync";
 import { getDonationList } from "../../../api/donationsApi";
 import { useMyCredit } from "../../../context/MyCreditContext.jsx";
@@ -14,6 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Modal from "../../../components/Modal/Modal.jsx";
 
 const PAGE_SIZES = 999;
+const MY_FAVORITE_NAME = "myFavoriteList";
 
 function DonationWaitList({ mode }) {
   const sliderRef = useRef(null);
@@ -31,6 +33,22 @@ function DonationWaitList({ mode }) {
 
   const [pending, error, execute] = useAsync(getDonationList);
 
+  const [myFavoriteIdols, setMyFavoriteIdols] = useState(() => {
+    if (isEmpty(localStorage?.getItem(MY_FAVORITE_NAME))) {
+      return [];
+    } else {
+      return JSON.parse(localStorage.getItem(MY_FAVORITE_NAME));
+    }
+  });
+
+  const myFavoriteIdolsIds = myFavoriteIdols.map((p) => p.id);
+
+  const sortDataList = (list) => {
+    const firstIdols = list.filter((item) => myFavoriteIdolsIds.includes(item.idolId));
+    const otherIdols = list.filter((item) => !myFavoriteIdolsIds.includes(item.idolId));
+    return [...firstIdols, ...otherIdols];
+  };
+
   const getData = async (cursor) => {
     const params = { pageSize: PAGE_SIZES * 2 };
     if (cursor) params.cursor = cursor;
@@ -40,15 +58,20 @@ function DonationWaitList({ mode }) {
     const { list, nextCursor } = result;
 
     // 종료된 카드들은 맨 뒤로 이동
-    const sortedIdols = [...list].sort((a, b) => {
-      const aIsEnded = a.receivedDonations >= a.targetDonation || new Date(a.deadline) < new Date();
-      const bIsEnded = b.receivedDonations >= b.targetDonation || new Date(b.deadline) < new Date();
-      if (aIsEnded && !bIsEnded) return 1;
-      if (!aIsEnded && bIsEnded) return -1;
+    const idolsByReceived = [...list].sort((a, b) => {
       return b.receivedDonations - a.receivedDonations;
     });
 
-    setIdols((prev) => (cursor ? [...prev, ...sortedIdols] : sortedIdols));
+    const firstList = sortDataList(idolsByReceived);
+
+    const sortedList = [...firstList].sort((a, b) => {
+      const aIsEnded = new Date(a.deadline) < new Date();
+      const bIsEnded = new Date(b.deadline) < new Date();
+      if (aIsEnded && !bIsEnded) return 1;
+      if (!aIsEnded && bIsEnded) return -1;
+    });
+
+    setIdols((prev) => (cursor ? [...prev, ...sortedList] : sortedList));
     setCursor(nextCursor);
     setDisableButton(false);
   };
@@ -68,7 +91,7 @@ function DonationWaitList({ mode }) {
 
   useEffect(() => {
     getData();
-  }, [reload]);
+  }, [reload, myFavoriteIdols]);
 
   const settings = {
     rows: 1,
