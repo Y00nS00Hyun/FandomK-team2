@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import LeftCaretButtonIcon from "../../assets/images/caret/caret-btn-left.svg";
 import RightCaretButtonIcon from "../../assets/images/caret/caret-btn-right.svg";
 import LeftCaretButtonLargeIcon from "../../assets/images/caret/caret-btn-large-left.svg";
 import RightCaretButtonLargeIcon from "../../assets/images/caret/caret-btn-large-right.svg";
 import styled from "styled-components";
+
+const DEFAULT_MAX_WIDTH = 1200;
 
 const CARET_ICONS = {
   normal: {
@@ -59,11 +61,27 @@ const CaretImage = styled.img`
 function CaretButton({ direction = "left", size = "normal", ...args }) {
   const icon = CARET_ICONS[size][direction];
   const gap = CARET_ICONS[size].width * 2;
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const vw = window.innerWidth;
+      const cw = DEFAULT_MAX_WIDTH + gap * 2;
+      setVisible(vw < cw ? false : true);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [gap]);
 
   return (
-    <StyledButton $direction={direction} $gap={gap} {...args}>
-      <CaretImage src={icon} alt={`${direction} caret icon`} draggable="false" />
-    </StyledButton>
+    <>
+      {visible && (
+        <StyledButton $direction={direction} $gap={gap} {...args}>
+          <CaretImage src={icon} alt={`${direction} caret icon`} draggable="false" />
+        </StyledButton>
+      )}
+    </>
   );
 }
 

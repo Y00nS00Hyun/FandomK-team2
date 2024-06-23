@@ -26,7 +26,6 @@
   position: relative;
   min-width: 300px;
   max-width: 100%;
-  gap: 24px;
 }
 
 .modal-close {
@@ -47,8 +46,21 @@
 .modal-body {
   overflow: auto;
   scrollbar-width: none;
+  margin: 20px 0;
 }
 
 .modal-head {
   position: relative;
+}
+
+/** 모바일 사이즈 */
+@media (max-width: 768px) {
+  .modal-body {
+    height: 100%;
+  }
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+  }
 }

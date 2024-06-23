@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import ChekIcon from "../../assets/images/icon/icon-check.svg";
-import XBottun from "../../assets/images/icon/icon-X-circle.svg";
 
 /*
 목록 페이지
@@ -40,10 +39,19 @@ const IMAGE_SZIE = {
 
 const Article = styled.article`
   position: relative;
-  border-radius: 9999px;
+  border-radius: 50%;
   width: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
   height: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
   border: 2px solid var(--color-brand-orange);
+  ${({ $checked }) =>
+    $checked &&
+    `
+    border: double 2px transparent;
+  border-radius: 80px;
+  background-image: linear-gradient(black, black), linear-gradient(-45deg, #fe5493, #ffffff, #f96d69);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  `}
 `;
 
 const Cover = styled.div`
@@ -52,7 +60,7 @@ const Cover = styled.div`
   height: 90%;
   top: 5%;
   left: 5%;
-  border-radius: 9999px;
+  border-radius: 50%;
   z-index: 1;
 
   ${({ $checked }) =>
@@ -65,7 +73,7 @@ const Cover = styled.div`
       background-color: var(--color-brand-pink);
       opacity: 0.5;
       z-index: 2;
-      border-radius: 9999px;
+      border-radius: 50%;
     }
 
     &:after {
@@ -83,39 +91,9 @@ const Photo = styled.img`
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 9999px;
+  border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
-`;
-
-const XButton = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-radius: 9999px;
-  z-index: 5;
-  width: 30%;
-  height: 30%;
-  border: none;
-  visibility: hidden;
-
-  ${({ $cancled }) =>
-    $cancled &&
-    `
-    visibility: visible;
-    cursor: pointer;
-    &:before {
-      content: '';
-      width: 100%;
-      height: 100%;
-      background-image: url(${XBottun});
-      background-size: cover;
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 5;
-    }
-  `}
 `;
 
 /**
@@ -130,22 +108,12 @@ const XButton = styled.div`
 
 function Avatar({ onClick, src, size, alt, checked, cancled, ...args }) {
   return (
-    <Article $size={size} {...args}>
-      <XButton $cancled={cancled} onClick={onClick}></XButton>
+    <Article $size={size} {...args} $checked={checked}>
       <Cover $checked={checked} onClick={onClick}>
         <Photo src={src} alt={alt} draggable="false" />
       </Cover>
     </Article>
   );
 }
-/**
- * <큰 틀>
- *         <x버튼>
- *  <내부 요소>
- *     <이미지+체크>
- *  <내부>
- * <큰 틀>
- *
- *
- */
+
 export default Avatar;

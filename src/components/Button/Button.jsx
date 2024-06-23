@@ -4,12 +4,14 @@ import styled from "styled-components";
 import CreditIcon from "../../assets/images/icon/icon-credit-white.svg";
 import ChartIcon from "../../assets/images/icon/icon-chart.svg";
 import PlusIcon from "../../assets/images/icon/icon-plus.svg";
+import MinusIcon from "../../assets/images/icon/icon-minus.svg";
 import RepostIcon from "../../assets/images/icon/icon-repost.svg";
 
 const ICON_IMAGES = {
   credit: { src: CreditIcon, size: 24 },
   chart: { src: ChartIcon, size: 20 },
   plus: { src: PlusIcon, size: 20 },
+  minus: { src: MinusIcon, size: 20 },
   repost: { src: RepostIcon, size: 20 },
 };
 
@@ -70,9 +72,7 @@ const StyledButton = styled.button`
     right: 50%;
     display: block;
     background: var(--color-black-900);
-    transition:
-      inset 0.32s,
-      opacity 0.16s;
+    transition: inset 0.32s, opacity 0.16s;
     border-radius: inherit;
     opacity: 0;
   }

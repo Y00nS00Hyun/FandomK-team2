@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { isEmpty } from "lodash";
 import animateFunction from "../../../func/animateFunction.js";
@@ -6,6 +6,9 @@ import TitleSection from "../../../components/TitleSection/TitleSection";
 import Avatar from "../../../components/Avatar/Avatar";
 import CaretButton from "../../../components/CaretButton/CaretButton.jsx";
 import Button from "../../../components/Button/Button.jsx";
+import Modal from "../../../components/Modal/Modal";
+import EmptyIcon from "../../../assets/images/icon/icon-empty.svg";
+import "../../MyPage/myPageStyle.css";
 
 // 기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
@@ -69,14 +72,26 @@ const CarouselItem = styled.article`
 `;
 
 function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
+  const [myFavoriteIdols, setMyFavoriteIdols] = myFavoriteIdolsState;
+  const [selectedIdolIds, setSelectedIdolIds] = useState([]);
+  const carouselRef = useRef(null);
+
   const pageSize = PAGE_SIZES[mode];
   const profilSize = useMemo(() => {
     if (mode === "mobile") return "basic";
     else return "otherMyIdol";
   }, [mode]);
-  const [myFavoriteIdols, setMyFavoriteIdols] = myFavoriteIdolsState;
 
-  const carouselRef = useRef(null);
+  const [visibleModal, setVisibleModal] = useState(false);
+  const handleClick = () => {
+    setMyFavoriteIdols((prev) => {
+      const remain = myFavoriteIdols.filter((item) => !selectedIdolIds.includes(item.id));
+      setSelectedIdolIds([]);
+      return [...remain];
+    });
+    setVisibleModal(false);
+  };
+
   const [carouselButtonDisabled, setCarouselButtonDisabled] = useState(false);
   const [carouselScrollPosition, setCarouselScrollPosition] = useState("first");
   const carouselRows = pageSize / 2 < myFavoriteIdols.length ? 2 : 1;
@@ -133,7 +148,10 @@ function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
   return (
     <TitleSection title={`내가 관심있는 아이돌 (${myFavoriteIdols.length}명)`} bottomLine>
       {isEmpty(myFavoriteIdols) ? (
-        <p>좋아하는 아이돌을 추가해주세요</p>
+        <section className="mypage-myidol__empty">
+          <img src={EmptyIcon} alt={"비어 있음 아이콘"} height={160} draggable="false" />
+          <p>좋아하는 아이돌을 추가해주세요.</p>
+        </section>
       ) : (
         <Container>
           <Carousel ref={carouselRef} onLoad={checkCarousel} onScroll={handleScroll}>
@@ -145,9 +163,15 @@ function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
                       src={profilePicture}
                       size={profilSize}
                       alt={`${name} 프로필 이미지`}
-                      cancled
+                      checked={selectedIdolIds.includes(id)}
                       onClick={() => {
-                        setMyFavoriteIdols((prev) => prev.filter((idol) => idol.id !== id));
+                        setSelectedIdolIds((prev) => {
+                          const hasId = prev.includes(id);
+                          if (hasId) {
+                            return prev.filter((item) => item !== id);
+                          }
+                          return [...new Set([...prev, id])];
+                        });
                       }}
                     />
                     <p className="mypage__items-name">{name}</p>
@@ -163,16 +187,26 @@ function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
               <CaretButton direction="right" size="large" onClick={carouselNext} disabled={carouselScrollPosition === "last" || carouselButtonDisabled} />
             </>
           )}
-
-          {/* <section className="mypage-addidol_add">
-            <Button onClick={carouselFirst} disabled={carouselScrollPosition === "first" || carouselButtonDisabled}>
-              FIRST
-            </Button>
-            <Button onClick={carouselLast} disabled={carouselScrollPosition === "last" || carouselButtonDisabled}>
-              LAST
-            </Button>
-          </section> */}
         </Container>
+      )}
+      <section>
+        {/*좋아하는 아이돌 데이터 추가하기 구현*/}
+        {/* <Button onClick={carouselFirst} disabled={carouselScrollPosition === "first" || carouselButtonDisabled}>
+								FIRST
+							</Button> */}
+        {/* <Button onClick={carouselLast} disabled={carouselScrollPosition === "last" || carouselButtonDisabled}>
+								LAST
+							</Button> */}
+      </section>
+      {!isEmpty(myFavoriteIdols) && (
+        <section className="mypage-myidol_minus">
+          <Button size={"large"} round icon={"minus"} onClick={() => setVisibleModal(true)} disabled={selectedIdolIds.length === 0}>
+            삭제하기
+          </Button>
+          <Modal show={visibleModal} title={"선택한 아이돌을 삭제하시겠습니까?"} onClose={() => setVisibleModal(false)} icon={"minus"} buttonAction={handleClick} buttonName={"삭제하기"}>
+            <p style={{ fontSize: "100px", textAlign: "center" }}>🥺</p>
+          </Modal>
+        </section>
       )}
     </TitleSection>
   );
