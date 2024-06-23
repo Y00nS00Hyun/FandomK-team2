@@ -20,6 +20,7 @@ import DeviceImage02 from "../../assets/images/landing/device-02.png";
 import DeviceImage03 from "../../assets/images/landing/device-03.png";
 import style from "./LandingPage.module.css";
 import styled from "styled-components";
+import { Helmet } from "react-helmet-async";
 
 const SECTION_LIST = [
   {
@@ -60,96 +61,112 @@ function LandingPage() {
   };
 
   return (
-    <article className={style["landing-page"]}>
-      {!!myCredit && (
-        <FloatMenu>
-          <Link to={"/mypage"} draggable="false">
-            <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={40} draggable="false" />
-          </Link>
-        </FloatMenu>
-      )}
+    <>
+      <Helmet prioritizeSeoTags>
+        <title>FANDOM-K</title>
+        <meta name="description" content="내가 좋아하는 아이돌을 가장 쉽게 덕질 하는 방법" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ko_KR" />
+        <meta property="og:url" content="" />
+        <meta property="og:site_name" content="FANDOM-K 랜딩페이지" />
+        <meta property="og:title" content="FANDOM-K" />
+        <meta property="og:description" content="내가 좋아하는 아이돌을 가장 쉽게 덕질 하는 방법" />
+        <meta property="og:image" content="/assets/images/og/og-image-landing.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+      </Helmet>
+      <article className={style["landing-page"]}>
+        {!!myCredit && (
+          <FloatMenu>
+            <Link to={"/mypage"} draggable="false">
+              <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={40} draggable="false" />
+            </Link>
+          </FloatMenu>
+        )}
 
-      <Swiper direction={"vertical"} parallax={true} slidesPerView={1} spaceBetween={0} effect={"fade"} mousewheel={true} modules={[EffectFade, Mousewheel, Parallax]} className={`mySwiper ${style["mySwiper"]}`}>
-        <SwiperSlide>
-          <article className={style["main-article"]}>
-            <section className={style["main-article__head"]} data-swiper-parallax={-100}>
-              <p className={style["main-article__summary"]}>
-                내가 좋아하는 아이돌을
-                <br />
-                가장 <b>쉽게 덕질</b> 하는 방법
-              </p>
-              <p className={style["main-article__logo"]}>
-                <Link to={"/list"} draggable="false">
-                  <Logo size="xl" />
-                </Link>
-              </p>
-            </section>
-            <section className={style["main-article__button"]} data-swiper-parallax={100}>
-              <Button size={"wide"} onClick={clearLocalStorage}>
-                지금 시작하기
-              </Button>
-            </section>
-            <article className={style["background"]} data-swiper-parallax={-400}>
-              <img src={BackgroundImage00} alt="레드벨벳 앨범 이미지" draggable="false" />
+        <Swiper direction={"vertical"} parallax={true} slidesPerView={1} spaceBetween={0} effect={"fade"} mousewheel={true} modules={[EffectFade, Mousewheel, Parallax]} className={`mySwiper ${style["mySwiper"]}`}>
+          <SwiperSlide>
+            <article className={style["main-article"]}>
+              <section className={style["main-article__head"]} data-swiper-parallax={-100}>
+                <p className={style["main-article__summary"]}>
+                  내가 좋아하는 아이돌을
+                  <br />
+                  가장 <b>쉽게 덕질</b> 하는 방법
+                </p>
+                <p className={style["main-article__logo"]}>
+                  <Link to={"/list"} draggable="false">
+                    <Logo size="xl" />
+                  </Link>
+                </p>
+              </section>
+              <section className={style["main-article__button"]} data-swiper-parallax={100}>
+                <Button size={"wide"} onClick={clearLocalStorage}>
+                  지금 시작하기
+                </Button>
+              </section>
+              <article className={style["background"]} data-swiper-parallax={-400}>
+                <img src={BackgroundImage00} alt="레드벨벳 앨범 이미지" draggable="false" />
+              </article>
             </article>
-          </article>
-        </SwiperSlide>
+          </SwiperSlide>
 
-        <SwiperSlide>
-          <article className={style["landing-article"]}>
-            <section className={style["landing-article__head"]} data-swiper-parallax={-100}>
-              <p className={style["landing-article__title"]}>{SECTION_LIST[0].title}</p>
-              <p className={style["landing-article__comment"]}>{SECTION_LIST[0].comment}</p>
-            </section>
-            <section className={style["landing-article__body"]}>
-              <img className={style["landing-article__device-cover"]} src={DeviceImage00} alt="아이폰 테두리 이미지" draggable="false" />
-              <div className={style["landing-article__device-wrap"]}>
-                <img className={style["landing-article__device-image"]} src={SECTION_LIST[0].device} alt={`${SECTION_LIST[0].title} 이미지`} draggable="false" data-swiper-parallax={-100} />
-              </div>
-            </section>
-            <article className={style["background"]} data-swiper-parallax={-400}>
-              <img src={SECTION_LIST[0].background} alt="소녀시대 앨범 이미지" draggable="false" />
+          <SwiperSlide>
+            <article className={style["landing-article"]}>
+              <section className={style["landing-article__head"]} data-swiper-parallax={-100}>
+                <p className={style["landing-article__title"]}>{SECTION_LIST[0].title}</p>
+                <p className={style["landing-article__comment"]}>{SECTION_LIST[0].comment}</p>
+              </section>
+              <section className={style["landing-article__body"]}>
+                <img className={style["landing-article__device-cover"]} src={DeviceImage00} alt="아이폰 테두리 이미지" draggable="false" />
+                <div className={style["landing-article__device-wrap"]}>
+                  <img className={style["landing-article__device-image"]} src={SECTION_LIST[0].device} alt={`${SECTION_LIST[0].title} 이미지`} draggable="false" data-swiper-parallax={-100} />
+                </div>
+              </section>
+              <article className={style["background"]} data-swiper-parallax={-400}>
+                <img src={SECTION_LIST[0].background} alt="소녀시대 앨범 이미지" draggable="false" />
+              </article>
             </article>
-          </article>
-        </SwiperSlide>
+          </SwiperSlide>
 
-        <SwiperSlide>
-          <article className={style["landing-article"]}>
-            <section className={style["landing-article__head"]} data-swiper-parallax={-100}>
-              <p className={style["landing-article__title"]}>{SECTION_LIST[1].title}</p>
-              <p className={style["landing-article__comment"]}>{SECTION_LIST[1].comment}</p>
-            </section>
-            <section className={style["landing-article__body"]}>
-              <img className={style["landing-article__device-cover"]} src={DeviceImage00} alt="아이폰 테두리 이미지" draggable="false" />
-              <div className={style["landing-article__device-wrap"]}>
-                <img className={style["landing-article__device-image"]} src={SECTION_LIST[1].device} alt={`${SECTION_LIST[1].title} 이미지`} draggable="false" data-swiper-parallax={-100} />
-              </div>
-            </section>
-            <article className={style["background"]} data-swiper-parallax={-400}>
-              <img src={SECTION_LIST[1].background} alt="뉴진스 앨범 이미지" draggable="false" />
+          <SwiperSlide>
+            <article className={style["landing-article"]}>
+              <section className={style["landing-article__head"]} data-swiper-parallax={-100}>
+                <p className={style["landing-article__title"]}>{SECTION_LIST[1].title}</p>
+                <p className={style["landing-article__comment"]}>{SECTION_LIST[1].comment}</p>
+              </section>
+              <section className={style["landing-article__body"]}>
+                <img className={style["landing-article__device-cover"]} src={DeviceImage00} alt="아이폰 테두리 이미지" draggable="false" />
+                <div className={style["landing-article__device-wrap"]}>
+                  <img className={style["landing-article__device-image"]} src={SECTION_LIST[1].device} alt={`${SECTION_LIST[1].title} 이미지`} draggable="false" data-swiper-parallax={-100} />
+                </div>
+              </section>
+              <article className={style["background"]} data-swiper-parallax={-400}>
+                <img src={SECTION_LIST[1].background} alt="뉴진스 앨범 이미지" draggable="false" />
+              </article>
             </article>
-          </article>
-        </SwiperSlide>
+          </SwiperSlide>
 
-        <SwiperSlide>
-          <article className={style["landing-article"]}>
-            <section className={style["landing-article__head"]} data-swiper-parallax={-100}>
-              <p className={style["landing-article__title"]}>{SECTION_LIST[2].title}</p>
-              <p className={style["landing-article__comment"]}>{SECTION_LIST[2].comment}</p>
-            </section>
-            <section className={style["landing-article__body"]}>
-              <img className={style["landing-article__device-cover"]} src={DeviceImage00} alt="아이폰 테두리 이미지" draggable="false" />
-              <div className={style["landing-article__device-wrap"]}>
-                <img className={style["landing-article__device-image"]} src={SECTION_LIST[2].device} alt={`${SECTION_LIST[2].title} 이미지`} draggable="false" data-swiper-parallax={-100} />
-              </div>
-            </section>
-            <article className={style["background"]} data-swiper-parallax={-400}>
-              <img src={SECTION_LIST[2].background} alt="NCT Dream 앨범 이미지" draggable="false" />
+          <SwiperSlide>
+            <article className={style["landing-article"]}>
+              <section className={style["landing-article__head"]} data-swiper-parallax={-100}>
+                <p className={style["landing-article__title"]}>{SECTION_LIST[2].title}</p>
+                <p className={style["landing-article__comment"]}>{SECTION_LIST[2].comment}</p>
+              </section>
+              <section className={style["landing-article__body"]}>
+                <img className={style["landing-article__device-cover"]} src={DeviceImage00} alt="아이폰 테두리 이미지" draggable="false" />
+                <div className={style["landing-article__device-wrap"]}>
+                  <img className={style["landing-article__device-image"]} src={SECTION_LIST[2].device} alt={`${SECTION_LIST[2].title} 이미지`} draggable="false" data-swiper-parallax={-100} />
+                </div>
+              </section>
+              <article className={style["background"]} data-swiper-parallax={-400}>
+                <img src={SECTION_LIST[2].background} alt="NCT Dream 앨범 이미지" draggable="false" />
+              </article>
             </article>
-          </article>
-        </SwiperSlide>
-      </Swiper>
-    </article>
+          </SwiperSlide>
+        </Swiper>
+      </article>
+    </>
   );
 }
 
