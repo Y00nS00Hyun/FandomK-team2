@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
-import Symbol from "../../assets/images/symbol/symbol-credit-large.svg";
-import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
+import Home from "../../assets/images/icon/homeButton.png";
+import SkeletonAvater from "../../assets/images/avatar/user-astronaut-solid.png";
 
 const Header = styled.header`
   position: fixed;
@@ -64,7 +64,7 @@ function RootHeader({ headerHeight }) {
       <Inner className="inner" $headerHeight={headerHeight}>
         <Section>
           <Link to={"/"} draggable="false">
-            <img src={Symbol} alt={"Credit symbol"} height={40} draggable="false" />
+            <img src={Home} alt={"Credit symbol"} height={40} draggable="false" />
           </Link>
         </Section>
 

@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import { useMyCredit } from "../../context/MyCreditContext";
 import Logo from "../../components/Logo/Logo";
 import Button from "../../components/Button/Button";
-import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
+import SkeletonAvater from "../../assets/images/avatar/user-astronaut-solid.png";
 import BackgroundImage00 from "../../assets/images/landing/background-00.png";
 import BackgroundImage01 from "../../assets/images/landing/background-01.png";
 import BackgroundImage02 from "../../assets/images/landing/background-02.png";
