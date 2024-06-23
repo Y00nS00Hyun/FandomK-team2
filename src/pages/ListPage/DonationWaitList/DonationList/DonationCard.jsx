@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import style from "./CardDecoration.js";
 import ProgressBar from "progressbar.js";
 import { useMyCredit } from "../../../../context/MyCreditContext.jsx";
+import success from "../../../../assets/images/donation/success.png";
+
 function Card({ item, size, onClick, ...args }) {
   const [myCredit, setMyCredit] = useMyCredit();
   const today = new Date();
@@ -13,7 +15,8 @@ function Card({ item, size, onClick, ...args }) {
 
   // 후원이 100% 채워진 경우, 기한이 지난 경우
   const isDonationComplete = item.receivedDonations >= item.targetDonation;
-  const isPastDeadline = dDay < 0;
+  const isPastDeadline = dDay <= 0;
+
   useEffect(() => {
     if (progressRef.current && !progressBarRef.current) {
       progressBarRef.current = new ProgressBar.Line(progressRef.current, {
@@ -53,7 +56,29 @@ function Card({ item, size, onClick, ...args }) {
   }, [item.receivedDonations, item.targetDonation]);
 
   // 버튼 텍스트 설정
-  const buttonText = isDonationComplete ? "목표 금액 달성" : isPastDeadline ? "후원 마감" : "후원하기";
+  const buttonText = isDonationComplete ? "목표 금액 달성" : isPastDeadline ? "기간 마감" : "후원하기";
+
+  const overlayStyle = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.65)",
+    zIndex: 1,
+    display: isDonationComplete || isPastDeadline ? "block" : "none",
+  };
+
+  const successStamp = {
+    position: "absolute",
+    top: "60%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "58%",
+    zIndex: 2,
+    display: isDonationComplete ? "block" : "none",
+  };
+
   return (
     <style.Card size={size} onClick={onClick} {...args}>
       {item === "skeleton" ? (
@@ -68,7 +93,9 @@ function Card({ item, size, onClick, ...args }) {
         <>
           <style.ImgButton onClick={(e) => e.stopPropagation()}>
             <style.Img src={item.idol.profilePicture} alt={item.title} size={size} />
+            <div style={overlayStyle}></div>
             <style.BlackGradation src="donationImg/blackgradation.png" size={size} />
+            <img src={success} style={successStamp}></img>
             <style.Block>
               <style.SubmitButton
                 size={size}

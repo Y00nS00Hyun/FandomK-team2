@@ -8,7 +8,7 @@ const CARD_MARGIN = {
 
 const CARD_WIDTHS = {
   small: "158px",
-  medium: "282px",
+  medium: "280px",
 };
 
 const CARD_HEIGHTS = {
@@ -55,13 +55,35 @@ const INFOWRAPPER_HEIGHT = {
 
 // 😸 적용해보자 😸
 
-const SliderStyle = styled.div``;
-
 const Card = styled.div`
   width: ${({ size }) => CARD_WIDTHS[size] ?? CARD_WIDTHS["small"]};
   height: ${({ size }) => CARD_HEIGHTS[size] ?? CARD_HEIGHTS["small"]};
   margin-left: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
   margin-right: ${({ size }) => CARD_MARGIN[size] ?? CARD_MARGIN["small"]};
+  position: relative;
+  transition: transform 0.5s;
+
+  &:hover {
+    transform: scale(0.96);
+    z-index: 1;
+  }
+
+  &:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background: #212121;
+    transition: 0.8s;
+    transform: scale(1.1);
+    z-index: -1;
+  }
+
+  &:hover img {
+  }
 `;
 
 const ImgButton = styled.div`
@@ -81,6 +103,7 @@ const Img = styled.img`
   overflow: hidden;
   object-fit: cover;
   object-position: center;
+  transition: 0.5s;
 `;
 
 const BlackGradation = styled.img`
@@ -103,6 +126,7 @@ const SubmitButton = styled(Button)`
   width: ${({ size }) => BUTTON_WIDTHS[size] ?? BUTTON_WIDTHS["small"]};
   height: ${({ size }) => BUTTON_HEIGHTS[size] ?? BUTTON_HEIGHTS["small"]};
   z-index: 1;
+  transition: 0.5s;
 `;
 
 // 🍋 여기서부터는 글자 🍋
@@ -174,6 +198,6 @@ const StatusInfo = styled.div`
 
 // 😸 export 해보자 😸
 
-const style = { SliderStyle, Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block, SkeletonImg };
+const style = { Card, Img, BlackGradation, SubmitButton, ImgButton, Subtitle, Title, Detail, InfoWrapper, Status, Credit, Countdown, StatusInfo, Block, SkeletonImg };
 
 export default style;
