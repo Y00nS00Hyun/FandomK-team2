@@ -21,6 +21,7 @@ import DeviceImage02 from "../../assets/images/landing/device-02.png";
 import DeviceImage03 from "../../assets/images/landing/device-03.png";
 import style from "./LandingPage.module.css";
 import styled from "styled-components";
+import { MoemaButton } from "../../layout/RootHeader/MoemaButton";
 
 const SECTION_LIST = [
   {
@@ -79,9 +80,9 @@ function LandingPage() {
       <article className={style["landing-page"]}>
         {localStorage.length > 0 && (
           <FloatMenu>
-            <Link to={"/mypage"} draggable="false">
+            <MoemaButton to={"/mypage"} draggable="false">
               <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={40} draggable="false" />
-            </Link>
+            </MoemaButton>
           </FloatMenu>
         )}
 
