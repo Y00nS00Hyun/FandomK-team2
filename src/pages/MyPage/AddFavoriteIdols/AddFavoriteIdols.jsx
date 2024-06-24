@@ -14,8 +14,8 @@ import "../../MyPage/myPageStyle.css";
 
 //기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
-  mobile: 6,
-  tablet: 8,
+  mobile: 8,
+  tablet: 10,
   desktop: 16,
 };
 
@@ -78,7 +78,6 @@ const CarouselItem = styled.article`
   justify-content: center;
   align-items: center;
   padding: 8px;
-  ${({ $pageSize }) => $pageSize && `width: calc(100% / ${$pageSize})`};
   height: 50%;
 `;
 
@@ -247,13 +246,13 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
     <>
       <TitleSection
         title={"관심 있는 아이돌을 추가해보세요."}
-        carousel={true}
+        carousel
         action={
           <>
             <Button icon={"sort"} size={"small"} onClick={() => setSortName((prev) => (prev === "asc" ? "dsc" : "asc"))}>
               이름
             </Button>
-            <Button icon={"sort"} size={"small"} onClick={() => setSortName((prev) => (prev === "asc" ? "dsc" : "asc"))}>
+            <Button icon={"sort"} size={"small"} onClick={() => setSortGroup((prev) => (prev === "asc" ? "dsc" : "asc"))}>
               그룹
             </Button>
           </>

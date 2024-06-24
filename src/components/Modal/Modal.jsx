@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React from "react";
 import Button from "../Button/Button";
 import Xbutton from "../Button/Xbutton";
 import votesCss from "../../components/Modal/Fandom-k_Modal/module.css/Votes.module.css";
 import "./Modal.css";
 
-function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, children, title, votes }) {
+function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, children, title, votes, modalOpen, donation }) {
   if (!show) {
     document.body.style.removeProperty("overflow");
     return null;
@@ -18,8 +18,8 @@ function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, childr
           <p className="modal-title">{title}</p>
           <Xbutton className="modal-close" onClick={onClose}></Xbutton>
         </div>
-        <div className="modal-body">{children}</div>
-        {buttonName && (
+        <div className={donation ? "donation-modal-body" : "modal-body"}>{children}</div>
+        {modalOpen && (
           <div className="modal-foot">
             <Button icon={icon} size={"wide"} onClick={buttonAction} disabled={disabled}>
               {buttonName}
@@ -28,7 +28,7 @@ function Modal({ show, icon, buttonAction, disabled, buttonName, onClose, childr
         )}
         {votes && (
           <div className={votesCss.notification}>
-            투표에는 <span className={votesCss.credit}>1000</span> 크레딧이 소모됩니다.
+            투표에는 <span className={votesCss.credit}>1000 크레딧</span>이 소모됩니다.
           </div>
         )}
       </div>

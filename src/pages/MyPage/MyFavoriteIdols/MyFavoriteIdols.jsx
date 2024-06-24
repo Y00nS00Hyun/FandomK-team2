@@ -12,9 +12,9 @@ import "../../MyPage/myPageStyle.css";
 
 // 기종별 불러올 아이돌 데이터 크기(갯수)
 const PAGE_SIZES = {
-  desktop: 16,
-  tablet: 8,
-  mobile: 6,
+  desktop: 18,
+  tablet: 12,
+  mobile: 8,
 };
 
 const Container = styled.article`
@@ -26,6 +26,15 @@ const Carousel = styled.article`
   overflow-x: auto;
   width: 100%;
   height: auto;
+  &::-webkit-scrollbar {
+    height: 10px;
+    background-color: var(--color-black-800);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-brand-orange);
+    border-radius: 10px;
+  }
 `;
 
 const CarouselInner = styled.section`
@@ -66,8 +75,6 @@ const CarouselItem = styled.article`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px;
-  ${({ $pageSize }) => $pageSize && `width: calc(100% / ${$pageSize})`};
   height: 50%;
 `;
 
@@ -203,7 +210,7 @@ function MyFavoriteIdols({ mode, myFavoriteIdolsState }) {
           <Button size={"large"} round icon={"minus"} onClick={() => setVisibleModal(true)} disabled={selectedIdolIds.length === 0}>
             삭제하기
           </Button>
-          <Modal show={visibleModal} title={"선택한 아이돌을 삭제하시겠습니까?"} onClose={() => setVisibleModal(false)} icon={"minus"} buttonAction={handleClick} buttonName={"삭제하기"}>
+          <Modal show={visibleModal} title={"선택한 아이돌을 삭제하시겠습니까?"} onClose={() => setVisibleModal(false)} icon={"minus"} buttonAction={handleClick} buttonName={"삭제하기"} modalOpen>
             <p style={{ fontSize: "100px", textAlign: "center" }}>🥺</p>
           </Modal>
         </section>

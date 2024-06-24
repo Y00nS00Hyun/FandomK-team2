@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../Button/Button";
 import ErrorIcon from "../../assets/images/icon/icon-error.svg";
+import votes from "../Modal/Fandom-k_Modal/module.css/Votes.module.css";
 
 const Article = styled.section`
   position: relative;
@@ -12,8 +13,12 @@ const Article = styled.section`
   gap: 16px;
   margin: 0 auto;
   padding: 40px 0;
-  max-width: 1200px;
+  width: 100%;
+  height: 100%;
+  min-width: 480px;
   min-height: 160px;
+  max-width: 1200px;
+  max-height: 50vh;
 `;
 
 const Message = styled.p`
@@ -29,7 +34,7 @@ const Message = styled.p`
  */
 function ErrorSection({ error, onReload }) {
   return (
-    <Article>
+    <Article className={votes.errorContent}>
       <img src={ErrorIcon} alt={"오류 아이콘"} height={160} draggable="false" />
       <Message>
         {error?.message}
