@@ -1,45 +1,37 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { MyCreditProvider } from "./context/MyCreditContext";
 import RootHeader from "./layout/RootHeader/RootHeader";
-import LodingImage from "./components/LodingImage/LodingImage";
+import RootFooter from "./layout/RootFooter/RootFooter";
 import DecotationImage from "./assets/images/decoration/decoration-background-top-design.svg";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const HEADER_HEIGHT = 80;
+const FOOTER_HEIGHT = 120;
 
 const Main = styled.main`
-	padding-top: ${HEADER_HEIGHT}px !important;
-	background-image: url(${DecotationImage});
-	background-repeat: no-repeat;
-	background-position: left top;
-	background-size: auto 480px;
-	background-attachment: fixed;
+  padding-top: ${HEADER_HEIGHT}px !important;
+  min-height: calc(100% - ${FOOTER_HEIGHT}px);
+  background-image: url(${DecotationImage});
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: auto 480px;
+  background-attachment: fixed;
 `;
 
 function App() {
-	const [isLoading, setIsLoading] = useState(false);
-	const { pathname } = useLocation();
+  const { pathname } = useLocation();
 
-	useEffect(() => {
-		setTimeout(() => {
-			setIsLoading((prev) => false);
-		}, 2400);
-	}, []);
-
-	return (
-		<>
-			{isLoading ? (
-				<LodingImage />
-			) : (
-				<>
-					{pathname !== "/" && <RootHeader headerHeight={HEADER_HEIGHT} />}
-					<Main id="rootContainer">
-						<Outlet />
-					</Main>
-				</>
-			)}
-		</>
-	);
+  return (
+    <MyCreditProvider>
+      {pathname !== "/" && <RootHeader headerHeight={HEADER_HEIGHT} />}
+      <Main id="rootContainer">
+        <Outlet />
+      </Main>
+      {pathname !== "/" && <RootFooter footerHeight={FOOTER_HEIGHT} />}
+    </MyCreditProvider>
+  );
 }
 
 export default App;

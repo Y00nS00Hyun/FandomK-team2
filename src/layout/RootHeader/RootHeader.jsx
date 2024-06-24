@@ -1,59 +1,88 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
-import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
+import Home from "../../assets/images/icon/homeButton.png";
+import { MoemaButton } from "./MoemaButton";
+import SkeletonAvater from "../../assets/images/avatar/user-astronaut-solid.png";
 
 const Header = styled.header`
-	position: fixed;
-	z-index: 8;
-	inset: 0;
-	bottom: auto;
-	padding: 0 24px;
-	backdrop-filter: blur(8px);
+  position: fixed;
+  z-index: 8;
+  inset: 0;
+  bottom: auto;
+  padding: 0 24px;
+  backdrop-filter: blur(8px);
+  top: ${({ $visible }) => ($visible === true ? 0 : $visible * -1)}px;
+  transition: top 1s;
 `;
 
 const Inner = styled.section`
-	position: relative;
-	height: ${({ $headerHeight }) => ($headerHeight ? $headerHeight : 80)}px;
-	filter: drop-shadow(0 0 2px var(--background-color-basic));
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: ${({ $headerHeight }) => ($headerHeight ? $headerHeight : 80)}px;
+  filter: drop-shadow(2px 2px 2px var(--background-color-basic));
 `;
 
-const LogoSection = styled.section`
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	& a {
-		display: block;
-	}
-`;
-
-const UserSection = styled.section`
-	position: absolute;
-	top: 50%;
-	right: 0;
-	transform: translateY(-50%);
+const Section = styled.section`
+  & a,
+  & img {
+    display: block;
+  }
 `;
 
 function RootHeader({ headerHeight }) {
-	const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [scroll, setScroll] = useState(0);
+  const [visible, setVisible] = useState(true);
 
-	return (
-		<Header>
-			<Inner className="inner" $headerHeight={headerHeight}>
-				<LogoSection>
-					<Link to={"/"}>
-						<Logo size={"lg"} />
-					</Link>
-				</LogoSection>
+  const handleRefresh = (e) => {
+    const href = `/${e.currentTarget.href.split("/").pop()}`;
+    if (href === pathname) window.location.replace(href);
+  };
 
-				<UserSection>
-					<img src={SkeletonAvater} alt={"기본 아바타 이미지"} onClick={() => navigate("/mypage")} style={{ cursor: "pointer" }} height={32} />
-				</UserSection>
-			</Inner>
-		</Header>
-	);
+  /**
+   * @todo 스크롤 인터렉션 개발하기
+   */
+  useEffect(() => {
+    const handleScroll = (e) => {
+      const currentScroll = e.srcElement.scrollingElement.scrollTop;
+      setScroll((prev) => {
+        prev !== 0 && prev < currentScroll ? setVisible(false) : setVisible(true);
+        return currentScroll;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scroll]);
+
+  return (
+    <Header $visible={visible || headerHeight}>
+      <Inner className="inner" $headerHeight={headerHeight}>
+        <Section>
+          <MoemaButton to={"/"} draggable="false">
+            <img src={Home} alt={"Credit symbol"} height={40} draggable="false" />
+          </MoemaButton>
+        </Section>
+
+        <Section>
+          <MoemaButton to={"/list"} draggable="false" onClick={handleRefresh}>
+            <Logo size={"lg"} />
+          </MoemaButton>
+        </Section>
+
+        <Section>
+          <MoemaButton to={"/mypage"} draggable="false" onClick={handleRefresh}>
+            <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={32} draggable="false" />
+          </MoemaButton>
+        </Section>
+      </Inner>
+    </Header>
+  );
 }
 
 export default RootHeader;

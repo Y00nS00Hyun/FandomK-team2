@@ -3,69 +3,108 @@
 
 /* css values */
 :root {
-	--color-black-900: #02000e;
-	--color-black-800: #181d26;
+  --color-black-900: #02000e;
+  --color-black-800: #181d26;
 
-	--color-gray-400: #67666e;
-	--color-gray-300: #828282;
-	--color-gray-200: #8c92ab;
-	--color-gray-100: #a3a5a8;
+  --color-gray-400: #67666e;
+  --color-gray-300: #828282;
+  --color-gray-200: #8c92ab;
+  --color-gray-100: #a3a5a8;
 
-	--color-white-100: #f7f7f8;
-	--color-white-50: #ffffff;
-	--color-white-10: #ffffff1a; /*이달의 차트 순위별 border 선 색깔 지정 (수정자:이대진) 24-06-13 */
-	--color-yellow: #d2c030;
+  --color-white-100: #f7f7f8;
+  --color-white-50: #ffffff;
+  --color-white-10: #ffffff1a; /*이달의 차트 순위별 border 선 색깔 지정 (수정자:이대진) 24-06-13 */
+  --color-yellow: #d2c030;
 
-	--color-brand-orange: #f96d69;
-	--color-brand-pink: #fe5493;
+  --color-brand-orange: #f96d69;
+  --color-brand-pink: #fe5493;
 
-	--gradient-style-01: linear-gradient(90deg, var(--color-brand-orange), var(--color-brand-pink));
+  --gradient-style-01: linear-gradient(90deg, var(--color-brand-orange), var(--color-brand-pink));
+  --gradient-style-02: linear-gradient(90deg, var(--color-brand-pink), var(--color-brand-orange));
 
-	--background-color-basic: var(--color-black-900);
-	--text-color-basic: var(--color-white-50);
+  --background-color-basic: var(--color-black-900);
+  --text-color-basic: var(--color-white-50);
 
-	--modal-cover: rgba(0, 0, 0, 0.8);
-	--modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-	--modal-background: var(--color-black-800);
-	--modal-radius: 8px;
+  --modal-cover: rgba(0, 0, 0, 0.8);
+  --modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  --modal-background: var(--color-black-800);
+  --modal-radius: 8px;
 
-	--font-family: "Pretendard", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --skeleton-width: 80px;
+
+  --font-family: "Pretendard", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-	min-width: var(--width-minimum);
-	min-height: 100vh;
-	font-size: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+  font-size: 100%;
 }
 
 body {
-	background-color: var(--background-color-basic);
-	color: var(--text-color-basic);
-	font-family: var(--font-family);
-	min-width: 100vw;
-	min-height: 100vh;
+  background-color: var(--background-color-basic);
+  color: var(--text-color-basic);
+  font-family: var(--font-family);
+  min-width: 100%;
+  min-height: 100vh;
 }
 
 .inner {
-	margin: 0 auto;
-	max-width: 1200px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 #rootContainer {
-	position: relative;
+  position: relative;
+}
+
+@keyframes skeletonAnimation {
+  0% {
+    left: calc(var(--skeleton-width) * -1);
+  }
+  50%,
+  100% {
+    left: calc(100% + var(--skeleton-width));
+  }
+}
+
+*.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(125, 125, 125, 0.16);
+}
+
+*.skeleton:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(var(--skeleton-width) * -1);
+  width: var(--skeleton-width);
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(125, 125, 125, 0.1), rgba(0, 0, 0, 0));
+  animation-name: skeletonAnimation;
+  animation-duration: 2s;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
-	header + #rootContainer {
-		padding: 0 24px;
-	}
+  header + #rootContainer {
+    padding: 0 24px;
+  }
 }
 
 /* Mobile */

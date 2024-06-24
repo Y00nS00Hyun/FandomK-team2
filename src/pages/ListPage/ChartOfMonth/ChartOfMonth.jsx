@@ -1,155 +1,276 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade, Parallax } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import useAsync from "../../../hooks/useAsync";
+import { useMyCredit } from "../../../context/MyCreditContext";
 import { getChartData } from "../../../api/chartsApi";
-import LodingImage from "../../../components/LodingImage/LodingImage";
-import BlockTitle from "../../../components/BlockTitle/BlockTitle";
+import { voteIdol } from "../../../api/voteApi";
+import TitleSection from "../../../components/TitleSection/TitleSection";
+import ErrorSection from "../../../components/ErrorSection/ErrorSection";
+import Avatar from "../../../components/Avatar/Avatar";
+import Button from "../../../components/Button/Button";
+import Modal from "../../../components/Modal/Modal";
 import style from "./ChartOfMonth.module.css";
+import VotesModal from "../../../components/Modal/Fandom-k_Modal/modal.js/VotesModal";
+import PopupModal from "../../../components/Modal/Fandom-k_Modal/modal.js/PopupModal";
 
 /**
  * @JuhyeokC
  * mode 별 페이지사이즈 매직넘버
  */
 const PAGE_SIZES = {
-	desktop: 10,
-	others: 5,
+  desktop: 10,
+  tablet: 5,
+  mobile: 5,
 };
 
-// TODO : 내가 개발할 곳 (이대진) 2024.06.10 13:20
+const IS_VOTED = "isVoted";
+
+const Container = styled.div`
+  ${({ $mode }) => $mode !== "desktop" && `display: flex;`}
+  background-color : var(--background-color-basic);
+`;
+
 function ChartOfMonth({ mode }) {
-	/**
-	 * @JuhyeokC
-	 * mode 에 맞는 페이지사이즈 가져오기
-	 */
-	const pageSize = PAGE_SIZES[mode];
+  let swiperRef = useRef(null);
 
-	/**
-	 * @JuhyeokC
-	 * useAsync 커스텀훅 사용
-	 */
-	const { refetchFunction, data, pending, error } = useAsync(getChartData);
+  const [isVoted, setIsVoted] = useState(() => (localStorage?.getItem(IS_VOTED) === null ? false : Boolean(localStorage.getItem(IS_VOTED))));
 
-	/**
-	 * @JuhyeokC
-	 * 렌더링 된 후 fetch 함수 실행
-	 */
-	useEffect(() => {
-		refetchFunction({ pageSize });
-	}, [refetchFunction, pageSize]);
+  const pageSize = PAGE_SIZES[mode];
+  const [myCredit, setMyCredit] = useMyCredit();
+  const [reload, setReload] = useState(0);
 
-	/**
-	 * @JuhyeokC
-	 * data 가 업데이트될 때 idols 담길 items 와 더보기를 위한 cursor
-	 */
-	const items = data?.idols || [];
-	const cursor = data?.nextCursor;
+  const [gender, setGender] = useState("female");
+  const [femaleIdols, setFemaleIdols] = useState([]);
+  const [femaleCursor, setFemaleCursor] = useState(null);
+  const [maleIdols, setMaleIdols] = useState([]);
+  const [maleCursor, setMaleCursor] = useState(null);
+  const [disableButton, setDisableButton] = useState({ female: femaleCursor, male: maleCursor });
 
-	return (
-		<section className={style["chartbar"]}>
-			<section className={style["chartbar__header"]}>
-				<BlockTitle>이달의 차트</BlockTitle>
-				<button className="vote">차트 투표하기</button>
-			</section>
+  const [votes, setVotes] = useState(false);
+  const [selectedIdol, setSelectedIdol] = useState(null);
+  const [creditNotEnough, setCreditNotEnough] = useState(false);
 
-			<section className=""></section>
-			<section className={style["chartbar__gender"]}>
-				<button className={style["chartbar__female"]}>이달의 여자 아이돌</button>
-				<button className={style["chartbar__male"]}>이달의 남자 아이돌</button>
-			</section>
+  const [pending, error, execute] = useAsync(getChartData);
+  const [pendingVote, errorVote, executeVote] = useAsync(voteIdol);
 
-			<section className={style["container"]}>
-				{/**
-				 * @JuhyeokC
-				 * 로딩 출력
-				 */}
-				{pending && <LodingImage />}
+  const getData = async ({ pageSize, gender, cursor }) => {
+    const params = { pageSize, gender };
+    if (cursor) params.cursor = cursor;
 
-				{/**
-				 * @JuhyeokC
-				 * 에러 출력
-				 */}
-				{error && <p>ERROR! {error.message}</p>}
+    const result = await execute(params);
+    if (!result) return;
+    const { idols, nextCursor } = result;
 
-				{/**
-				 * @JuhyeokC
-				 * 데이터 출력
-				 */}
-				{items &&
-					items.map((item) => (
-						<article key={item.id}>
-							<p>
-								랭크: <span>{item.rank}</span>
-							</p>
-							<p>
-								프로필: <img src={item.profilePicture} alt={`${item.name} 프로필 이미지`} height={80} draggable="false" />
-							</p>
-							<p>
-								그룹: <span>{item.group}</span>
-							</p>
-							<p>
-								이름: <span>{item.name}</span>
-							</p>
-							<p>
-								성별: <span>{item.gender}</span>
-							</p>
-							<p>
-								투표수: <span>{item.totalVotes}</span>
-							</p>
-						</article>
-					))}
+    if (gender === "female") {
+      setFemaleIdols((prev) => {
+        if (cursor) {
+          return [...prev, ...idols];
+        } else {
+          return idols;
+        }
+      });
+      setFemaleCursor(nextCursor);
+    } else {
+      setMaleIdols((prev) => {
+        if (cursor) {
+          return [...prev, ...idols];
+        } else {
+          return idols;
+        }
+      });
+      setMaleCursor(nextCursor);
+    }
+    setDisableButton((prev) => {
+      return { ...prev, [gender]: !nextCursor };
+    });
+  };
 
-				<div id="rank1" className={style["item"]}>
-					Item1
-				</div>
-				<div id="rank2" className={style["item"]}>
-					Item2
-				</div>
-				<div id="rank3" className={style["item"]}>
-					Item3
-				</div>
-				<div id="rank4" className={style["item"]}>
-					Item4
-				</div>
-				<div id="rank5" className={style["item"]}>
-					Item5
-				</div>
-				<div id="rank6" className={style["item"]}>
-					Item6
-				</div>
-				<div id="rank7" className={style["item"]}>
-					Item7
-				</div>
-				<div id="rank8" className={style["item"]}>
-					Item8
-				</div>
-				<div id="rank9" className={style["item"]}>
-					Item9
-				</div>
-				<div id="rank10" className={style["item"]}>
-					Item10
-				</div>
-			</section>
+  const moreData = async () => {
+    await getData({ pageSize, gender, cursor: gender === "female" ? femaleCursor : maleCursor });
+  };
 
-			<button className={style["viewMore"]}> 더보기 </button>
-		</section>
-	);
+  const initializeData = () => {
+    setFemaleIdols([]);
+    setFemaleCursor(null);
+    setMaleIdols([]);
+    setMaleCursor(null);
+  };
+
+  const handleReload = () => {
+    initializeData();
+    setReload((prev) => ++prev);
+  };
+
+  const handleGender = (gender) => {
+    setGender(gender);
+    gender === "female" ? swiperRef.current.swiper.slideTo(0) : swiperRef.current.swiper.slideTo(1);
+  };
+
+  const votesOpen = () => setVotes(true);
+  const votesClose = () => {
+    setVotes(false);
+    setCreditNotEnough(false);
+  };
+
+  const voteIdolChart = async ({ idolId }) => {
+    const params = { idolId };
+
+    const result = await executeVote(params);
+    if (!result) return;
+    const { idol } = result;
+
+    votesClose();
+    setMyCredit((prev) => (prev -= 1000));
+    setIsVoted(true);
+
+    if (gender === "female") {
+      setFemaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+    } else {
+      setMaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+    }
+  };
+
+  const votingIdolChart = (e) => {
+    if (myCredit < 1000) return setCreditNotEnough(true);
+    voteIdolChart({ idolId: selectedIdol });
+  };
+
+  useEffect(() => {
+    getData({ pageSize, gender: "female" });
+    getData({ pageSize, gender: "male" });
+  }, [pageSize, reload]);
+
+  useEffect(() => {
+    localStorage.setItem(IS_VOTED, JSON.stringify(isVoted));
+  }, [isVoted]);
+
+  return (
+    <>
+      <TitleSection
+        title={"이달의 차트"}
+        action={
+          <Button icon={"chart"} size={"small"} onClick={votesOpen}>
+            차트 투표하기
+          </Button>
+        }
+      >
+        {error ? (
+          <ErrorSection error={error} onReload={handleReload}></ErrorSection>
+        ) : (
+          <>
+            <section className={style["chartbar__gender"]}>
+              <button onClick={() => handleGender("female")} className={`${style["chartbar__gender-button"]} ${gender === "female" && style["selected"]}`}>
+                이달의 여자 아이돌
+              </button>
+              <button onClick={() => handleGender("male")} className={`${style["chartbar__gender-button"]} ${gender === "male" && style["selected"]}`}>
+                이달의 남자 아이돌
+              </button>
+            </section>
+            <Swiper
+              ref={swiperRef}
+              onSwiper={(swiperElm) => {
+                swiperRef = swiperElm;
+              }}
+              parallax={true}
+              effect={"fade"}
+              slidesPerView={1}
+              spaceBetween={0}
+              autoHeight={true}
+              allowTouchMove={false}
+              modules={[EffectFade, Parallax]}
+              className={`mySwiper ${style["mySwiper"]}`}
+            >
+              <SwiperSlide>
+                <Container className={style["container"]} $mode={mode}>
+                  {femaleIdols &&
+                    femaleIdols.map((item) => (
+                      <article key={item.id} className={style["chart__ranking"]}>
+                        <section className={style["chart__profile"]}>
+                          <Avatar src={item.profilePicture} size={"basic"} alt={`${item.name} 프로필 이미지`} />
+                          <span className={style["chart__rank"]}>{item.rank}</span>
+                          <div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
+                        </section>
+                        <div className={style["chart__vote"]}>{item.totalVotes}표</div>
+                      </article>
+                    ))}
+                  {pending && (
+                    <>
+                      {Array.from({ length: pageSize }, (v, i) => i).map((_, i) => (
+                        <article key={`skeleton-chart-${i}`} className={style["chart__ranking"]}>
+                          <section className={style["chart__profile"]}>
+                            <div className={style["chart__circle"] + " skeleton"}></div>
+                            <span className={style["chart__rank"]}></span>
+                            <div className={style["chart__group"] + " skeleton"} style={{ minWidth: "100px", minHeight: "16px" }}>
+                              &nbsp;
+                            </div>
+                          </section>
+                          <div className={style["chart__vote"]}>
+                            <div className="skeleton" style={{ minWidth: "24px" }}>
+                              &nbsp;
+                            </div>
+                          </div>
+                        </article>
+                      ))}
+                    </>
+                  )}
+                </Container>
+              </SwiperSlide>
+              <SwiperSlide>
+                <Container className={style["container"]} $mode={mode}>
+                  {maleIdols &&
+                    maleIdols.map((item) => (
+                      <article key={item.id} className={style["chart__ranking"]}>
+                        <section className={style["chart__profile"]}>
+                          <Avatar src={item.profilePicture} size={"basic"} alt={`${item.name} 프로필 이미지`} />
+                          <span className={style["chart__rank"]}>{item.rank}</span>
+                          <div className={style["chart__group"]}>{`${item.group} ${item.name}`}</div>
+                        </section>
+                        <div className={style["chart__vote"]}>{item.totalVotes}표</div>
+                      </article>
+                    ))}
+                  {pending && (
+                    <>
+                      {Array.from({ length: pageSize }, (v, i) => i).map((_, i) => (
+                        <article key={`skeleton-chart-${i}`} className={style["chart__ranking"]}>
+                          <section className={style["chart__profile"]}>
+                            <div className={style["chart__circle"] + " skeleton"}></div>
+                            <span className={style["chart__rank"]}></span>
+                            <div className={style["chart__group"] + " skeleton"} style={{ minWidth: "100px", minHeight: "16px" }}>
+                              &nbsp;
+                            </div>
+                          </section>
+                          <div className={style["chart__vote"]}>
+                            <div className="skeleton" style={{ minWidth: "24px" }}>
+                              &nbsp;
+                            </div>
+                          </div>
+                        </article>
+                      ))}
+                    </>
+                  )}
+                </Container>
+              </SwiperSlide>
+            </Swiper>
+          </>
+        )}
+        <Modal show={votes} modalOpen onClose={votesClose} title={"투표하기"} buttonName={isVoted ? "이미 차트에 투표했어요" : "투표하기"} buttonAction={votingIdolChart} votes disabled={isVoted}>
+          {creditNotEnough ? <PopupModal onClose={votesClose} /> : <VotesModal gender={gender} setSelectedIdol={setSelectedIdol} errorVote={errorVote} />}
+        </Modal>
+
+        {!error && (
+          <button className={style["viewMore"]} onClick={moreData} disabled={pending || disableButton[gender]}>
+            더보기
+          </button>
+        )}
+      </TitleSection>
+    </>
+  );
 }
 
 export default ChartOfMonth;
-
-{
-	/* <button // 모달창 띄우기
-      popovertarget = "mypopover"
-      popovertargetcation = "show">
-        Show popover</button>
-      <button popovertarget = "mypopover"
-      popovertargetcation = "hide">
-        Hide popover
-        </button>
-      <div id = "mypopover" popover> Popover content</div> */
-}
-
-/**
- * @JuhyeokC
- * 확인 후 제 이름이 달린 주석은 삭제해주세요!
- * 이해가 어려운 부분은 질문해주세요!
- */

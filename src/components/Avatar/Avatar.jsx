@@ -22,45 +22,50 @@ mobile : 98*98, 88*88
 /*
 const AVATAR_SIZE = {
   basic: "60px",
-	mobileAddIdol: "88px",
-	otherMyIdol: "85px",
-	otherAddIdol: "115px",
+  mobileAddIdol: "88px",
+  otherMyIdol: "85px",
+  otherAddIdol: "115px",
 };
 */
 
 /*목록 페이지, 투표 모달창은 디바이스 상관 없이 크기 같음
 전부 basic 사용*/
 const IMAGE_SZIE = {
-	basic: "70px",
-	mobileAddIdol: "98px",
-	otherMyIdol: "100px",
-	otherAddIdol: "128px",
+  basic: "70px",
+  mobileAddIdol: "98px",
+  otherMyIdol: "100px",
+  otherAddIdol: "128px",
 };
 
 const Article = styled.article`
-	position: relative;
-	border-radius: 9999px;
-	width: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
-	height: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
-	overflow: hidden;
-	border: 2px solid var(--color-brand-orange);
+  position: relative;
+  border-radius: 9999px;
+  width: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
+  height: ${({ $size }) => IMAGE_SZIE[$size] ?? IMAGE_SZIE["basic"]};
+  border: 2px solid var(--color-brand-orange);
+  ${({ $checked }) =>
+    $checked &&
+    `
+    border: double 2px transparent;
+  border-radius: 80px;
+  background-image: linear-gradient(black, black), linear-gradient(-45deg, #fe5493, #ffffff, #f96d69);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  `}
 `;
 
-const Photo = styled.div`
-	position: absolute;
-	width: 90%;
-	height: 90%;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border-radius: 9999px;
-	background-position: center;
-	background-size: cover;
-	z-index: 1;
+const Cover = styled.div`
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: 5%;
+  border-radius: 9999px;
+  z-index: 1;
 
-	${({ $checked }) =>
-		$checked &&
-		`
+  ${({ $checked }) =>
+    $checked &&
+    `
     &:before {
       content: '';
       position: absolute;
@@ -75,16 +80,25 @@ const Photo = styled.div`
       content: url(${ChekIcon});
       position: absolute;
       top: 50%;
-	    left: 50%;
-	    transform: translate(-50%, -50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 3;
     }
   `}
 `;
 
+const Photo = styled.img`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  object-fit: cover;
+  cursor: pointer;
+`;
+
 /**
  * @param {string} src - 아이돌 이미지 주소
- * @param {string} size - 아바타 크기 = [ 'basic', 'monileAddIdol', 'otherMyIdol', 'otherAddIdol']
+ * @param {string} size - 아바타 크기 = [ 'basic', 'mobileAddIdol', 'otherMyIdol', 'otherAddIdol']
  * @param {boolean} checked - 선택 = checked만 적기
  *
  *
@@ -92,13 +106,14 @@ const Photo = styled.div`
  * <Avatar src={profilePicture} size={"basic"} alt={${아이돌 이름} 프로필 이미지} onClick={() => 아이돌 선택 함수} checked/>
  */
 
-function Avatar({ children, onClick, src, size, alt, checked, ...args }) {
-	return (
-		<Article $size={size} onClick={onClick} {...args}>
-			<Photo style={{ backgroundImage: "url(" + src + ")" }} alt={alt} $checked={checked}></Photo>
-			<span>{children}</span>
-		</Article>
-	);
+function Avatar({ onClick, src, size, alt, checked, cancled, ...args }) {
+  return (
+    <Article $size={size} {...args} $checked={checked}>
+      <Cover $checked={checked} onClick={onClick}>
+        <Photo src={src} alt={alt} draggable="false" />
+      </Cover>
+    </Article>
+  );
 }
 
 export default Avatar;

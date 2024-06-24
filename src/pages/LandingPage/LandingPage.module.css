@@ -1,215 +1,201 @@
-.temp-menu {
-	position: fixed;
-	z-index: 999;
-	top: 0;
-	right: 0;
+.mySwiper {
+  height: 100vh;
 }
 
 .landing-page {
-	position: relative;
+  position: relative;
+  margin-top: -80px;
 }
 
 .background {
-	position: absolute;
-	z-index: -1;
-	inset: 0;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
 }
 
 .background img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	max-height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 100%;
 }
 
 .main-article,
 .landing-article {
-	position: relative;
-	display: flex;
-	flex-flow: column wrap;
-	justify-content: center;
-	align-items: center;
-	margin: 0 auto;
-	height: 100vh;
-	overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--background-color-basic);
 }
 
 .main-article {
-	justify-content: space-between;
-	padding: 8vh 16px 16vh;
+  justify-content: space-between;
+  padding: 10vh 16px 16vh;
 }
 
 .main-article__head {
-	display: flex;
-	flex-flow: column wrap;
-	justify-content: center;
-	align-items: center;
-	gap: 32px;
-	max-width: 100%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  max-width: 100%;
 }
 
 .main-article__summary {
-	font-size: 26px;
-	font-weight: 400;
-	line-height: 1.2;
-	text-align: center;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .main-article__summary b {
-	font-weight: inherit;
-	color: var(--color-brand-orange);
+  font-weight: inherit;
+  color: var(--color-brand-orange);
 }
 
 .main-article__logo img {
-	max-width: 100%;
+  max-width: 100%;
 }
 
 .main-article__button {
-	display: block;
-	width: 100%;
-	max-width: 477px;
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: 477px;
 }
 
 .main-article__cover {
-	position: relative;
+  position: relative;
 }
 
 .landing-article {
-	gap: 60px;
-	min-height: 880px;
+  gap: 60px;
 }
 
 .landing-article__head {
-	display: flex;
-	flex-flow: column wrap;
-	justify-content: center;
-	align-items: center;
-	gap: 8px;
-	text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
 }
 
 .landing-article__body {
-	position: relative;
+  position: relative;
+  z-index: 1;
 }
 
 .landing-article__cover {
-	position: relative;
+  position: relative;
 }
 
 .landing-article__title {
-	color: var(--color-yellow);
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 1.2;
+  color: var(--color-yellow);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 .landing-article__comment {
-	white-space: pre-wrap;
-	font-size: 24px;
-	font-weight: 400;
-	line-height: 1.2;
+  white-space: pre-wrap;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 .landing-article__device-cover,
 .landing-article__device-image {
-	width: 320px;
+  width: 24vh;
 }
 
 .landing-article__device-cover {
-	position: absolute;
-	z-index: 1;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.landing-article__device-wrap {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transform-origin: center;
+  transform: scale(0.88);
+  border-radius: 16px;
 }
 
 .landing-article__device-image {
-	position: relative;
-	z-index: 2;
-	display: block;
-	transform: scale(0.88);
-	border-radius: 40px;
+  position: relative;
 }
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
-	.main-article__summary {
-		font-size: 20px;
-	}
+  .main-article__summary {
+    font-size: 20px;
+  }
 
-	.main-article__logo img {
-		height: 62px;
-	}
+  .main-article__logo img {
+    height: 62px;
+  }
 
-	.landing-article {
-		min-height: 720px;
-		gap: 48px;
-	}
-
-	.landing-article__comment {
-		font-size: 20px;
-	}
-
-	.landing-article__device-cover,
-	.landing-article__device-image {
-		width: 200px;
-	}
-
-	.landing-article__device-image {
-		border-radius: 24px;
-	}
+  .landing-article__comment {
+    font-size: 20px;
+  }
 }
 
 /* Mobile */
 @media screen and (max-width: 767px) {
-	.main-article .background img {
-		max-width: 116vw;
-	}
+  .main-article .background img {
+    max-width: 116vw;
+  }
 
-	.main-article__head {
-		gap: 20px;
-	}
+  .main-article__head {
+    gap: 20px;
+  }
 
-	.main-article__logo img {
-		height: 48px;
-	}
+  .main-article__logo img {
+    height: 48px;
+  }
 
-	.main-article__button {
-		max-width: 230px;
-	}
+  .main-article__button {
+    max-width: 64vw;
+  }
 
-	.landing-article {
-		min-height: 800px;
-		gap: 64px;
-	}
+  .landing-article__head {
+    align-items: flex-start;
+    padding: 0 32px;
+    width: 100%;
+  }
 
-	.landing-article__head {
-		align-items: flex-start;
-		padding: 0 32px;
-		width: 100%;
-	}
+  .landing-article__comment {
+    text-align: left;
+  }
 
-	.landing-article__comment {
-		text-align: left;
-	}
+  :global .swiper-slide:nth-last-child(2n) {
+    .landing-article__head {
+      align-items: end;
+      padding: 0 32px;
+      width: 100%;
+    }
+  }
 
-	.landing-article:nth-last-child(2n) .landing-article__head {
-		align-items: end;
-		padding: 0 32px;
-		width: 100%;
-	}
-
-	.landing-article:nth-last-child(2n) .landing-article__comment {
-		text-align: right;
-	}
-
-	.landing-article__device-cover,
-	.landing-article__device-image {
-		width: 240px;
-	}
-
-	.landing-article__device-image {
-		border-radius: 32px;
-	}
+  :global .swiper-slide:nth-last-child(2n) {
+    .landing-article__comment {
+      text-align: right;
+    }
+  }
 }

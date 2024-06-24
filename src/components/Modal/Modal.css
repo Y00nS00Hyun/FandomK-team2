@@ -1,45 +1,85 @@
+/* 스크롤 바 숨기기 */
+.screen-box::-webkit-scrollbar {
+  display: none; /* Chrome , Safari , Opera */
+}
+
 /* Modal.css */
 .modal-backdrop {
-	position: fixed;
-	z-index: 999;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-	background-color: #181026;
-	padding: 24px 16px 32px;
-	border-radius: 8px;
-	position: relative;
-	min-width: 300px;
-	max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #181026;
+  padding: 24px 16px 32px;
+  border-radius: 8px;
+  position: relative;
+  min-width: 300px;
+  max-width: 100%;
 }
 
 .modal-close {
-	background: none;
-	border: none;
-	font-size: 20px;
-	cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .modal-head {
-	position: relative;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: space-between;
-	align-items: center;
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modal-body {
-	padding: 20px 0;
+  overflow: auto;
+  scrollbar-width: none;
+  margin: 20px 0;
+}
+
+.donation-modal-body {
+  overflow: auto;
+  scrollbar-width: none;
+  margin: 20px 0 0;
 }
 
 .modal-head {
-	position: relative;
+  position: relative;
+}
+
+/** 모바일 사이즈 */
+@media (max-width: 768px) {
+  .modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+  }
+
+  .donation-modal-body {
+    overflow: auto;
+    scrollbar-width: none;
+    margin: 20px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+  }
 }
