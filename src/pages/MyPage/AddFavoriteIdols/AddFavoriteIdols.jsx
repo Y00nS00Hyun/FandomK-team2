@@ -252,7 +252,7 @@ function AddFavoriteIdols({ mode, myFavoriteIdolsState }) {
             <Button icon={"sort"} size={"small"} onClick={() => setSortName((prev) => (prev === "asc" ? "dsc" : "asc"))}>
               이름
             </Button>
-            <Button icon={"sort"} size={"small"} onClick={() => setSortName((prev) => (prev === "asc" ? "dsc" : "asc"))}>
+            <Button icon={"sort"} size={"small"} onClick={() => setSortGroup((prev) => (prev === "asc" ? "dsc" : "asc"))}>
               그룹
             </Button>
           </>
