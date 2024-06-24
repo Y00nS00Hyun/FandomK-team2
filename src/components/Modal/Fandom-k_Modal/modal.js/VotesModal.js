@@ -18,7 +18,7 @@ function ProfileListItem({ item, onCheck }) {
       <InputRadio className={votes.ProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id} onClick={handleChecked}>
         <div className={votes.profileBox}>
           <Avatar src={item.profilePicture} className={votes.profileImg} alt="프로필 사진" checked={item.checked} />
-          <div className={votes.lanking}>1</div>
+          <div className={votes.lanking}>{item.rank}</div>
           <div className={votes.profileInfo}>
             <span>
               {item.group} {item.name}
@@ -77,7 +77,7 @@ function VotesModal({ gender, setSelectedIdol, errorVote }) {
     <div className={votes.Contents}>
       <ul className={votes.content}>
         {error || errorVote ? (
-          <ErrorSection error={error || errorVote} onReload={handleReload}></ErrorSection>
+          <ErrorSection error={error || errorVote} onReload={handleReload} className={votes.errorContent}></ErrorSection>
         ) : (
           <>
             {items &&

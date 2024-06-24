@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../Button/Button";
 import ErrorIcon from "../../assets/images/icon/icon-error.svg";
+import votes from "../Modal/Fandom-k_Modal/module.css/Votes.module.css";
 
 const Article = styled.section`
   position: relative;
@@ -33,7 +34,7 @@ const Message = styled.p`
  */
 function ErrorSection({ error, onReload }) {
   return (
-    <Article>
+    <Article className={votes.errorContent}>
       <img src={ErrorIcon} alt={"오류 아이콘"} height={160} draggable="false" />
       <Message>
         {error?.message}
