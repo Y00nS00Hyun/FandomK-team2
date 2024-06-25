@@ -7,7 +7,7 @@ import votes from "../Modal/Fandom-k_Modal/module.css/Votes.module.css";
 const Article = styled.section`
   position: relative;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   gap: 16px;
