@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../components/Logo/Logo";
 import Home from "../../assets/images/icon/homeButton.png";
-import { MoemaButton } from "./MoemaButton";
+import { MoemaButtonStyle00, MoemaButtonStyle01 } from "./MoemaButton";
 import SkeletonAvater from "../../assets/images/avatar/user-astronaut-solid.png";
 
 const Header = styled.header`
@@ -63,21 +63,21 @@ function RootHeader({ headerHeight }) {
     <Header $visible={visible || headerHeight}>
       <Inner className="inner" $headerHeight={headerHeight}>
         <Section>
-          <MoemaButton to={"/"} draggable="false">
-            <img src={Home} alt={"Credit symbol"} height={40} draggable="false" />
-          </MoemaButton>
+          <MoemaButtonStyle01 to={"/"} draggable="false">
+            <img src={Home} alt={"Credit symbol"} height={32} draggable="false" />
+          </MoemaButtonStyle01>
         </Section>
 
         <Section>
-          <MoemaButton to={"/list"} draggable="false" onClick={handleRefresh}>
+          <MoemaButtonStyle00 to={"/list"} draggable="false" onClick={handleRefresh}>
             <Logo size={"lg"} />
-          </MoemaButton>
+          </MoemaButtonStyle00>
         </Section>
 
         <Section>
-          <MoemaButton to={"/mypage"} draggable="false" onClick={handleRefresh}>
+          <MoemaButtonStyle01 to={"/mypage"} draggable="false" onClick={handleRefresh}>
             <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={32} draggable="false" />
-          </MoemaButton>
+          </MoemaButtonStyle01>
         </Section>
       </Inner>
     </Header>
