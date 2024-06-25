@@ -113,6 +113,7 @@ function ChartOfMonth({ mode }) {
   };
 
   const votesOpen = () => setVotes(true);
+
   const votesClose = () => {
     setVotes(false);
     setCreditNotEnough(false);
@@ -130,9 +131,9 @@ function ChartOfMonth({ mode }) {
     setIsVoted(true);
 
     if (gender === "female") {
-      setFemaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+      setFemaleIdols((prev) => prev.map((item) => (item.id === idol.id ? { ...item, totalVotes: idol.totalVotes } : item)));
     } else {
-      setMaleIdols((prev) => prev.map((item) => (item.id === idol.id ? idol : item)));
+      setMaleIdols((prev) => prev.map((item) => (item.id === idol.id ? { ...item, totalVotes: idol.totalVotes } : item)));
     }
   };
 
