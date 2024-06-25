@@ -124,17 +124,11 @@ function ChartOfMonth({ mode }) {
 
     const result = await executeVote(params);
     if (!result) return;
-    const { idol } = result;
 
-    votesClose();
+    handleReload();
     setMyCredit((prev) => (prev -= 1000));
     setIsVoted(true);
-
-    if (gender === "female") {
-      setFemaleIdols((prev) => prev.map((item) => (item.id === idol.id ? { ...item, totalVotes: idol.totalVotes } : item)));
-    } else {
-      setMaleIdols((prev) => prev.map((item) => (item.id === idol.id ? { ...item, totalVotes: idol.totalVotes } : item)));
-    }
+    votesClose();
   };
 
   const votingIdolChart = (e) => {
