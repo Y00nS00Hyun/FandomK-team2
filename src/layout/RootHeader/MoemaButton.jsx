@@ -23,7 +23,7 @@ const animMoema2 = keyframes`
 
 // Button 스타일 정의
 export const MoemaButton = styled(Link)`
-  padding: 1.5em 3em;
+  padding: 12px;
   border-radius: 50px;
   position: relative;
   text-decoration: none;

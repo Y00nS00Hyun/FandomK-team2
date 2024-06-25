@@ -11,7 +11,6 @@ const Header = styled.header`
   z-index: 8;
   inset: 0;
   bottom: auto;
-  padding: 0 24px;
   backdrop-filter: blur(8px);
   top: ${({ $visible }) => ($visible === true ? 0 : $visible * -1)}px;
   transition: top 1s;
@@ -20,7 +19,7 @@ const Header = styled.header`
 const Inner = styled.section`
   position: relative;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowwrap;
   justify-content: space-between;
   align-items: center;
   height: ${({ $headerHeight }) => ($headerHeight ? $headerHeight : 80)}px;
