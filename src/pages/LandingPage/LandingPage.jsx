@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Mousewheel, Parallax } from "swiper/modules";
 import "swiper/css";
@@ -61,6 +62,13 @@ function LandingPage() {
     navigate("/list");
   };
 
+  const checkLocalStorage = () => {
+    const myFavoriteList = JSON.parse(localStorage.getItem("myFavoriteList"));
+    const isVoted = JSON.parse(localStorage.getItem("isVoted"));
+
+    return !(isEmpty(myCredit) && myCredit === 0 && isEmpty(myFavoriteList) && isEmpty(isVoted));
+  };
+
   return (
     <>
       <Helmet prioritizeSeoTags>
@@ -78,7 +86,7 @@ function LandingPage() {
         <meta property="og:image:height" content="630" />
       </Helmet>
       <article className={style["landing-page"]}>
-        {localStorage.length > 0 && (
+        {checkLocalStorage() && (
           <FloatMenu>
             <MoemaButtonStyle01 to={"/mypage"} draggable="false">
               <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={40} draggable="false" />
