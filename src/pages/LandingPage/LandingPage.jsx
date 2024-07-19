@@ -1,6 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Mousewheel, Parallax } from "swiper/modules";
 import "swiper/css";
@@ -10,7 +12,8 @@ import "swiper/css/pagination";
 import { useMyCredit } from "../../context/MyCreditContext";
 import Logo from "../../components/Logo/Logo";
 import Button from "../../components/Button/Button";
-import SkeletonAvater from "../../assets/images/avatar/avater-skeleton.svg";
+import { MoemaButtonStyle01 } from "../../layout/RootHeader/MoemaButton";
+import SkeletonAvater from "../../assets/images/avatar/user-astronaut-solid.png";
 import BackgroundImage00 from "../../assets/images/landing/background-00.png";
 import BackgroundImage01 from "../../assets/images/landing/background-01.png";
 import BackgroundImage02 from "../../assets/images/landing/background-02.png";
@@ -20,7 +23,6 @@ import DeviceImage01 from "../../assets/images/landing/device-01.png";
 import DeviceImage02 from "../../assets/images/landing/device-02.png";
 import DeviceImage03 from "../../assets/images/landing/device-03.png";
 import style from "./LandingPage.module.css";
-import styled from "styled-components";
 
 const SECTION_LIST = [
   {
@@ -60,6 +62,13 @@ function LandingPage() {
     navigate("/list");
   };
 
+  const checkLocalStorage = () => {
+    const myFavoriteList = JSON.parse(localStorage.getItem("myFavoriteList"));
+    const isVoted = JSON.parse(localStorage.getItem("isVoted"));
+
+    return !(isEmpty(myCredit) && myCredit === 0 && isEmpty(myFavoriteList) && isEmpty(isVoted));
+  };
+
   return (
     <>
       <Helmet prioritizeSeoTags>
@@ -77,11 +86,11 @@ function LandingPage() {
         <meta property="og:image:height" content="630" />
       </Helmet>
       <article className={style["landing-page"]}>
-        {localStorage.length > 0 && (
+        {checkLocalStorage() && (
           <FloatMenu>
-            <Link to={"/mypage"} draggable="false">
+            <MoemaButtonStyle01 to={"/mypage"} draggable="false">
               <img src={SkeletonAvater} alt={"기본 아바타 이미지"} height={40} draggable="false" />
-            </Link>
+            </MoemaButtonStyle01>
           </FloatMenu>
         )}
 

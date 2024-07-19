@@ -5,6 +5,7 @@ import { MyCreditProvider } from "./context/MyCreditContext";
 import RootHeader from "./layout/RootHeader/RootHeader";
 import RootFooter from "./layout/RootFooter/RootFooter";
 import DecotationImage from "./assets/images/decoration/decoration-background-top-design.svg";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const HEADER_HEIGHT = 80;
 const FOOTER_HEIGHT = 120;

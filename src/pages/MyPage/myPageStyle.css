@@ -36,7 +36,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2px;
+  width: 98px;
+  height: 160px;
+  margin-right: 12px;
 }
 
 .mypage-myidol_minus {
@@ -83,20 +85,26 @@
   justify-content: center;
   align-items: center;
   width: 128px;
-  height: 183px;
-  gap: 2px;
 }
 
 .mypage__items-name {
   margin-top: 8px;
   font-size: 16px;
   font-weight: 700;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .mypage__items-group {
   font-size: 14px;
   font-weight: 400;
   opacity: 0.6;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .mypage-addidol_add {
@@ -139,5 +147,24 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 24px;
+  }
+
+  .mypage-addidol__items {
+    grid-column: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 98px;
+  }
+
+  .mypage-myidol__items {
+    grid-column: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    margin-right: 0;
   }
 }
