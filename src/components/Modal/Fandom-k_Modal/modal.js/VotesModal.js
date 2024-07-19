@@ -9,10 +9,12 @@ import votes from "../module.css/Votes.module.css";
 // 투표 모달 콘텐츠 : 프로필, 그룹명, 멤버명, 선택 버튼
 function ProfileListItem({ item, onCheck }) {
   const [checked, setChecked] = useState(false);
+
   const handleChecked = () => {
     setChecked(!checked);
     onCheck(item.id);
   };
+
   return (
     <>
       <InputRadio className={votes.ProfileContainer} id={`voteModal${item.id}`} name={"voteModal"} value={item.id} onClick={handleChecked}>
@@ -70,7 +72,6 @@ function VotesModal({ gender, setSelectedIdol, errorVote }) {
 
   useEffect(() => {
     getData({ pageSize, gender });
-    console.log(items);
   }, [reload]);
 
   return (
